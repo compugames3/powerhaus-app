@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Calendario de Clases | Kinetic Precision</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed": "#3c0800",
+                    "tertiary-fixed": "#ffdbd2",
+                    "surface": "#faf8ff",
+                    "outline": "#737688",
+                    "surface-dim": "#d2d9f4",
+                    "surface-container-highest": "#dae2fd",
+                    "primary": "#003ec7",
+                    "inverse-primary": "#b7c4ff",
+                    "on-secondary-fixed-variant": "#3a485b",
+                    "on-secondary-fixed": "#0d1c2e",
+                    "background": "#faf8ff",
+                    "primary-fixed-dim": "#b7c4ff",
+                    "on-error": "#ffffff",
+                    "on-background": "#131b2e",
+                    "on-tertiary-container": "#ffddd5",
+                    "secondary-container": "#d5e3fc",
+                    "on-primary-fixed": "#001452",
+                    "error-container": "#ffdad6",
+                    "surface-variant": "#dae2fd",
+                    "on-secondary-container": "#57657a",
+                    "on-surface-variant": "#434656",
+                    "on-primary": "#ffffff",
+                    "inverse-on-surface": "#eef0ff",
+                    "secondary": "#515f74",
+                    "secondary-fixed": "#d5e3fc",
+                    "surface-container-high": "#e2e7ff",
+                    "tertiary-container": "#bf3003",
+                    "surface-container-low": "#f2f3ff",
+                    "on-primary-fixed-variant": "#0038b6",
+                    "surface-tint": "#004ced",
+                    "inverse-surface": "#283044",
+                    "on-primary-container": "#dfe3ff",
+                    "surface-container": "#eaedff",
+                    "on-surface": "#131b2e",
+                    "surface-bright": "#faf8ff",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "tertiary": "#952200",
+                    "secondary-fixed-dim": "#b9c7df",
+                    "outline-variant": "#c3c5d9",
+                    "tertiary-fixed-dim": "#ffb4a1",
+                    "on-tertiary-fixed-variant": "#891e00",
+                    "error": "#ba1a1a",
+                    "on-error-container": "#93000a",
+                    "on-tertiary": "#ffffff",
+                    "primary-container": "#0052ff",
+                    "primary-fixed": "#dde1ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .font-headline { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+    <script src="theme-applier.js"></script>
+</head>
+<body class="bg-background text-on-background flex overflow-hidden h-screen">
+<!-- SideNavBar (Shared Component) -->
+<aside class="hidden md:flex flex-col h-screen w-64 sticky top-0 bg-slate-100 dark:bg-slate-900 py-6">
+<div class="px-6 mb-10">
+<div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-[#0d4cf0] rounded-full flex items-center justify-center text-white shadow-md">
+                <span class="material-symbols-outlined -rotate-45 notranslate" translate="no" style="font-variation-settings: 'FILL' 1; font-size: 24px;">fitness_center</span>
+            </div>
+            <div>
+                <h1 class="text-[1.3rem] font-black text-slate-800 dark:text-slate-50 tracking-tight leading-none mb-0.5">PowerHaus</h1>
+                <p class="text-[9px] tracking-[0.06em] uppercase font-bold text-slate-500 leading-none">ELITE PERFORMANCE</p>
+            </div>
+        </div>
+</div>
+<nav class="flex-1 flex flex-col gap-2">
+<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-slate-50 group text-slate-500 dark:text-slate-400" href="administrador.html">
+<span class="material-symbols-outlined group-hover:scale-125 transition-all duration-300 notranslate" translate="no">dashboard</span>
+<span class="tracking-wider uppercase text-xs font-bold">Panel Principal</span>
+</a>
+<div class="relative group hover:bg-emerald-50 dark:hover:bg-emerald-900/30 rounded-l-[1.5rem] ml-4 transition-all duration-300 flex flex-col">
+<button onclick="document.getElementById('submenu-miembros').classList.toggle('hidden'); document.getElementById('icon-miembros').classList.toggle('rotate-180')" class="w-full flex justify-between items-center text-slate-500 dark:text-slate-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 pl-4 py-3 transition-transform duration-300 hover:translate-x-1 focus:outline-none cursor-pointer select-none">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined notranslate" translate="no">group</span>
+<span class="tracking-wider uppercase text-xs font-bold">Miembros</span>
+</div>
+<span id="icon-miembros" class="material-symbols-outlined text-sm mr-4 transition-transform duration-300 notranslate" translate="no">expand_more</span>
+</button>
+<div id="submenu-miembros" class="flex-col pl-[3.25rem] pb-4 pt-1 hidden gap-3">
+<a href="gestion de miembros.html?view=miembros" class="text-[11px] font-bold tracking-widest text-slate-500 hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-400 transition-colors flex items-center gap-2">
+    <div class="w-1.5 h-1.5 rounded-full bg-transparent border border-slate-300 group-hover:border-emerald-300"></div> MIEMBRO </a>
+<a href="gestion de miembros.html?view=entrenadores" class="text-[11px] font-bold tracking-widest text-slate-500 hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-400 transition-colors flex items-center gap-2">
+    <div class="w-1.5 h-1.5 rounded-full bg-transparent border border-slate-300 group-hover:border-emerald-300"></div> ENTRENADORES
+</a>
+</div>
+</div>
+<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-purple-50 group bg-white dark:bg-slate-800 shadow-sm text-purple-600 dark:text-purple-400" href="calendario.html">
+<span class="material-symbols-outlined group-hover:scale-110 group-hover:-rotate-12 transition-all duration-300 notranslate" translate="no">fitness_center</span>
+<span class="tracking-wider uppercase text-xs font-bold">Clases</span>
+</a>
+<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-amber-50 group text-slate-500 dark:text-slate-400" href="punto de venta.html">
+<span class="material-symbols-outlined group-hover:-translate-y-1 group-hover:scale-110 transition-all duration-300 notranslate" translate="no">badge</span>
+<span class="tracking-wider uppercase text-xs font-bold">Personal</span>
+</a>
+<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-slate-200 group text-slate-500 dark:text-slate-400" href="cierre.html">
+<span class="material-symbols-outlined group-hover:scale-110 transition-all duration-300 notranslate" translate="no" style="font-variation-settings:'FILL' 1">nights_stay</span>
+<span class="tracking-wider uppercase text-xs font-bold">Cierre del Día</span>
+</a>
+
+</nav>
+<div class="px-6 mt-auto flex flex-col gap-4">
+
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 text-slate-500 text-xs font-bold tracking-wider uppercase py-2 hover:text-blue-600" href="soporte.html" target="_blank">
+<span class="material-symbols-outlined text-sm notranslate" translate="no">help</span>
+                    SOPORTE
+                </a>
+<a class="flex items-center gap-3 text-slate-500 text-xs font-bold tracking-wider uppercase py-2 hover:text-blue-600" href="javascript:void(0)" onclick="cerrarSesion(event)">
+<span class="material-symbols-outlined text-sm notranslate" translate="no">logout</span>
+CERRAR SESIÓN</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col overflow-hidden">
+<!-- TopNavBar (Shared Component) -->
+<header class="bg-slate-50/70 dark:bg-slate-950/70 backdrop-blur-xl flex justify-between items-center w-full px-8 py-4 sticky top-0 z-50 shadow-sm">
+<div class="flex items-center gap-8 flex-1">
+<div class="relative w-96">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 notranslate" translate="no">search</span>
+<input class="w-full bg-surface-container-high border-none rounded-xl pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary/20" placeholder="Buscar miembros o clases..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4">
+<button class="text-slate-500 hover:bg-blue-50 p-2 rounded-lg transition-colors">
+<span class="material-symbols-outlined notranslate" translate="no">notifications</span>
+</button>
+<button class="text-slate-500 hover:bg-blue-50 p-2 rounded-lg transition-colors">
+
+</div>
+<div class="flex items-center gap-3 pl-6 border-l border-slate-200">
+<div class="text-right hidden sm:block mr-2">
+<p class="text-xs font-bold text-on-surface">admin</p>
+<p class="text-[10px] text-slate-500 tracking-tight">admin</p>
+</div>
+<div class="relative profile-dropdown-container">
+<button onclick="document.getElementById('dropdown-calendar').classList.toggle('hidden')" class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/20 transition-all active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary block">
+<img class="w-full h-full object-cover" data-alt="professional headshot of a gym manager with short hair and a confident expression in a bright modern office" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA56yAR_cHEcmUTkyPCN0Cxtht39xpOsdrI7FWI0Zcg7ZrD6lHY3RsbrzEYu1sCQdOxk_pkKvMrJhQwv9VC7LRFW_5HzZAf3TCwV40GoiMS18ke_B4ro5EC_oQ2uyOx8_EXuXYWl6aey27q8eyPN7Mflos71-1gLn9dhYPC8FaPvkP33JQhYWRD42py2Z1i3wFEqHc_C5rFFXBHG0oqv3Wg0tvEsNSDoPG6WgIsMkODuxNIxcRlr1GDcLKDFNf1LbayyEbCKfAcggY"/>
+</button>
+<div id="dropdown-calendar" class="hidden absolute right-0 mt-3 w-48 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-100 dark:border-slate-700 overflow-hidden z-50">
+<span class="material-symbols-outlined text-[18px] notranslate" translate="no">logout</span>
+<span class="text-sm font-bold">Cerrar Sesión</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Calendar Container -->
+<div class="flex-1 overflow-y-auto p-8 space-y-8">
+<!-- Header Section -->
+<div class="flex justify-between items-end">
+<div>
+<h2 class="text-4xl font-extrabold tracking-tighter text-on-background mb-1">Calendario de Clases</h2>
+<div class="flex items-center gap-3 mt-1">
+    <button onclick="cambiarSemana(-1)" class="w-7 h-7 flex items-center justify-center rounded-lg bg-slate-100 hover:bg-blue-100 text-slate-500 hover:text-primary transition-colors" title="Semana anterior">
+        <span class="material-symbols-outlined text-[16px]" translate="no">chevron_left</span>
+    </button>
+    <p id="calendar-week-range" class="text-slate-500 font-medium">23 Octubre – 29 Octubre</p>
+    <button onclick="cambiarSemana(1)" class="w-7 h-7 flex items-center justify-center rounded-lg bg-slate-100 hover:bg-blue-100 text-slate-500 hover:text-primary transition-colors" title="Semana siguiente">
+        <span class="material-symbols-outlined text-[16px]" translate="no">chevron_right</span>
+    </button>
+    <button onclick="irAHoy()" class="text-[10px] font-bold uppercase tracking-widest text-primary bg-blue-50 hover:bg-blue-100 px-3 py-1 rounded-lg transition-colors" title="Ir a hoy">Hoy</button>
+</div>
+</div>
+<div class="flex gap-3">
+<div class="relative w-64 shadow-sm rounded-xl shrink-0 group">
+    <select id="trainer-filters" onchange="filterByTrainer(this.value)" class="w-full bg-surface-container-high rounded-xl pl-4 pr-10 py-3 text-xs font-bold text-primary tracking-wider uppercase border border-slate-200 focus:ring-2 focus:ring-primary/30 appearance-none cursor-pointer hover:bg-slate-100 transition-colors outline-none shadow-inner">
+        <option value="Todos" class="font-bold">ENTRENADOR (TODOS)</option>
+    </select>
+    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-primary/70 group-hover:text-primary transition-colors">
+        <span class="material-symbols-outlined text-[18px]" translate="no">keyboard_arrow_down</span>
+    </div>
+</div>
+<button onclick="window.location.href='nueva_clase.html'" class="flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-xl font-bold text-sm shadow-xl shadow-primary/20 hover:bg-primary-container transition-all active:scale-95">
+<span class="material-symbols-outlined text-sm notranslate" translate="no">add</span>
+                        Nueva Clase
+                    </button>
+</div>
+</div>
+<!-- Calendar Grid (Bento Style) -->
+<div class="bg-surface-container-lowest rounded-3xl overflow-hidden shadow-sm">
+<!-- Day Labels -->
+<div class="grid grid-cols-[55px_repeat(7,1fr)] bg-surface-container-low border-none">
+    <div class="py-4 flex justify-center items-end pb-4 border-none opacity-50"><span class="material-symbols-outlined text-slate-400 text-sm" translate="no">schedule</span></div>
+<div id="day-header-1" class="py-4 px-6 text-center border-none">
+<p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Lun</p>
+<p id="day-date-1" class="text-xl font-extrabold text-on-background">23</p>
+</div>
+<div id="day-header-2" class="py-4 px-6 text-center border-none">
+<p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Mar</p>
+<p id="day-date-2" class="text-xl font-extrabold text-on-background">24</p>
+</div>
+<div id="day-header-3" class="py-4 px-6 text-center border-none">
+<p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Mié</p>
+<p id="day-date-3" class="text-xl font-extrabold text-on-background">25</p>
+</div>
+<div id="day-header-4" class="py-4 px-6 text-center border-none">
+<p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Jue</p>
+<p id="day-date-4" class="text-xl font-extrabold text-on-background">26</p>
+</div>
+<div id="day-header-5" class="py-4 px-6 text-center border-none">
+<p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Vie</p>
+<p id="day-date-5" class="text-xl font-extrabold text-on-background">27</p>
+</div>
+<div id="day-header-6" class="py-4 px-6 text-center border-none">
+<p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Sáb</p>
+<p id="day-date-6" class="text-xl font-extrabold text-on-background">28</p>
+</div>
+<div id="day-header-7" class="py-4 px-6 text-center border-none">
+<p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Dom</p>
+<p id="day-date-7" class="text-xl font-extrabold text-on-background">29</p>
+</div>
+</div>
+<!-- Hora Grid with Clasees -->
+<div id="calendar-grid-scroll" class="relative grid grid-cols-[55px_repeat(7,1fr)] h-[800px] overflow-y-auto w-full">
+<!-- Hora Markers (Left-aligned relative overlay) -->
+<div class="absolute left-0 top-0 h-[2400px] w-full pointer-events-none z-0">
+    <span class="absolute top-[3px] left-2 text-[10px] font-bold text-slate-400 bg-white px-1.5 py-0.5 rounded-sm shadow-sm ring-1 ring-slate-100 z-10 w-9 text-center">00:00</span>
+    <div class="h-[100px] border-b border-slate-200 border-dashed relative"><span class="absolute -bottom-[11px] left-2 text-[10px] font-bold text-slate-400 bg-white px-1.5 py-0.5 rounded-sm shadow-sm ring-1 ring-slate-100 z-10 w-9 text-center">01:00</span></div>
+    <div class="h-[100px] border-b border-slate-200 border-dashed relative"><span class="absolute -bottom-[11px] left-2 text-[10px] font-bold text-slate-400 bg-white px-1.5 py-0.5 rounded-sm shadow-sm ring-1 ring-slate-100 z-10 w-9 text-center">02:00</span></div>
+    <div class="h-[100px] border-b border-slate-200 border-dashed relative"><span class="absolute -bottom-[11px] left-2 text-[10px] font-bold text-slate-400 bg-white px-1.5 py-0.5 rounded-sm shadow-sm ring-1 ring-slate-100 z-10 w-9 text-center">03:00</span></div>
+    <div class="h-[100px] border-b border-slate-200 border-dashed relative"><span class="absolute -bottom-[11px] left-2 text-[10px] font-bold text-slate-400 bg-white px-1.5 py-0.5 rounded-sm shadow-sm ring-1 ring-slate-100 z-10 w-9 text-center">04:00</span></div>
+    <div class="h-[100px] border-b border-slate-200 border-dashed relative"><span class="absolute -bottom-[11px] left-2 text-[10px] font-bold text-slate-400 bg-white px-1.5 py-0.5 rounded-sm shadow-sm ring-1 ring-slate-100 z-10 w-9 text-center">05:00</span></div>
+    <div class="h-[100px] border-b border-slate-200 border-dashed relative"><span class="absolute -bottom-[11px] left-2 text-[10px] font-bold text-slate-400 bg-white px-1.5 py-0.5 rounded-sm shadow-sm ring-1 ring-slate-100 z-10 w-9 text-center">06:00</span></div>
+    <div class="h-[100px] border-b border-slate-200 border-dashed relative"><span class="absolute -bottom-[11px] left-2 text-[10px] font-bold text-slate-400 bg-white px-1.5 py-0.5 rounded-sm shadow-sm ring-1 ring-slate-100 z-10 w-9 text-center">07:00</span></div>
+    <div class="h-[100px] border-b border-slate-200 border-dashed relative"><span class="absolute -bottom-[11px] left-2 text-[10px] font-bold text-slate-400 bg-white px-1.5 py-0.5 rounded-sm shadow-sm ring-1 ring-slate-100 z-10 w-9 text-center">08:00</span></div>
+    <div class="h-[100px] border-b border-slate-200 border-dashed relative"><span class="absolute -bottom-[11px] left-2 text-[10px] font-bold text-slate-400 bg-white px-1.5 py-0.5 rounded-sm shadow-sm ring-1 ring-slate-100 z-10 w-9 text-center">09:00</span></div>
+    <div class="h-[100px] border-b border-slate-200 border-dashed relative"><span class="absolute -bottom-[11px] left-2 text-[10px] font-bold text-slate-400 bg-white px-1.5 py-0.5 rounded-sm shadow-sm ring-1 ring-slate-100 z-10 w-9 text-center">10:00</span></div>
+    <div class="h-[100px] border-b border-slate-200 border-dashed relative"><span class="absolute -bottom-[11px] left-2 text-[10px] font-bold text-slate-400 bg-white px-1.5 py-0.5 rounded-sm shadow-sm ring-1 ring-slate-100 z-10 w-9 text-center">11:00</span></div>
+    <div class="h-[100px] border-b border-slate-200 border-dashed relative"><span class="absolute -bottom-[11px] left-2 text-[10px] font-bold text-slate-400 bg-white px-1.5 py-0.5 rounded-sm shadow-sm ring-1 ring-slate-100 z-10 w-9 text-center">12:00</span></div>
+    <div class="h-[100px] border-b border-slate-200 border-dashed relative"><span class="absolute -bottom-[11px] left-2 text-[10px] font-bold text-slate-400 bg-white px-1.5 py-0.5 rounded-sm shadow-sm ring-1 ring-slate-100 z-10 w-9 text-center">13:00</span></div>
+    <div class="h-[100px] border-b border-slate-200 border-dashed relative"><span class="absolute -bottom-[11px] left-2 text-[10px] font-bold text-slate-400 bg-white px-1.5 py-0.5 rounded-sm shadow-sm ring-1 ring-slate-100 z-10 w-9 text-center">14:00</span></div>
+    <div class="h-[100px] border-b border-slate-200 border-dashed relative"><span class="absolute -bottom-[11px] left-2 text-[10px] font-bold text-slate-400 bg-white px-1.5 py-0.5 rounded-sm shadow-sm ring-1 ring-slate-100 z-10 w-9 text-center">15:00</span></div>
+    <div class="h-[100px] border-b border-slate-200 border-dashed relative"><span class="absolute -bottom-[11px] left-2 text-[10px] font-bold text-slate-400 bg-white px-1.5 py-0.5 rounded-sm shadow-sm ring-1 ring-slate-100 z-10 w-9 text-center">16:00</span></div>
+    <div class="h-[100px] border-b border-slate-200 border-dashed relative"><span class="absolute -bottom-[11px] left-2 text-[10px] font-bold text-slate-400 bg-white px-1.5 py-0.5 rounded-sm shadow-sm ring-1 ring-slate-100 z-10 w-9 text-center">17:00</span></div>
+    <div class="h-[100px] border-b border-slate-200 border-dashed relative"><span class="absolute -bottom-[11px] left-2 text-[10px] font-bold text-slate-400 bg-white px-1.5 py-0.5 rounded-sm shadow-sm ring-1 ring-slate-100 z-10 w-9 text-center">18:00</span></div>
+    <div class="h-[100px] border-b border-slate-200 border-dashed relative"><span class="absolute -bottom-[11px] left-2 text-[10px] font-bold text-slate-400 bg-white px-1.5 py-0.5 rounded-sm shadow-sm ring-1 ring-slate-100 z-10 w-9 text-center">19:00</span></div>
+    <div class="h-[100px] border-b border-slate-200 border-dashed relative"><span class="absolute -bottom-[11px] left-2 text-[10px] font-bold text-slate-400 bg-white px-1.5 py-0.5 rounded-sm shadow-sm ring-1 ring-slate-100 z-10 w-9 text-center">20:00</span></div>
+    <div class="h-[100px] border-b border-slate-200 border-dashed relative"><span class="absolute -bottom-[11px] left-2 text-[10px] font-bold text-slate-400 bg-white px-1.5 py-0.5 rounded-sm shadow-sm ring-1 ring-slate-100 z-10 w-9 text-center">21:00</span></div>
+    <div class="h-[100px] border-b border-slate-200 border-dashed relative"><span class="absolute -bottom-[11px] left-2 text-[10px] font-bold text-slate-400 bg-white px-1.5 py-0.5 rounded-sm shadow-sm ring-1 ring-slate-100 z-10 w-9 text-center">22:00</span></div>
+    <div class="h-[100px] border-b border-slate-200 border-dashed relative"><span class="absolute -bottom-[11px] left-2 text-[10px] font-bold text-slate-400 bg-white px-1.5 py-0.5 rounded-sm shadow-sm ring-1 ring-slate-100 z-10 w-9 text-center">23:00</span></div>
+    <div class="h-[100px] border-b border-slate-200 border-dashed relative"><span class="absolute -bottom-[11px] left-2 text-[10px] font-bold text-slate-400 bg-white px-1.5 py-0.5 rounded-sm shadow-sm ring-1 ring-slate-100 z-10 w-9 text-center">00:00</span></div>
+</div>
+<!-- Carril de Horas (Spacer) -->
+<div class="min-w-0 relative bg-transparent border-r border-slate-100">
+</div>
+<!-- Monday -->
+<div id="col-day-1" class="min-w-0 relative bg-transparent border-r border-slate-100">
+</div>
+<!-- Tuesday -->
+<div id="col-day-2" class="min-w-0 relative bg-transparent border-r border-slate-100">
+</div>
+<!-- Wednesday -->
+<div id="col-day-3" class="min-w-0 relative bg-transparent border-r border-slate-100">
+</div>
+<!-- Thursday -->
+<div id="col-day-4" class="min-w-0 relative bg-transparent border-r border-slate-100">
+</div>
+<!-- Friday -->
+<div id="col-day-5" class="min-w-0 relative bg-transparent border-r border-slate-100">
+</div>
+<!-- Saturday -->
+<div id="col-day-6" class="min-w-0 relative bg-transparent border-r border-slate-100">
+</div>
+<!-- Sunday -->
+<div id="col-day-7" class="min-w-0 relative bg-transparent border-none">
+</div>
+</div>
+</div>
+<!-- Panel Principal Style Stats Section -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-surface-container-lowest p-6 rounded-3xl shadow-sm flex items-center gap-6">
+<div class="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl notranslate" translate="no">groups</span>
+</div>
+<div>
+<p class="text-xs font-bold uppercase tracking-wider text-slate-400">Asistencia Total</p>
+<h3 class="text-3xl font-black text-on-background">1,240</h3>
+<p class="text-xs text-emerald-600 font-bold">+12% vs la semana pasada</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-3xl shadow-sm flex items-center gap-6">
+<div class="w-16 h-16 rounded-full bg-orange-50 flex items-center justify-center text-orange-500">
+<span class="material-symbols-outlined text-3xl notranslate" translate="no">bolt</span>
+</div>
+<div>
+<p class="text-xs font-bold uppercase tracking-wider text-slate-400">Horario Pico</p>
+<h3 class="text-3xl font-black text-on-background">08—11 AM</h3>
+<p class="text-xs text-slate-500 font-medium">Lunes y Martes</p>
+</div>
+</div>
+<div class="bg-primary text-white p-6 rounded-3xl shadow-xl shadow-primary/20 flex flex-col justify-between overflow-hidden relative">
+<div class="z-10">
+<p class="text-xs font-bold uppercase tracking-widest text-blue-200">Capacidad del Sistema</p>
+<h3 class="text-4xl font-black mt-1">84%</h3>
+</div>
+<div class="mt-4 bg-white/20 h-2 rounded-full overflow-hidden z-10">
+<div class="bg-white h-full w-[84%]"></div>
+</div>
+<div class="absolute -right-4 -bottom-4 opacity-20">
+<span class="material-symbols-outlined text-8xl notranslate" translate="no" style="font-variation-settings: 'FILL' 1;">monitoring</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Class Details Modal -->
+<div id="modalClase" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[70] hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden animation-fade-in relative transition-all">
+        <button onclick="cerrarModalClase()" class="absolute top-4 right-4 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-full p-2 transition-colors">
+            <span class="material-symbols-outlined text-sm" translate="no">close</span>
+        </button>
+        <div class="p-8">
+            <p id="modalHora" class="text-xs font-bold tracking-widest uppercase text-blue-500 mb-2"></p>
+            <h3 id="modalNombre" class="text-2xl font-black text-slate-800 mb-4"></h3>
+            
+            <div class="space-y-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 shrink-0">
+                        <span class="material-symbols-outlined" translate="no">person</span>
+                    </div>
+                    <div>
+                        <p class="text-[10px] uppercase font-bold text-slate-400">Entrenador</p>
+                        <a href="#" id="modalEntrenador" class="text-sm font-bold text-[#004cf0] hover:underline transition-colors block cursor-pointer" onclick="abrirHistorialEntrenador()"></a>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 shrink-0">
+                        <span class="material-symbols-outlined" translate="no">meeting_room</span>
+                    </div>
+                    <div>
+                        <p class="text-[10px] uppercase font-bold text-slate-400">Sala</p>
+                        <p id="modalSala" class="text-sm font-bold text-slate-700"></p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 shrink-0">
+                        <span class="material-symbols-outlined" translate="no">groups</span>
+                    </div>
+                    <div>
+                        <p class="text-[10px] uppercase font-bold text-slate-400">Inscritos</p>
+                        <p id="modalInscritos" class="text-sm font-bold text-slate-700"></p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Lista de inscritos -->
+            <div class="mt-6 pt-6 border-t border-slate-100" id="modalListaInscritosContainer" style="display:none;">
+                <p class="text-xs font-bold text-slate-800 mb-3">Lista de Miembros:</p>
+                <div id="modalListaInscritos" class="space-y-2 max-h-32 overflow-y-auto pr-2"></div>
+            </div>
+        </div>
+        <div class="bg-slate-50 p-4 border-t border-slate-100 flex justify-between gap-3">
+            <button onclick="eliminarClaseActual()" class="bg-red-50 text-red-600 hover:bg-red-100 px-6 py-2 rounded-xl font-bold text-xs transition-colors">Eliminar</button>
+            <div class="flex gap-2">
+                <button onclick="editarClaseActual()" class="bg-slate-200 text-slate-700 hover:bg-slate-300 px-6 py-2 rounded-xl font-bold text-xs transition-colors">Editar</button>
+                <button onclick="cerrarModalClase()" class="bg-[#004cf0] text-white hover:bg-blue-700 px-8 py-2 rounded-xl font-bold text-xs transition-colors">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Floating Action Button (FAB) - Selector de fecha -->
+<div class="fixed bottom-10 right-10 z-[60]">
+    <input type="date" id="hiddenDatePicker" class="absolute opacity-0" style="width: 1px; height: 1px; bottom: 0px; right: 0px; z-index:-1;" onchange="if(this.value) { loadedCurrentDateStr = this.value; actualizarFechasCalendario(this.value); }" />
+    <button onclick="document.getElementById('hiddenDatePicker').showPicker()" class="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center shadow-2xl shadow-primary/40 hover:scale-110 active:scale-95 transition-all focus:outline-none focus:ring-4 focus:ring-primary/20">
+        <span class="material-symbols-outlined text-3xl notranslate" translate="no">event_available</span>
+    </button>
+</div>
+
+<!-- Confirm Delete Modal -->
+<div id="modalConfirmarEliminar" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[80] hidden items-center justify-center p-4">
+    <div class="bg-white rounded-[2rem] shadow-2xl w-full max-w-[340px] overflow-hidden animation-zoom text-center p-8">
+        <div class="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center text-red-500 mx-auto mb-6">
+            <span class="material-symbols-outlined text-[40px]" translate="no">delete_forever</span>
+        </div>
+        <h3 class="text-xl font-black text-slate-800 mb-3">¿Eliminar clase?</h3>
+        <p class="text-[13px] text-slate-500 mb-8 leading-relaxed font-medium">Estás a punto de eliminar permanentemente esta clase para todos los inscritos. <br/><b class="text-slate-700">Esta acción no se puede deshacer.</b></p>
+        <div class="flex items-center gap-3 w-full">
+            <button onclick="cancelarEliminarClase()" class="flex-1 bg-slate-100 text-slate-600 hover:bg-slate-200 py-3.5 rounded-2xl font-black text-[13px] transition-colors">Cancelar</button>
+            <button onclick="confirmarEliminarClase()" class="flex-1 bg-red-500 text-white hover:bg-red-600 py-3.5 rounded-2xl font-black text-[13px] shadow-lg shadow-red-500/20 hover:shadow-red-500/40 transition-all active:scale-95">Sí, eliminar</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Confirmar Asistencia -->
+<div id="modalConfirmarAsistencia" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[90] hidden items-center justify-center p-4">
+    <div class="bg-white rounded-[2rem] shadow-2xl w-full max-w-[320px] overflow-hidden animation-zoom text-center p-8">
+        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center text-green-500 mx-auto mb-5 shadow-inner">
+            <span class="material-symbols-outlined text-[32px]" translate="no">how_to_reg</span>
+        </div>
+        <h3 class="text-xl font-black text-slate-800 mb-2">¿Está realizado?</h3>
+        <p class="text-[13px] text-slate-500 mb-6 font-medium leading-relaxed">¿Deseas confirmar la asistencia marcando el trabajo de este atleta como completado de forma oficial?</p>
+        <div class="flex items-center gap-3 w-full">
+            <button onclick="cerrarConfirmacionAsistencia()" class="flex-1 bg-slate-100 text-slate-600 hover:bg-slate-200 py-3 rounded-2xl font-black text-[13px] transition-colors">No</button>
+            <button id="btnConfirmarAsistencia" class="flex-1 bg-green-500 text-white hover:bg-green-600 py-3 rounded-2xl font-black text-[13px] shadow-lg shadow-green-500/20 active:scale-95 transition-all flex items-center justify-center gap-1">
+                <span class="material-symbols-outlined text-[16px]" translate="no">check</span> Sí
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Historial Miembro -->
+<div id="modalHistorialMiembro" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[95] hidden items-center justify-center p-4">
+    <div class="bg-white rounded-[2rem] shadow-2xl w-full max-w-md overflow-hidden animation-fade-in flex flex-col max-h-[80vh]">
+        <div class="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50 relative">
+            <div class="absolute top-0 right-0 w-full h-full opacity-[0.03] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIj48Zz48Y2lyY2xlIGN4PSIyMDAiIGN5PSIyMDAiIHI9IjMwMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJibHVlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1kYXNoYXJyYXk9IjUgNSIvPjwvZz48L3N2Zz4=')]"></div>
+            <div class="flex items-center gap-4 relative z-10">
+                <div class="w-12 h-12 bg-[#004cf0] rounded-full flex items-center justify-center text-white font-black text-xl shadow-lg shadow-blue-500/30" id="historialInicial">A</div>
+                <div>
+                    <h3 class="text-lg font-black text-slate-800 leading-tight" id="historialNombre">Nombre</h3>
+                    <p class="text-[10px] uppercase tracking-widest font-bold text-[#004cf0] mt-0.5" id="historialSubtitle">Perfil y Actividades</p>
+                </div>
+            </div>
+            <button onclick="cerrarHistorialMiembro()" class="relative z-10 w-8 h-8 bg-white shadow-sm border border-slate-100 hover:bg-slate-100 rounded-full flex items-center justify-center text-slate-600 transition-colors">
+                <span class="material-symbols-outlined text-sm" translate="no">close</span>
+            </button>
+        </div>
+        <div class="p-6 overflow-y-auto flex-1 bg-slate-50/50" id="historialContenedor">
+            <!-- Items generados mediante JS -->
+        </div>
+    </div>
+</div>
+
+<script>
+    let globalClasses = [];
+    let currentClaseId = null;
+    window.activeTrainerFilter = 'Todos';
+    let loadedCurrentDateStr = '';
+    
+    document.addEventListener('DOMContentLoaded', async () => {
+        try {
+            const req = await fetch('/api/classes?t=' + Date.now(), { cache: 'no-store' });
+            globalClasses = await req.json();
+
+            const usersReq = await fetch('/api/users?t=' + Date.now(), { cache: 'no-store' });
+            if (usersReq.ok) {
+                const users = await usersReq.json();
+                const trainerRoles = ['entrenador', 'trainer', 'staff', 'coach'];
+                const trainers = users.filter(u => u.role && trainerRoles.some(r => u.role.toLowerCase().includes(r)));
+                const selectEl = document.getElementById('trainer-filters');
+                // Limpiar opciones previas excepto la primera (TODOS)
+                while (selectEl.options.length > 1) selectEl.remove(1);
+                trainers.forEach(t => {
+                    const opt = document.createElement('option');
+                    opt.className = "font-bold text-slate-700";
+                    opt.innerText = t.name.toUpperCase();
+                    opt.value = t.name;
+                    selectEl.appendChild(opt);
+                });
+            }
+            
+            // Start automatically with today's date on calendar
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            loadedCurrentDateStr = `${yyyy}-${mm}-${dd}`;
+            actualizarFechasCalendario(loadedCurrentDateStr);
+            // Scroll automático al horario actual (o 07:00 si es madrugada)
+            setTimeout(() => {
+                const scrollTarget = document.getElementById('calendar-grid-scroll');
+                if (scrollTarget) {
+                    const curH = new Date().getHours();
+                    const scrollH = curH < 7 ? 7 : curH - 1;
+                    scrollTarget.scrollTop = scrollH * 100;
+                }
+            }, 100);
+        } catch(e) {
+            console.error('Failed to load classes', e);
+        }
+    });
+
+    function filterByTrainer(trainerName) {
+        window.activeTrainerFilter = trainerName;
+        if (loadedCurrentDateStr) {
+            actualizarFechasCalendario(loadedCurrentDateStr);
+        }
+    }
+
+    function cambiarSemana(dir) {
+        if (!loadedCurrentDateStr) return;
+        const [y, m, d] = loadedCurrentDateStr.split('-');
+        const date = new Date(y, m - 1, d);
+        date.setDate(date.getDate() + dir * 7);
+        const yyyy = date.getFullYear();
+        const mm = String(date.getMonth() + 1).padStart(2, '0');
+        const dd = String(date.getDate()).padStart(2, '0');
+        loadedCurrentDateStr = `${yyyy}-${mm}-${dd}`;
+        actualizarFechasCalendario(loadedCurrentDateStr);
+    }
+
+    function irAHoy() {
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        loadedCurrentDateStr = `${yyyy}-${mm}-${dd}`;
+        actualizarFechasCalendario(loadedCurrentDateStr);
+        setTimeout(() => {
+            const scrollTarget = document.getElementById('calendar-grid-scroll');
+            if (scrollTarget) {
+                const curH = new Date().getHours();
+                scrollTarget.scrollTop = (curH < 7 ? 7 : curH - 1) * 100;
+            }
+        }, 100);
+    }
+
+    function formatTime(timeStr) {
+        if(!timeStr) return "00:00";
+        let [h, m] = timeStr.split(':');
+        let d = new Date();
+        d.setHours(h, m);
+        return d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    }
+
+    function actualizarFechasCalendario(fechaStr) {
+        if(!fechaStr) return;
+        const [year, month, day] = fechaStr.split('-');
+        const date = new Date(year, month - 1, day);
+        
+        // Find Monday of this week (assuming Monday is start of week)
+        const dayOfWeek = date.getDay() || 7; // Sunday is 0, make it 7
+        const diff = date.getDate() - dayOfWeek + 1;
+        const monday = new Date(date.setDate(diff));
+        
+        const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+        
+        let currentDate = new Date(monday);
+        let startStr = `${currentDate.getDate()} ${meses[currentDate.getMonth()]}`;
+        
+        const weekDates = [];
+        const todayNow = new Date();
+        const todayStr = `${todayNow.getFullYear()}-${String(todayNow.getMonth()+1).padStart(2,'0')}-${String(todayNow.getDate()).padStart(2,'0')}`;
+        // Día header containers (padre de day-date-N)
+        const dayHeaders = document.querySelectorAll('.grid.grid-cols-\\[55px_repeat\\(7\\,1fr\\)\\].bg-surface-container-low > div:not(:first-child)');
+
+        for (let i = 1; i <= 7; i++) {
+            const colEl = document.getElementById(`col-day-${i}`);
+            if (colEl) colEl.innerHTML = ''; // Limpiar clases anteriores
+
+            const domEl = document.getElementById(`day-date-${i}`);
+            const yyyy = currentDate.getFullYear();
+            const mm = String(currentDate.getMonth() + 1).padStart(2, '0');
+            const dd = String(currentDate.getDate()).padStart(2, '0');
+            const dateStr = `${yyyy}-${mm}-${dd}`;
+            const isToday = dateStr === todayStr;
+
+            if (domEl) {
+                domEl.innerText = currentDate.getDate();
+                // Resaltar número del día si es hoy
+                domEl.className = isToday
+                    ? 'text-xl font-extrabold text-white bg-primary w-9 h-9 rounded-full flex items-center justify-center mx-auto'
+                    : 'text-xl font-extrabold text-on-background';
+                // Resaltar label del día (LUN, MAR...)
+                const labelEl = domEl.previousElementSibling;
+                if (labelEl) {
+                    labelEl.className = isToday
+                        ? 'text-[10px] font-bold uppercase tracking-widest text-primary mb-1'
+                        : 'text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1';
+                }
+            }
+            // Resaltar header contenedor del día actual
+            const headerEl = document.getElementById(`day-header-${i}`);
+            if (headerEl) {
+                headerEl.style.backgroundColor = isToday ? 'rgba(0,76,237,0.06)' : '';
+            }
+            // Resaltar columna del día actual
+            if (colEl) {
+                colEl.style.backgroundColor = isToday ? 'rgba(0,76,237,0.04)' : '';
+            }
+
+            weekDates.push(dateStr);
+
+            if (i === 7) {
+                const endStr = `${currentDate.getDate()} ${meses[currentDate.getMonth()]}`;
+                const rangeEl = document.getElementById('calendar-week-range');
+                if (rangeEl) rangeEl.innerText = `${startStr} – ${endStr}`;
+            }
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+
+        // Renderizar TODAS las clases en su dia de la semana correspondiente
+        // Ordenadas crónologicamente para apilado correcto
+        globalClasses.sort((a,b) => (a.horaInicio || a.hora || "00:00").localeCompare(b.horaInicio || b.hora || "00:00"));
+        let overlapsTracker = {1:[], 2:[], 3:[], 4:[], 5:[], 6:[], 7:[]};
+
+        globalClasses.forEach(clase => {
+            if (!clase.fecha) return;
+            // Solo renderizar si la clase pertenece a la semana activa visible actual
+            if (!weekDates.includes(clase.fecha)) return;
+
+            // Filtro por Entrenador activo
+            if (window.activeTrainerFilter && window.activeTrainerFilter !== 'Todos' && clase.entrenador !== window.activeTrainerFilter) {
+               return;
+            }
+            
+            // Calcular dia de la semana de la fecha de la clase
+            const [y, m, d] = clase.fecha.split('-');
+            const dateObj = new Date(y, m - 1, d);
+            let dayOfWeek = dateObj.getDay(); 
+            let colIndex = dayOfWeek === 0 ? 7 : dayOfWeek; // 1 = Lunes, 7 = Domingo
+
+            const colEl = document.getElementById(`col-day-${colIndex}`);
+            if (colEl) {
+                // Calculate absolute Top position based on hour (00:00 AM = 0px, each hour = 100px)
+                const [h, m] = (clase.horaInicio || clase.hora || "08:00").split(':').map(Number);
+                let targetH = h; // Las madrugadas (00:00 - 00:59) caen al final del bloque
+                let offsetStart = targetH + (m / 60);
+
+                let durationHours = 1; // Default to 1 chunk
+                    if (clase.horaFin) {
+                        const [eh, em] = clase.horaFin.split(':').map(Number);
+                        let targetEH = eh === 0 ? 24 : eh;
+                        if (targetEH < targetH) targetEH = 24; // Por si hay cruce limitrofe extraño
+                        const endVal = targetEH + (em / 60);
+                        durationHours = endVal - offsetStart;
+                        if (durationHours <= 0) durationHours = 1; // Fallback for invalid selections
+                    }
+
+                    const topPos = offsetStart * 100 + 3;
+                    const cardHeight = Math.max((durationHours * 100) - 6, 75); // Altura mínima obligatoria para que sea visible
+
+                    let overlapCount = 0;
+                    overlapsTracker[colIndex].forEach(prevTop => {
+                         if (Math.abs(prevTop - topPos) < 70) overlapCount++;
+                    });
+                    overlapsTracker[colIndex].push(topPos);
+
+                    const finalLeft = 4 + (overlapCount * 14);
+                    const finalZ = 10 + overlapCount;
+                    let statusBadgeHTML = '';
+                    let isCompletamenteRealizado = false;
+                    
+                    if (clase.inscritos && clase.inscritos.length > 0) {
+                        let cantRealizados = 0;
+                        if (clase.asistencia) {
+                            Object.values(clase.asistencia).forEach(st => {
+                                if (st === 'Realizado') cantRealizados++;
+                            });
+                        }
+                        
+                        if (cantRealizados === clase.inscritos.length) {
+                            isCompletamenteRealizado = true;
+                            statusBadgeHTML = `<div class="text-[8px] tracking-widest font-extrabold uppercase leading-none py-[3px] px-2 rounded bg-emerald-500 text-white shadow-sm flex items-center justify-center">REALIZADO</div>`;
+                        } else if (cantRealizados > 0) {
+                            statusBadgeHTML = `<div class="text-[8px] tracking-widest font-extrabold uppercase leading-none py-[3px] px-2 rounded bg-amber-500 text-white shadow-sm flex items-center justify-center">${cantRealizados}/${clase.inscritos.length} REALZD.</div>`;
+                        } else {
+                            statusBadgeHTML = `<div class="text-[8px] tracking-widest font-extrabold uppercase leading-none py-[3px] px-2 rounded bg-slate-200/80 text-slate-500 flex items-center justify-center">PENDIENTE</div>`;
+                        }
+                    }
+                    
+                    const inscritosBadgeHTML = clase.inscritos && clase.inscritos.length > 0 
+                        ? `<div class="text-[8px] tracking-widest font-extrabold uppercase leading-none py-[3px] px-2 rounded ${isCompletamenteRealizado ? 'bg-emerald-200/60 text-emerald-800' : 'bg-blue-200/60 text-blue-800'} flex items-center justify-center">${clase.inscritos.length} inscritos</div>` 
+                        : '';
+
+                    const themeClasses = isCompletamenteRealizado 
+                        ? "bg-emerald-50/90 border-emerald-500/50 text-emerald-800 hover:bg-emerald-100" 
+                        : "bg-blue-50/90 border-blue-600/30 text-blue-800 hover:bg-blue-100";
+
+                    const card = document.createElement('div');
+                    card.style.top = topPos + 'px';
+                    card.style.height = cardHeight + 'px';
+                    card.style.left = finalLeft + 'px';
+                    card.style.right = '4px';
+                    card.style.zIndex = finalZ;
+                    
+                    card.className = `class-card absolute overflow-hidden border-l-4 p-2 rounded-r-xl shadow-sm hover:shadow-md transition-all cursor-pointer group animation-zoom flex flex-col gap-1.5 ${themeClasses}`;
+                    card.setAttribute('data-fecha', clase.fecha);
+                    card.setAttribute('data-horai', clase.horaInicio || clase.hora);
+                    card.setAttribute('data-horaf', clase.horaFin || '');
+                    card.setAttribute('onclick', `abrirModalClase('${clase.id}')`);
+                    card.innerHTML = `
+                        <div class="flex items-start justify-between gap-1 overflow-hidden">
+                            <h4 class="font-bold text-slate-800 text-[12px] leading-tight truncate">
+                                ${clase.nombre || 'Clase General'}
+                            </h4>
+                            <p class="text-[9px] font-bold tracking-wider opacity-80 shrink-0 text-right">${formatTime(clase.horaInicio || clase.hora)}<br/>${clase.horaFin ? formatTime(clase.horaFin) : ''}</p>
+                        </div>
+                        <p class="text-[9px] ${isCompletamenteRealizado ? 'text-emerald-600/80' : 'text-slate-500'} truncate flex items-center gap-1 font-medium"><span class="material-symbols-outlined text-[10px]" translate="no">person</span> ${clase.entrenador || 'Sin Entrenador'}</p>
+                        <div class="flex items-center gap-1 mt-1 flex-wrap">
+                            ${inscritosBadgeHTML}
+                            ${statusBadgeHTML}
+                        </div>
+                    `;
+                    colEl.appendChild(card);
+                }
+        });
+        
+        checkLiveClasses(); // Call immediately after rendering
+    }
+
+    function checkLiveClasses() {
+        const now = new Date();
+        const todayStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+        const curMinutes = now.getHours() * 60 + now.getMinutes();
+
+        document.querySelectorAll('.class-card').forEach(card => {
+            const dFecha = card.getAttribute('data-fecha');
+            if (dFecha !== todayStr) {
+                card.classList.remove('active-live-class');
+                return;
+            }
+            const hiStr = card.getAttribute('data-horai');
+            const hfStr = card.getAttribute('data-horaf');
+            if(!hiStr) return;
+
+            const [h1, m1] = hiStr.split(':').map(Number);
+            const startMins = h1 * 60 + m1;
+            let endMins = startMins + 60; // default to 1 hour duration
+            if (hfStr) {
+                const [h2, m2] = hfStr.split(':').map(Number);
+                let targetH2 = h2 === 0 ? 24 : h2;
+                endMins = targetH2 * 60 + m2;
+            }
+
+            let curTargetMins = curMinutes;
+            if (now.getHours() === 0) curTargetMins = 24 * 60 + now.getMinutes(); 
+            
+            if (curTargetMins >= startMins && curTargetMins < endMins) {
+                card.classList.add('active-live-class');
+            } else {
+                card.classList.remove('active-live-class');
+            }
+        });
+    }
+    
+    // Check every 30 seconds
+    setInterval(checkLiveClasses, 30000);
+
+    function abrirModalClase(id) {
+        const clase = globalClasses.find(c => String(c.id) === String(id));
+        if(!clase) return;
+        currentClaseId = id;
+        
+        // Show start and end time if possible
+        let timeDisplay = formatTime(clase.horaInicio || clase.hora);
+        if(clase.horaFin) timeDisplay += ' - ' + formatTime(clase.horaFin);
+
+        document.getElementById('modalHora').innerText = timeDisplay + ' | ' + clase.fecha;
+        document.getElementById('modalNombre').innerText = clase.nombre || 'Clase General';
+        document.getElementById('modalEntrenador').innerText = clase.entrenador || 'Sin asignar';
+        document.getElementById('modalEntrenador').innerHTML = `<a href="#" onclick="abrirHistorialEntrenador(); return false;" class="text-blue-600 hover:underline">${clase.entrenador || 'Sin asignar'}</a>`;
+        document.getElementById('modalSala').innerText = clase.sala || 'No especificada';
+        
+        const cantInscritos = (clase.inscritos && clase.inscritos.length) ? clase.inscritos.length : 0;
+        document.getElementById('modalInscritos').innerText = `${cantInscritos} Miembros`;
+        
+        const listaContenedor = document.getElementById('modalListaInscritosContainer');
+        const lista = document.getElementById('modalListaInscritos');
+        lista.innerHTML = '';
+        
+        if (cantInscritos > 0) {
+            listaContenedor.style.display = 'block';
+            let htmlStr = '';
+            clase.inscritos.forEach(ins => {
+                const status = (clase.asistencia && clase.asistencia[ins]) || 'Pendiente';
+                
+                const btnPend = status === 'Pendiente' 
+                    ? `<button class="px-2 py-1 rounded text-[9px] font-black uppercase bg-white shadow-sm text-slate-800 transition-all cursor-default">Pendiente</button>` 
+                    : `<button onclick="marcarAsistencia('${clase.id}', '${ins}', 'Pendiente')" class="px-2 py-1 rounded text-[9px] font-black uppercase text-slate-400 hover:text-slate-600 hover:bg-slate-200/50 transition-all">Pendiente</button>`;
+                    
+                const btnReal = status === 'Realizado' 
+                    ? `<button class="px-2 py-1 rounded text-[9px] font-black uppercase bg-green-500 shadow-sm text-white transition-all cursor-default">Realizado</button>` 
+                    : `<button onclick="abrirConfirmacionAsistencia('${clase.id}', '${ins}')" class="px-2 py-1 rounded text-[9px] font-black uppercase text-slate-400 hover:text-green-600 hover:bg-green-50 transition-all">Realizado</button>`;
+
+                htmlStr += `<div class="bg-white border border-slate-100 rounded-lg p-1.5 pl-3 text-xs font-bold text-slate-600 flex items-center justify-between gap-2">
+                    <div class="flex items-center gap-2 truncate"><span class="material-symbols-outlined text-[13px] text-slate-400 shrink-0">person</span> <span class="truncate hover:text-[#004cf0] hover:underline cursor-pointer transition-colors" onclick="abrirHistorialMiembro('${ins}')">${ins}</span></div>
+                    <div class="flex bg-slate-50/80 rounded-md p-1 border border-slate-100 shrink-0">
+                        ${btnPend}
+                        ${btnReal}
+                    </div>
+                </div>`;
+            });
+            lista.innerHTML = htmlStr;
+        } else {
+            listaContenedor.style.display = 'none';
+        }
+        
+        const modal = document.getElementById('modalClase');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+
+    
+    function abrirHistorialEntrenador() {
+        const nombreAnchor = document.querySelector('#modalEntrenador a');
+        if (nombreAnchor) {
+            const nombre = nombreAnchor.innerText;
+            if(nombre && nombre !== 'Sin asignar') {
+                window.location.href = 'historial.html?nombre=' + encodeURIComponent(nombre);
+            }
+        }
+    }
+    function cerrarModalClase() {
+        const modal = document.getElementById('modalClase');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        currentClaseId = null;
+    }
+
+    function eliminarClaseActual() {
+        if (!currentClaseId) return;
+        const modalConfirmar = document.getElementById('modalConfirmarEliminar');
+        modalConfirmar.classList.remove('hidden');
+        modalConfirmar.classList.add('flex');
+    }
+
+    function cancelarEliminarClase() {
+        const modalConfirmar = document.getElementById('modalConfirmarEliminar');
+        modalConfirmar.classList.add('hidden');
+        modalConfirmar.classList.remove('flex');
+    }
+
+    let tempMarcarAsistenciaData = null;
+
+    function abrirConfirmacionAsistencia(claseId, miembroNombre) {
+        tempMarcarAsistenciaData = { id: claseId, nombre: miembroNombre };
+        const modal = document.getElementById('modalConfirmarAsistencia');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+
+    function cerrarConfirmacionAsistencia() {
+        tempMarcarAsistenciaData = null;
+        const modal = document.getElementById('modalConfirmarAsistencia');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+
+    document.getElementById('btnConfirmarAsistencia').addEventListener('click', () => {
+        if(tempMarcarAsistenciaData) {
+            marcarAsistencia(tempMarcarAsistenciaData.id, tempMarcarAsistenciaData.nombre, 'Realizado');
+            cerrarConfirmacionAsistencia();
+        }
+    });
+
+    function abrirHistorialMiembro(nombre) {
+        window.location.href = 'perfil_miembro.html?nombre=' + encodeURIComponent(nombre);
+    }
+    
+    function cerrarHistorialMiembro() {
+        const modal = document.getElementById('modalHistorialMiembro');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+
+    async function marcarAsistencia(claseId, miembroNombre, estado) {
+        const clase = globalClasses.find(c => String(c.id) === String(claseId));
+        if(!clase) return;
+        
+        if(!clase.asistencia) clase.asistencia = {};
+        clase.asistencia[miembroNombre] = estado;
+        
+        try {
+            await fetch(`/api/classes/${claseId}`, { 
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ asistencia: clase.asistencia })
+            });
+
+            // Refrescar el DOM del calendario inmediatamente para que se vea reflejado el cambio de status
+            const datePickerInput = document.getElementById('hiddenDatePicker');
+            if(datePickerInput && datePickerInput.value) {
+                actualizarFechasCalendario(datePickerInput.value);
+            } else {
+                const today = new Date();
+                actualizarFechasCalendario(`${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`);
+            }
+
+            abrirModalClase(claseId); // refresca el modal internamente
+        } catch(e) {
+            console.error("Error updating asistencia", e);
+        }
+    }
+
+    async function confirmarEliminarClase() {
+        if (!currentClaseId) return;
+        try {
+            const res = await fetch(`/api/classes/${currentClaseId}`, { method: 'DELETE' });
+            if (res.ok) {
+                window.location.reload();
+            } else {
+                alert("Ocurrió un error al eliminar la clase.");
+            }
+        } catch (err) {
+            console.error("Error al eliminar:", err);
+            alert("Ocurrió un error al intentar eliminar.");
+        }
+    }
+
+    async function editarClaseActual() {
+        if (!currentClaseId) return;
+        const clase = globalClasses.find(c => String(c.id) === String(currentClaseId));
+        if(!clase) return;
+
+        const { value: formValues } = await Swal.fire({
+            title: 'Editar Detalles',
+            html:
+                `<div class="text-left"><label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Nombre de la Clase</label>` +
+                `<input id="swal-edit-nombre" class="swal2-input !w-full !ml-0 mt-2 mb-4" value="${clase.nombre || ''}">` +
+                `<label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Entrenador / Notas</label>` +
+                `<input id="swal-edit-entrenador" class="swal2-input !w-full !ml-0 mt-2" value="${clase.entrenador || ''}"></div>`,
+            focusConfirm: false,
+            showCancelButton: true,
+            confirmButtonText: 'Guardar Cambios',
+            cancelButtonText: 'Cancelar',
+            confirmButtonColor: '#004cf0',
+            customClass: {
+                popup: 'rounded-[24px]',
+                confirmButton: 'rounded-full px-6 py-2.5 font-bold tracking-widest text-xs shadow-lg shadow-blue-500/30'
+            },
+            preConfirm: () => {
+                return {
+                    nombre: document.getElementById('swal-edit-nombre').value,
+                    entrenador: document.getElementById('swal-edit-entrenador').value
+                };
+            }
+        });
+
+        if (formValues) {
+            try {
+                const updatedFields = { ...clase, nombre: formValues.nombre, entrenador: formValues.entrenador };
+                const res = await fetch(`/api/classes/${currentClaseId}`, { 
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(updatedFields)
+                });
+
+                if (res.ok) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Clase Actualizada',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => window.location.reload());
+                } else {
+                    Swal.fire('Error', 'No se pudo actualizar la clase', 'error');
+                }
+            } catch (e) {
+                console.error(e);
+                Swal.fire('Error', 'Ocurrió un error al guardar', 'error');
+            }
+        }
+    }
+    
+    window.addEventListener('click', function(e) {
+        const drop = document.getElementById('dropdown-calendar');
+        const trigger = drop ? drop.previousElementSibling : null;
+        if (drop && trigger && !drop.classList.contains('hidden') && !drop.contains(e.target) && !trigger.contains(e.target)) {
+            drop.classList.add('hidden');
+        }
+    });
+    // Cerrar dropdown lang
+    window.addEventListener('click', function(e) {
+        const dropLang = document.getElementById('dropdown-lang-calendar');
+        if (dropLang && !e.target.closest('.language-dropdown-container')) {
+            dropLang.classList.add('hidden');
+        }
+    });
+
+    if (!localStorage.getItem('usuario_activo')) {
+        window.location.href = 'index.html';
+    }
+</script>
+
+<style>
+body { top: 0 !important; }
+.skiptranslate iframe { display: none !important; }
+#goog-gt-tt, .goog-te-balloon-frame { display: none !important; }
+.goog-text-highlight { background-color: transparent !important; box-shadow: none !important; }
+
+@keyframes livePulse {
+    0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.8), 0 1px 2px 0 rgb(0 0 0 / 0.05); border-left-color: #22c55e !important; }
+    70% { box-shadow: 0 0 0 12px rgba(74, 222, 128, 0), 0 1px 2px 0 rgb(0 0 0 / 0.05); }
+    100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0), 0 1px 2px 0 rgb(0 0 0 / 0.05); }
+}
+.active-live-class {
+    animation: livePulse 2s infinite;
+    z-index: 20;
+}
+</style>
+<div id="google_translate_element" style="display:none;"></div>
+<script type="text/javascript">
+function updateLanguageUI(lang) {
+    const langMapping = { 'en': 'btn-lang-en', 'ja': 'btn-lang-ja', 'ko': 'btn-lang-ko', 'es': 'btn-lang-es' };
+    Object.values(langMapping).forEach(id => {
+        document.querySelectorAll('.' + id).forEach(btn => {
+            btn.classList.remove('text-blue-600', 'font-bold');
+            btn.classList.add('text-slate-700', 'dark:text-slate-300', 'font-medium');
+            const code = btn.querySelector('.lang-code');
+            if(code) { code.classList.remove('text-blue-600'); code.classList.add('text-slate-400'); }
+        });
+    });
+    const activeClase = langMapping[lang] || 'btn-lang-es';
+    document.querySelectorAll('.' + activeClase).forEach(btn => {
+        btn.classList.remove('text-slate-700', 'dark:text-slate-300', 'font-medium');
+        btn.classList.add('text-blue-600', 'font-bold');
+        const code = btn.querySelector('.lang-code');
+        if(code) { code.classList.remove('text-slate-400'); code.classList.add('text-blue-600'); }
+    });
+}
+
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'es', includedLanguages: 'en,ja,ko'}, 'google_translate_element');
+  
+  const savedLang = localStorage.getItem('lenguaje_activo') || 'es';
+  updateLanguageUI(savedLang);
+  
+  const checkInterval = setInterval(() => {
+    var selectField = document.querySelector('select.goog-te-combo');
+    if (selectField && selectField.options.length > 0) {
+      clearInterval(checkInterval);
+      if (savedLang && savedLang !== 'es') {
+          if (selectField.value !== savedLang) {
+              selectField.value = savedLang;
+              selectField.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+      }
+    }
+  }, 100);
+}
+
+function traductor(lang) {
+  const currentLang = localStorage.getItem('lenguaje_activo') || 'es';
+  if (currentLang === lang) return; // Ignore if it's exactly the same
+
+  localStorage.setItem('lenguaje_activo', lang);
+  updateLanguageUI(lang);
+  
+  if(lang === 'es') {
+        localStorage.removeItem('lenguaje_activo');
+        document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=" + location.hostname + "; path=/;";
+     // Reload to natively restore original HTML since Google Translate doesn't reliably reset via select element
+     window.location.reload();
+     return;
+  }
+
+  var selectField = document.querySelector('select.goog-te-combo');
+  if (selectField) {
+    if (selectField.value !== lang) {
+      selectField.value = lang;
+      selectField.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+  }
+}
+</script>
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+
+<script>
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({pageLanguage: 'es', includedLanguages: 'en,ja,ko'}, 'google_translate_element');
+      
+      const savedLang = localStorage.getItem('lenguaje_activo') || 'es';
+      if(savedLang === 'es') return;
+      
+      const checkInterval = setInterval(() => {
+        var selectField = document.querySelector('select.goog-te-combo');
+        if (selectField && selectField.options.length > 0) {
+          clearInterval(checkInterval);
+          if (selectField.value !== savedLang) {
+              selectField.value = savedLang;
+              selectField.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+        }
+      }, 100);
+    }
+</script>
+
+<!-- Hidden Google Translate Element -->
+<style>
+  body { top: 0 !important; }
+  .skiptranslate { display: none !important; }
+  #goog-gt-tt { display: none !important; }
+</style>
+<div id="google_translate_element" style="display:none;"></div>
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script>
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({pageLanguage: 'es', includedLanguages: 'en,ja,ko'}, 'google_translate_element');
+      
+      const savedLang = localStorage.getItem('lenguaje_activo') || 'es';
+      if(savedLang === 'es') return;
+      
+      const checkInterval = setInterval(() => {
+        var selectField = document.querySelector('select.goog-te-combo');
+        if (selectField && selectField.options.length > 0) {
+          clearInterval(checkInterval);
+          if (selectField.value !== savedLang) {
+              selectField.value = savedLang;
+              selectField.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+        }
+      }, 100);
+    }
+</script>
+<script src="cerrar-sesion.js"></script>
+</body></html>

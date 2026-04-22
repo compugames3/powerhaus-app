@@ -1,0 +1,272 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Soporte | PowerHaus</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+  :root { --speed: 1.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: radial-gradient(ellipse at 60% 30%, #0f1535 0%, #070b1e 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
+    color: #fff;
+  }
+
+  /* ── Partículas de fondo ── */
+  .bg-particles {
+    position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0;
+  }
+  .bg-particles span {
+    position: absolute;
+    width: 2px; height: 2px;
+    background: rgba(255,255,255,.35);
+    border-radius: 50%;
+    animation: float linear infinite;
+  }
+  @keyframes float {
+    from { transform: translateY(100vh) scale(0); opacity: 0; }
+    10%  { opacity: 1; }
+    to   { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+  }
+
+  /* ── Header ── */
+  .page-header {
+    position: relative; z-index: 10;
+    text-align: center;
+    margin-bottom: 3.5rem;
+    animation: fadeDown .6s ease both;
+  }
+  .page-header h1 {
+    font-family: 'Manrope', sans-serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 900;
+    letter-spacing: -.02em;
+    line-height: 1;
+    background: linear-gradient(135deg, #fff 40%, #7eb5ff);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .page-header p {
+    margin-top: .6rem;
+    font-size: .9rem;
+    color: rgba(255,255,255,.5);
+    font-weight: 500;
+    letter-spacing: .04em;
+  }
+  @keyframes fadeDown { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:none} }
+
+  /* ── Círculo ── */
+  .nav-circle {
+    position: relative; z-index: 10;
+    width: 340px; height: 340px;
+    display: flex; align-items: center; justify-content: center;
+    animation: popIn .5s .2s ease both;
+  }
+  @keyframes popIn { from{opacity:0;transform:scale(.7)} to{opacity:1;transform:scale(1)} }
+
+  /* Ícono central decorativo */
+  .center-icon {
+    width: 80px; height: 80px;
+    background: rgba(255,255,255,.08);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem; color: rgba(255,255,255,.8);
+    box-shadow: 0 0 40px rgba(100,160,255,.25);
+    z-index: 10;
+    position: relative;
+  }
+
+  /* ── Ítems sociales ── */
+  .s-item {
+    position: absolute;
+    width: 62px; height: 62px;
+    background: #fff;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none;
+    font-size: 1.45rem;
+    box-shadow: 0 6px 20px rgba(0,0,0,.35);
+    transition: transform .2s ease, box-shadow .2s ease;
+    animation: itemPop var(--speed) both;
+  }
+  .s-item svg { width: 26px; height: 26px; fill: #000; display: block; }
+
+  .s-item:hover {
+    transform: translate(var(--bx), var(--by)) scale(1.2) !important;
+    box-shadow: 0 0 30px rgba(255,255,255,.5);
+  }
+
+  /* Posiciones (radio 130px, 8 ítems cada 45°) */
+  .s-item:nth-child(1){ --bx:0px;    --by:-130px; transform:translate(0,-130px); animation-delay:.05s; }
+  .s-item:nth-child(2){ --bx:92px;   --by:-92px;  transform:translate(92px,-92px); color:#FF4500; animation-delay:.10s; }
+  .s-item:nth-child(3){ --bx:130px;  --by:0px;    transform:translate(130px,0); color:#0077B5; animation-delay:.15s; }
+  .s-item:nth-child(4){ --bx:92px;   --by:92px;   transform:translate(92px,92px); color:#E4405F; animation-delay:.20s; }
+  .s-item:nth-child(5){ --bx:0px;    --by:130px;  transform:translate(0,130px); color:#333; animation-delay:.25s; }
+  .s-item:nth-child(6){ --bx:-92px;  --by:92px;   transform:translate(-92px,92px); color:#FF0000; animation-delay:.30s; }
+  .s-item:nth-child(7){ --bx:-130px; --by:0px;    transform:translate(-130px,0); color:#1877F2; animation-delay:.35s; }
+  .s-item:nth-child(8){ --bx:-92px;  --by:-92px;  transform:translate(-92px,-92px); color:#25D366; animation-delay:.40s; }
+
+  @keyframes itemPop {
+    from { opacity:0; transform:translate(0,0) scale(0); }
+    to   { opacity:1; transform:translate(var(--bx), var(--by)) scale(1); }
+  }
+
+  /* Label debajo del ícono */
+  .s-item::after {
+    content: attr(data-label);
+    position: absolute;
+    bottom: -22px; left: 50%;
+    transform: translateX(-50%);
+    font-size: 9px; font-weight: 800;
+    letter-spacing: .07em; text-transform: uppercase;
+    color: rgba(255,255,255,.65); white-space: nowrap;
+    font-family: 'Inter', sans-serif;
+    pointer-events: none;
+  }
+
+  /* ── Grid de enlaces (versión lista debajo del círculo) ── */
+  .links-grid {
+    position: relative; z-index: 10;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: .75rem;
+    margin-top: 3.5rem;
+    max-width: 480px;
+    width: 90%;
+    animation: fadeUp .5s .6s ease both;
+  }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none} }
+
+  .link-card {
+    display: flex; flex-direction: column;
+    align-items: center; gap: .5rem;
+    padding: .9rem .5rem;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 1rem;
+    text-decoration: none; color: #fff;
+    font-size: .7rem; font-weight: 700;
+    letter-spacing: .06em; text-transform: uppercase;
+    transition: background .2s, transform .2s;
+  }
+  .link-card:hover {
+    background: rgba(255,255,255,.14);
+    transform: translateY(-3px);
+  }
+  .link-card i { font-size: 1.4rem; }
+
+  /* ── Botón Volver ── */
+  .btn-back {
+    position: relative; z-index: 10;
+    margin-top: 2.5rem;
+    display: inline-flex; align-items: center; gap: .6rem;
+    padding: .75rem 1.75rem;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: 2rem;
+    color: rgba(255,255,255,.75); font-size: .8rem; font-weight: 700;
+    letter-spacing: .06em; text-transform: uppercase;
+    text-decoration: none;
+    transition: background .2s, color .2s;
+    animation: fadeUp .5s .8s ease both;
+    cursor: pointer;
+  }
+  .btn-back:hover { background: rgba(255,255,255,.16); color: #fff; }
+</style>
+    <script src="theme-applier.js"></script>
+</head>
+<body>
+
+<!-- Partículas de fondo -->
+<div class="bg-particles" id="particles"></div>
+
+<!-- Título -->
+<header class="page-header">
+  
+</header>
+
+<!-- Círculo social -->
+<div class="nav-circle">
+
+  <a href="https://x.com" target="_blank" class="s-item" data-label="X / Twitter">
+    <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+  </a>
+  <a href="https://reddit.com" target="_blank" class="s-item" data-label="Reddit">
+    <i class="fab fa-reddit-alien"></i>
+  </a>
+  <a href="https://linkedin.com" target="_blank" class="s-item" data-label="LinkedIn">
+    <i class="fab fa-linkedin-in"></i>
+  </a>
+  <a href="https://instagram.com" target="_blank" class="s-item" data-label="Instagram">
+    <i class="fab fa-instagram"></i>
+  </a>
+  <a href="https://github.com" target="_blank" class="s-item" data-label="GitHub">
+    <i class="fab fa-github"></i>
+  </a>
+  <a href="https://youtube.com" target="_blank" class="s-item" data-label="YouTube">
+    <i class="fab fa-youtube"></i>
+  </a>
+  <a href="https://facebook.com" target="_blank" class="s-item" data-label="Facebook">
+    <i class="fab fa-facebook-f"></i>
+  </a>
+  <a href="https://wa.me/" target="_blank" class="s-item" data-label="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <!-- Ícono central decorativo -->
+  <div class="center-icon">
+    <i class="fa-solid fa-headset"></i>
+  </div>
+</div>
+
+<!-- Grid de tarjetas (acceso rápido) -->
+<div class="links-grid">
+  <a href="https://x.com" target="_blank" class="link-card"><i class="fab fa-square-x-twitter" style="color:#fff"></i>Twitter</a>
+  <a href="https://reddit.com" target="_blank" class="link-card"><i class="fab fa-reddit-alien" style="color:#FF4500"></i>Reddit</a>
+  <a href="https://linkedin.com" target="_blank" class="link-card"><i class="fab fa-linkedin" style="color:#0A66C2"></i>LinkedIn</a>
+  <a href="https://instagram.com" target="_blank" class="link-card"><i class="fab fa-instagram" style="color:#E4405F"></i>Instagram</a>
+  <a href="https://github.com" target="_blank" class="link-card"><i class="fab fa-github" style="color:#fff"></i>GitHub</a>
+  <a href="https://youtube.com" target="_blank" class="link-card"><i class="fab fa-youtube" style="color:#FF0000"></i>YouTube</a>
+  <a href="https://facebook.com" target="_blank" class="link-card"><i class="fab fa-facebook" style="color:#1877F2"></i>Facebook</a>
+  <a href="https://wa.me/" target="_blank" class="link-card"><i class="fab fa-whatsapp" style="color:#25D366"></i>WhatsApp</a>
+</div>
+
+<!-- Botón volver -->
+<button class="btn-back" onclick="window.close(); if(!window.closed) history.back();">
+  <i class="fas fa-arrow-left"></i> Cerrar
+</button>
+
+<script>
+// Generar partículas de fondo
+const container = document.getElementById('particles');
+for (let i = 0; i < 55; i++) {
+  const s = document.createElement('span');
+  s.style.cssText = `
+    left: ${Math.random()*100}%;
+    width: ${Math.random()*3+1}px;
+    height: ${Math.random()*3+1}px;
+    animation-duration: ${Math.random()*12+8}s;
+    animation-delay: ${Math.random()*10}s;
+    opacity: ${Math.random()*.5+.1};
+  `;
+  container.appendChild(s);
+}
+</script>
+
+<script src="powerhaus-chat.js"></script>
+</body>
+</html>
+
+

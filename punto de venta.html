@@ -1,0 +1,923 @@
+﻿<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kinetic Precision | POS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed": "#3c0800",
+                    "tertiary-fixed": "#ffdbd2",
+                    "surface": "#faf8ff",
+                    "outline": "#737688",
+                    "surface-dim": "#d2d9f4",
+                    "surface-container-highest": "#dae2fd",
+                    "primary": "#003ec7",
+                    "inverse-primary": "#b7c4ff",
+                    "on-secondary-fixed-variant": "#3a485b",
+                    "on-secondary-fixed": "#0d1c2e",
+                    "background": "#faf8ff",
+                    "primary-fixed-dim": "#b7c4ff",
+                    "on-error": "#ffffff",
+                    "on-background": "#131b2e",
+                    "on-tertiary-container": "#ffddd5",
+                    "secondary-container": "#d5e3fc",
+                    "on-primary-fixed": "#001452",
+                    "error-container": "#ffdad6",
+                    "surface-variant": "#dae2fd",
+                    "on-secondary-container": "#57657a",
+                    "on-surface-variant": "#434656",
+                    "on-primary": "#ffffff",
+                    "inverse-on-surface": "#eef0ff",
+                    "secondary": "#515f74",
+                    "secondary-fixed": "#d5e3fc",
+                    "surface-container-high": "#e2e7ff",
+                    "tertiary-container": "#bf3003",
+                    "surface-container-low": "#f2f3ff",
+                    "on-primary-fixed-variant": "#0038b6",
+                    "surface-tint": "#004ced",
+                    "inverse-surface": "#283044",
+                    "on-primary-container": "#dfe3ff",
+                    "surface-container": "#eaedff",
+                    "on-surface": "#131b2e",
+                    "surface-bright": "#faf8ff",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "tertiary": "#952200",
+                    "secondary-fixed-dim": "#b9c7df",
+                    "outline-variant": "#c3c5d9",
+                    "tertiary-fixed-dim": "#ffb4a1",
+                    "on-tertiary-fixed-variant": "#891e00",
+                    "error": "#ba1a1a",
+                    "on-error-container": "#93000a",
+                    "on-tertiary": "#ffffff",
+                    "primary-container": "#0052ff",
+                    "primary-fixed": "#dde1ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .display-font { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #c3c5d9; border-radius: 10px; }
+    </style>
+    <script src="theme-applier.js"></script>
+</head>
+<body class="bg-background text-on-background flex h-screen overflow-hidden">
+<!-- SideNavBar from JSON -->
+<aside class="hidden md:flex flex-col h-screen w-64 sticky top-0 bg-slate-100 dark:bg-slate-900 py-6">
+<div class="px-6 mb-10">
+<div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-[#0d4cf0] rounded-full flex items-center justify-center text-white shadow-md">
+                <span class="material-symbols-outlined -rotate-45 notranslate" translate="no" style="font-variation-settings: 'FILL' 1; font-size: 24px;">fitness_center</span>
+            </div>
+            <div>
+                <h1 class="text-[1.3rem] font-black text-slate-800 dark:text-slate-50 tracking-tight leading-none mb-0.5">PowerHaus</h1>
+                <p class="text-[9px] tracking-[0.06em] uppercase font-bold text-slate-500 leading-none">ELITE PERFORMANCE</p>
+            </div>
+        </div>
+</div>
+<nav class="flex-1 flex flex-col gap-2">
+<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-slate-50 group text-slate-500 dark:text-slate-400" href="administrador.html">
+<span class="material-symbols-outlined group-hover:scale-125 transition-all duration-300 notranslate" translate="no">dashboard</span>
+<span class="tracking-wider uppercase text-xs font-bold">Panel Principal</span>
+</a>
+<div class="relative group hover:bg-emerald-50 dark:hover:bg-emerald-900/30 rounded-l-[1.5rem] ml-4 transition-all duration-300 flex flex-col">
+<button onclick="document.getElementById('submenu-miembros').classList.toggle('hidden'); document.getElementById('icon-miembros').classList.toggle('rotate-180')" class="w-full flex justify-between items-center text-slate-500 dark:text-slate-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 pl-4 py-3 transition-transform duration-300 hover:translate-x-1 focus:outline-none cursor-pointer select-none">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined notranslate" translate="no">group</span>
+<span class="tracking-wider uppercase text-xs font-bold">Miembros</span>
+</div>
+<span id="icon-miembros" class="material-symbols-outlined text-sm mr-4 transition-transform duration-300 notranslate" translate="no">expand_more</span>
+</button>
+<div id="submenu-miembros" class="flex-col pl-[3.25rem] pb-4 pt-1 hidden gap-3">
+<a href="gestion de miembros.html?view=miembros" class="text-[11px] font-bold tracking-widest text-slate-500 hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-400 transition-colors flex items-center gap-2">
+    <div class="w-1.5 h-1.5 rounded-full bg-transparent border border-slate-300 group-hover:border-emerald-300"></div> MIEMBRO </a>
+<a href="gestion de miembros.html?view=entrenadores" class="text-[11px] font-bold tracking-widest text-slate-500 hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-400 transition-colors flex items-center gap-2">
+    <div class="w-1.5 h-1.5 rounded-full bg-transparent border border-slate-300 group-hover:border-emerald-300"></div> ENTRENADORES
+</a>
+</div>
+</div>
+<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-purple-50 group text-slate-500 dark:text-slate-400" href="calendario.html">
+<span class="material-symbols-outlined group-hover:scale-110 group-hover:-rotate-12 transition-all duration-300 notranslate" translate="no">fitness_center</span>
+<span class="tracking-wider uppercase text-xs font-bold">Clases</span>
+</a>
+<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-amber-50 group bg-white dark:bg-slate-800 shadow-sm text-amber-600 dark:text-amber-400" href="punto de venta.html">
+<span class="material-symbols-outlined group-hover:-translate-y-1 group-hover:scale-110 transition-all duration-300 notranslate" translate="no">badge</span>
+<span class="tracking-wider uppercase text-xs font-bold">Personal</span>
+</a>
+<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-slate-200 group text-slate-500 dark:text-slate-400" href="cierre.html">
+<span class="material-symbols-outlined group-hover:scale-110 transition-all duration-300 notranslate" translate="no" style="font-variation-settings:'FILL' 1">nights_stay</span>
+<span class="tracking-wider uppercase text-xs font-bold">Cierre del Día</span>
+</a>
+
+</nav>
+<div class="px-6 mt-auto flex flex-col gap-4">
+
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 text-slate-500 text-xs font-bold tracking-wider uppercase py-2 hover:text-blue-600" href="soporte.html" target="_blank">
+<span class="material-symbols-outlined text-sm notranslate" translate="no">help</span>
+                    SOPORTE
+                </a>
+<a class="flex items-center gap-3 text-slate-500 text-xs font-bold tracking-wider uppercase py-2 hover:text-blue-600" href="javascript:void(0)" onclick="cerrarSesion(event)">
+<span class="material-symbols-outlined text-sm notranslate" translate="no">logout</span>
+CERRAR SESIÓN</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col min-w-0">
+<!-- TopNavBar from JSON -->
+<header class="bg-slate-50/70 dark:bg-slate-950/70 backdrop-blur-xl flex justify-between items-center w-full px-6 py-3 sticky top-0 z-50 shadow-sm dark:shadow-none">
+<div class="flex items-center gap-8 flex-1">
+<div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 bg-[#0d4cf0] rounded-full flex items-center justify-center text-white shadow-sm">
+                <span class="material-symbols-outlined -rotate-45 notranslate" translate="no" style="font-variation-settings: 'FILL' 1; font-size: 18px;">fitness_center</span>
+            </div>
+            <div>
+                <h1 class="text-base font-black text-slate-800 dark:text-slate-50 tracking-tight leading-none mb-0.5">PowerHaus</h1>
+                <p class="text-[7.5px] tracking-[0.08em] uppercase font-bold text-slate-500 leading-none">ELITE PERFORMANCE</p>
+            </div>
+        </div>
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm notranslate" translate="no" data-icon="search">search</span>
+<input id="globalSearchInput" onkeyup="handleGlobalSearch(this.value)" class="w-full bg-surface-container-high border-none rounded-full py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary/20 placeholder:text-slate-400" placeholder="Buscar inventario o miembros..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button onclick="checkStockAlertStatus()" class="px-5 py-2.5 bg-amber-50 text-amber-600 hover:bg-amber-600 hover:text-white rounded-full text-[11px] font-bold tracking-widest uppercase transition-colors flex items-center gap-2 shadow-sm border border-amber-100/50">
+    <span class="material-symbols-outlined text-[16px] notranslate" translate="no">inventory_2</span>
+    STOCK
+</button>
+<a href="carrito.html" class="px-5 py-2.5 bg-blue-50 text-[#0d4cf0] hover:bg-[#0d4cf0] hover:text-white rounded-full text-[11px] font-bold tracking-widest uppercase transition-colors flex items-center gap-2 shadow-sm border border-blue-100/50">
+    <span class="material-symbols-outlined text-[16px] notranslate" translate="no">shopping_cart</span>
+    CARRITO
+</a>
+<a href="historial_ventas.html" class="px-5 py-2.5 bg-slate-50 text-slate-500 hover:bg-slate-100 hover:text-slate-800 rounded-full text-[11px] font-bold tracking-widest uppercase transition-colors flex items-center gap-2 border border-slate-200">
+    <span class="material-symbols-outlined text-[16px] notranslate" translate="no">receipt_long</span>
+    Historial de Ventas
+</a>
+<button class="p-2 text-slate-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-full transition-colors active:scale-95 duration-150">
+<span class="material-symbols-outlined text-xl notranslate" translate="no" data-icon="language">language</span>
+</button><button class="p-2 text-slate-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-full transition-colors active:scale-95 duration-150">
+<span class="material-symbols-outlined notranslate" translate="no" data-icon="notifications">notifications</span>
+</button>
+
+
+<div class="text-right hidden sm:block ml-2 mr-2">
+<p class="text-xs font-bold text-on-surface">admin</p>
+<p class="text-[10px] text-slate-500 tracking-tight">admin</p>
+</div>
+<div class="relative prdeile-dropdown-container">
+<button onclick="document.getElementById('dropdown-pos').classList.toggle('hidden')" class="w-8 h-8 rounded-full overflow-hidden bg-slate-200 transition-all active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary block border-2 border-transparent">
+<img alt="Manager Profile" class="w-full h-full object-cover" data-alt="professional portrait of a fitness facility manager with a clean-cut look and friendly expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVYlnsOv8eyIRwUZh1O9EL2LIiz02i82q8Wnuuw1vpANpuH4OvnszSz6qXOAwuArPgqdwiGY418Wb5MMgpFdrfFtoueBPTxTMrgpKiN5oAN3ojkN9gEOzy8DAwcHbqQKvaejR24raraRtQx7fOBf2k1y-TBAnm1dEbw-x9fJyfy1BTRzXMgcLmQrQb9mU0x2LdpEk606aso6uEBaXLAcZq-6FxtDB-sZ0r7PxSaoBzsdUfu9YvpglSyozUTOr5yoqn-5TfGEPZU8U"/>
+</button>
+<div id="dropdown-pos" class="hidden absolute right-0 mt-3 w-48 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-100 dark:border-slate-700 overflow-hidden z-50">
+<button onclick="cerrarSesion()" class="w-full text-left px-4 py-3 flex items-center gap-2 text-[#ba1a1a] hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+<span class="material-symbols-outlined text-[18px] notranslate" translate="no">logout</span>
+<span class="text-sm font-bold">Cerrar Sesión</span>
+</a>
+<button class="p-2 text-slate-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-full transition-colors active:scale-95 duration-150">
+<span class="material-symbols-outlined text-xl notranslate" translate="no" data-icon="language">language</span>
+</button><button class="p-2 text-slate-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-full transition-colors active:scale-95 duration-150">
+<span class="material-symbols-outlined notranslate" translate="no" data-icon="notifications">notifications</span>
+</button>
+
+
+<div class="text-right hidden sm:block ml-2 mr-2">
+<p class="text-xs font-bold text-on-surface">admin</p>
+<p class="text-[10px] text-slate-500 tracking-tight">admin</p>
+</div>
+<div class="relative prdeile-dropdown-container">
+<button onclick="document.getElementById('dropdown-pos').classList.toggle('hidden')" class="w-8 h-8 rounded-full overflow-hidden bg-slate-200 transition-all active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary block border-2 border-transparent">
+<img alt="Manager Profile" class="w-full h-full object-cover" data-alt="professional portrait of a fitness facility manager with a clean-cut look and friendly expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVYlnsOv8eyIRwUZh1O9EL2LIiz02i82q8Wnuuw1vpANpuH4OvnszSz6qXOAwuArPgqdwiGY418Wb5MMgpFdrfFtoueBPTxTMrgpKiN5oAN3ojkN9gEOzy8DAwcHbqQKvaejR24raraRtQx7fOBf2k1y-TBAnm1dEbw-x9fJyfy1BTRzXMgcLmQrQb9mU0x2LdpEk606aso6uEBaXLAcZq-6FxtDB-sZ0r7PxSaoBzsdUfu9YvpglSyozUTOr5yoqn-5TfGEPZU8U"/>
+</button>
+<div id="dropdown-pos" class="hidden absolute right-0 mt-3 w-48 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-100 dark:border-slate-700 overflow-hidden z-50">
+<button onclick="cerrarSesion()" class="w-full text-left px-4 py-3 flex items-center gap-2 text-[#ba1a1a] hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+<span class="material-symbols-outlined text-[18px] notranslate" translate="no">logout</span>
+<span class="text-sm font-bold">Cerrar Sesión</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<!-- Product Grid Surface -->
+<div class="flex-1 overflow-y-auto p-8 custom-scrollbar relative">
+<!-- Dynamic Low Stock Banner -->
+<div id="lowStockBanner" style="display: none;" onclick="filterProducts(document.querySelector('.filter-btn'), 'LOW_STOCK')" class="w-full bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-6 relative overflow-hidden shadow-sm flex items-center justify-between cursor-pointer hover:bg-amber-100/80 transition-colors group">
+    <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-amber-500"></div>
+    <div class="flex items-center gap-4 pl-2">
+        <div class="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center text-amber-600">
+            <span class="material-symbols-outlined text-[20px]" translate="no">warning</span>
+        </div>
+        <div>
+            <h4 class="text-sm font-black text-amber-900 leading-tight">Alerta de Stock Bajo</h4>
+            <p id="lowStockText" class="text-xs font-semibold text-amber-700/80 mt-0.5">Hay productos que se agotarán pronto.</p>
+        </div>
+    </div>
+    <button class="bg-white/60 hover:bg-white text-amber-700 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-sm transition-all group-hover:scale-105">
+        Ver Productos Críticos
+    </button>
+</div>
+
+<div class="mb-8">
+    <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">CATALOG EXPLORER</h3>
+    <div class="flex items-center justify-between">
+        <h2 class="text-3xl font-black text-slate-800 tracking-tight">Stock de inventarios</h2>
+        <div class="flex gap-2 items-center"><a href="añadir_producto.html" class="px-5 py-2.5 rounded-full bg-[#0d4cf0] text-white text-[10px] font-bold tracking-widest shadow-md shadow-blue-500/20 hover:bg-[#0b3eb0] flex items-center gap-1.5 transition-all uppercase shrink-0"><span class="material-symbols-outlined text-[15px]" translate="no">add_circle</span> Crear Producto</a><div class="w-px h-6 bg-slate-200 mx-1"></div>
+            <button onclick="filterProducts(this, 'ALL')" class="filter-btn px-5 py-2.5 rounded-full bg-[#f0f4ff] text-[#0d4cf0] text-xs font-bold tracking-wide transition-colors">All Products</button>
+            <button onclick="filterProducts(this, 'SUPPLEMENTS')" class="filter-btn px-5 py-2.5 rounded-full bg-white text-slate-500 text-xs font-bold tracking-wide hover:bg-slate-50 transition-colors">Supplements</button>
+            <button onclick="filterProducts(this, 'EQUIPMENT')" class="filter-btn px-5 py-2.5 rounded-full bg-white text-slate-500 text-xs font-bold tracking-wide hover:bg-slate-50 transition-colors">Equipment</button>
+            <button onclick="filterProducts(this, 'APPAREL')" class="filter-btn px-5 py-2.5 rounded-full bg-white text-slate-500 text-xs font-bold tracking-wide hover:bg-slate-50 transition-colors">Apparel</button>
+        </div>
+    </div>
+</div>
+
+<div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"></div>
+
+<!-- Empty State Banner -->
+<div id="emptyInventoryState" style="display: none;" class="w-[85%] mx-auto mt-16 bg-white rounded-[32px] p-12 flex flex-col items-center justify-center border border-slate-100 shadow-[0_12px_40px_rgb(0,0,0,0.03)] text-center relative overflow-hidden">
+    <!-- Decoración de fondo simple -->
+    <div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-blue-400 to-indigo-500"></div>
+    <div class="w-80 h-80 absolute -top-10 -right-20 bg-blue-50/50 rounded-full blur-3xl -z-10 mix-blend-multiply"></div>
+    
+    <div class="w-20 h-20 mb-6 bg-[#f0f4ff] text-[#004cf0] rounded-2xl flex items-center justify-center shadow-inner relative z-10">
+        <span class="material-symbols-outlined text-[40px] notranslate" translate="no">inventory_2</span>
+    </div>
+    
+    <h3 class="text-2xl font-black text-slate-800 tracking-tight mb-3">Tu inventario está vacío</h3>
+    <p class="text-sm font-medium text-slate-500 max-w-sm mb-8">El catálogo no contiene productos activos. Comienza registrando tu mercadería para ofrecerla a tus miembros.</p>
+    
+    <a href="añadir_producto.html" class="px-8 py-3.5 bg-[#004cf0] hover:bg-[#0b3eb0] text-white text-xs font-bold tracking-widest uppercase rounded-full shadow-[0_8px_16px_-6px_rgba(0,0,0,0.3)] transition-all flex items-center gap-2">
+        <span class="material-symbols-outlined text-[18px]">add</span>
+        Añadir Primer Producto
+    </a>
+</div>
+<div id="paginationControls" class="flex justify-center items-center gap-4 mt-8 pb-12 w-full hidden">
+    <button onclick="changePage(-1)" id="prevPageBtn" class="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center hover:bg-slate-50 transition-all text-slate-400 disabled:opacity-30">
+        <span class="material-symbols-outlined text-[18px]">arrow_back_ios_new</span>
+    </button>
+    <div class="flex items-center gap-2" id="pageDots">
+        <!-- Page dots will be generated here -->
+    </div>
+    <button onclick="changePage(1)" id="nextPageBtn" class="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center hover:bg-slate-50 transition-all text-slate-800 disabled:opacity-30">
+        <span class="material-symbols-outlined text-[18px]">arrow_forward_ios</span>
+    </button>
+</div>
+</main>
+<!-- Removed Right Cart Sidebar per user request -->
+<script src="cerrar-sesion.js"></script>
+
+<script>
+
+    window.addEventListener('click', function(e) {
+        const dropdown = document.getElementById('dropdown-pos');
+        if (dropdown && !e.target.closest('.profile-dropdown-container')) {
+            dropdown.classList.add('hidden');
+        }
+    });
+
+    // Cerrar dropdown lang
+    window.addEventListener('click', function(e) {
+        const dropLang = document.getElementById('dropdown-lang-pos');
+        if (dropLang && !e.target.closest('.language-dropdown-container')) {
+            dropLang.classList.add('hidden');
+        }
+    });
+
+    if (!localStorage.getItem('usuario_activo')) {
+        window.location.href = 'index.html';
+    }
+
+        // Pagination & Filtering Logic
+    let currentPage = 1;
+    const itemsPerPage = 3;
+    let activeCategory = 'ALL';
+    let searchQuery = '';
+
+    async function handleGlobalSearch(query) {
+        searchQuery = query.toLowerCase();
+        currentPage = 1;
+        applyPagination();
+        renderPagination();
+
+        const drop = document.getElementById('searchDropdown');
+        if (query.trim().length < 2) {
+            drop.classList.add('hidden');
+            return;
+        }
+
+        let html = '';
+        
+        // 1. Fetch Backend Members (Users / Entrenadores)
+        try {
+            const res = await fetch('http://localhost:3000/api/users');
+            if (res.ok) {
+                const users = await res.json();
+                const matchedUsers = users.filter(u => u.name && u.name.toLowerCase().includes(searchQuery));
+                
+                if (matchedUsers.length > 0) {
+                    html += '<div class="px-4 pt-3 pb-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-widest bg-slate-50 border-b border-slate-100 sticky top-0 backdrop-blur-md">Directorio (Miembros / Personal)</div>';
+                    matchedUsers.slice(0, 5).forEach(m => {
+                        const isEntrenador = m.role && m.role.toLowerCase() === 'entrenador';
+                        const link = isEntrenador ? `perfil_entrenador.html?id=${m.id}` : `perfil_miembro.html?id=${m.id}`;
+                        const icon = isEntrenador ? 'sports' : 'person';
+                        const color = isEntrenador ? 'bg-amber-100 text-amber-600' : 'bg-blue-100 text-[#004cf0]';
+                        
+                        html += `
+                        <a href="${link}" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-50 transition-colors border-b border-slate-50 group last:border-b-0">
+                            ${m.photo 
+                                ? `<div class="w-9 h-9 rounded-full bg-slate-200 bg-cover bg-center shrink-0 shadow-sm" style="background-image: url('${m.photo}')"></div>`
+                                : `<div class="w-9 h-9 rounded-full ${color} flex items-center justify-center font-bold text-sm shrink-0 shadow-sm"><span class="material-symbols-outlined text-[18px]">${icon}</span></div>`
+                             }
+                            <div class="flex-1 min-w-0">
+                                <h4 class="text-[13px] font-black text-slate-800 text-ellipsis whitespace-nowrap overflow-hidden group-hover:text-[#004cf0] transition-colors">${m.name}</h4>
+                                <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">${m.role || 'Miembro'}</span>
+                            </div>
+                            <span class="material-symbols-outlined text-transparent group-hover:text-slate-300 text-[18px] transition-colors">arrow_forward_ios</span>
+                        </a>`;
+                    });
+                }
+            }
+        } catch(e) { console.error('No se pudo buscar usuarios', e); }
+
+        // 2. Fetch Products (for quick click -> clear & filter grid)
+        const productsArray = Array.from(document.querySelectorAll('.product-item'));
+        const matchedProducts = productsArray.filter(item => {
+            const h3 = item.querySelector('h3');
+            return h3 && h3.innerText.toLowerCase().includes(searchQuery);
+        });
+
+        if (matchedProducts.length > 0) {
+            html += '<div class="px-4 pt-3 pb-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-widest bg-slate-50 border-b border-slate-100 sticky top-0 backdrop-blur-md">Catálogo & Inventario</div>';
+            
+            // Limit drop to 4 products to avoid huge list
+            matchedProducts.slice(0,4).forEach(p => {
+                const title = p.querySelector('h3').innerText;
+                const catEl = p.querySelector('.text-\\[9px\\]');
+                const cat = catEl ? catEl.innerText : 'N/A';
+                
+                html += `
+                <div onclick="document.getElementById('searchDropdown').classList.add('hidden'); document.getElementById('globalSearchInput').blur();" class="flex items-center gap-3 px-4 py-3 hover:bg-emerald-50 transition-colors border-b border-slate-50 cursor-pointer group last:border-b-0">
+                    <div class="w-9 h-9 rounded-xl bg-slate-100 flex items-center justify-center text-slate-400 group-hover:bg-emerald-100 group-hover:text-emerald-600 transition-colors shrink-0">
+                        <span class="material-symbols-outlined text-[18px]">inventory_2</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h4 class="text-[13px] font-black text-slate-800 text-ellipsis whitespace-nowrap overflow-hidden group-hover:text-emerald-700 transition-colors">${title}</h4>
+                        <span class="text-[10px] font-bold text-slate-400 tracking-wider">${cat}</span>
+                    </div>
+                </div>`;
+            });
+        }
+
+        if (html === '') {
+            html = `<div class="p-8 text-center flex flex-col items-center justify-center">
+                <span class="material-symbols-outlined text-slate-200 text-4xl mb-2">search_off</span>
+                <span class="text-xs font-bold text-slate-500">Ningún miembro o producto coincide con "${query}"</span>
+            </div>`;
+        }
+        
+        drop.innerHTML = html;
+        drop.classList.remove('hidden');
+    }
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('#globalSearchInput') && !e.target.closest('#searchDropdown')) {
+            const drp = document.getElementById('searchDropdown');
+            if(drp) drp.classList.add('hidden');
+        }
+    });
+
+    function renderPagination() {
+        const items = Array.from(document.querySelectorAll('.product-item'));
+        const filteredItems = items.filter(item => {
+            const cat = item.getAttribute('data-category');
+            const titleEl = item.querySelector('h3');
+            const title = titleEl ? titleEl.innerText.toLowerCase() : '';
+            const matchesCategory = activeCategory === 'ALL' || 
+                                    (activeCategory === 'LOW_STOCK' && parseInt(item.querySelector('.inventory-stock-count').innerText) <= 3) || 
+                                    cat === activeCategory || 
+                                    (activeCategory === 'SUPPLEMENTS' && cat === 'NUTRITIONAL');
+            const matchesSearch = title.includes(searchQuery);
+            return (matchesCategory && matchesSearch) || (activeCategory === 'LOW_STOCK' && parseInt(item.querySelector('.inventory-stock-count').innerText) <= 3);
+        });
+        
+        const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+        const paginationControls = document.getElementById('paginationControls');
+        const pageDots = document.getElementById('pageDots');
+        const prevBtn = document.getElementById('prevPageBtn');
+        const nextBtn = document.getElementById('nextPageBtn');
+        
+        if (totalPages > 1) {
+            paginationControls.classList.remove('hidden');
+        } else {
+            paginationControls.classList.add('hidden');
+        }
+        
+        if(currentPage > totalPages) currentPage = Math.max(1, totalPages);
+        
+        pageDots.innerHTML = '';
+        for (let i = 1; i <= totalPages; i++) {
+            const dot = document.createElement('button');
+            dot.onclick = () => { currentPage = i; applyPagination(); renderPagination(); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+            // matching image 2 styling from cart: (14px rounded-10px instead of pure rounded-full)
+            dot.className = `w-10 h-10 rounded-[10px] flex items-center justify-center text-[14px] font-bold transition-all ${i === currentPage ? 'bg-[#004cf0] text-white shadow-md shadow-blue-500/30' : 'bg-transparent text-slate-500 hover:bg-slate-100'}`;
+            dot.innerText = i;
+            pageDots.appendChild(dot);
+        }
+        
+        prevBtn.disabled = currentPage <= 1;
+        nextBtn.disabled = currentPage >= totalPages || totalPages === 0;
+    }
+
+    function applyPagination() {
+        const items = Array.from(document.querySelectorAll('.product-item'));
+        let matchedCount = 0;
+        
+        items.forEach(item => {
+            const cat = item.getAttribute('data-category');
+            const titleEl = item.querySelector('h3');
+            const title = titleEl ? titleEl.innerText.toLowerCase() : '';
+            const stockCount = parseInt(item.querySelector('.inventory-stock-count').innerText);
+            
+            const isLowStockFilter = activeCategory === 'LOW_STOCK';
+            const matchesCategory = activeCategory === 'ALL' || 
+                                    (isLowStockFilter && stockCount <= 3) ||
+                                    cat === activeCategory || 
+                                    (activeCategory === 'SUPPLEMENTS' && cat === 'NUTRITIONAL');
+            const matchesSearch = title.includes(searchQuery);
+            
+            if (matchesCategory && (matchesSearch || isLowStockFilter)) {
+                matchedCount++;
+                if (matchedCount > (currentPage - 1) * itemsPerPage && matchedCount <= currentPage * itemsPerPage) {
+                    item.style.display = 'flex';
+                    item.style.animation = 'fadeIn 0.4s ease-in-out';
+                } else {
+                    item.style.display = 'none';
+                }
+            } else {
+                item.style.display = 'none';
+            }
+        });
+        
+        // Control Empty State
+        const emptyState = document.getElementById('emptyInventoryState');
+        if (emptyState) {
+            emptyState.style.display = matchedCount === 0 ? 'flex' : 'none';
+        }
+    }
+
+    function changePage(delta) {
+        currentPage += delta;
+        applyPagination();
+        renderPagination();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function filterProducts(btn, category) {
+        const buttons = document.querySelectorAll('.filter-btn');
+        buttons.forEach(b => {
+            b.classList.remove('bg-[#f0f4ff]', 'text-[#0d4cf0]');
+            b.classList.add('bg-white', 'text-slate-500');
+        });
+        btn.classList.add('bg-[#f0f4ff]', 'text-[#0d4cf0]');
+        btn.classList.remove('bg-white', 'text-slate-500');
+        
+        activeCategory = category;
+        currentPage = 1;
+        applyPagination();
+        renderPagination();
+    }
+</script>
+
+<style>
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+body { top: 0 !important; }
+.skiptranslate iframe { display: none !important; }
+#goog-gt-tt, .goog-te-balloon-frame { display: none !important; }
+.goog-text-highlight { background-color: transparent !important; box-shadow: none !important; }
+</style>
+<div id="google_translate_element" style="display:none;"></div>
+<script type="text/javascript">
+function updateLanguageUI(lang) {
+    const langMapping = { 'en': 'btn-lang-en', 'ja': 'btn-lang-ja', 'ko': 'btn-lang-ko', 'es': 'btn-lang-es' };
+    Object.values(langMapping).forEach(id => {
+        document.querySelectorAll('.' + id).forEach(btn => {
+            btn.classList.remove('text-blue-600', 'font-bold');
+            btn.classList.add('text-slate-700', 'dark:text-slate-300', 'font-medium');
+            const code = btn.querySelector('.lang-code');
+            if(code) { code.classList.remove('text-blue-600'); code.classList.add('text-slate-400'); }
+        });
+    });
+    const activeClase = langMapping[lang] || 'btn-lang-es';
+    document.querySelectorAll('.' + activeClase).forEach(btn => {
+        btn.classList.remove('text-slate-700', 'dark:text-slate-300', 'font-medium');
+        btn.classList.add('text-blue-600', 'font-bold');
+        const code = btn.querySelector('.lang-code');
+        if(code) { code.classList.remove('text-slate-400'); code.classList.add('text-blue-600'); }
+    });
+}
+
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'es', includedLanguages: 'en,ja,ko'}, 'google_translate_element');
+  
+  const savedLang = localStorage.getItem('lenguaje_activo') || 'es';
+  updateLanguageUI(savedLang);
+  
+  const checkInterval = setInterval(() => {
+    var selectField = document.querySelector('select.goog-te-combo');
+    if (selectField && selectField.options.length > 0) {
+      clearInterval(checkInterval);
+      if (savedLang && savedLang !== 'es') {
+          if (selectField.value !== savedLang) {
+              selectField.value = savedLang;
+              selectField.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+      }
+    }
+  }, 100);
+}
+
+function traductor(lang) {
+  const currentLang = localStorage.getItem('lenguaje_activo') || 'es';
+  if (currentLang === lang) return; // Ignore if it's exactly the same
+
+  localStorage.setItem('lenguaje_activo', lang);
+  updateLanguageUI(lang);
+  
+  if(lang === 'es') {
+        localStorage.removeItem('lenguaje_activo');
+        document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=" + location.hostname + "; path=/;";
+     // Reload to natively restore original HTML since Google Translate doesn't reliably reset via select element
+     window.location.reload();
+     return;
+  }
+
+  var selectField = document.querySelector('select.goog-te-combo');
+  if (selectField) {
+    if (selectField.value !== lang) {
+      selectField.value = lang;
+      selectField.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+  }
+}
+</script>
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+
+<script>
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({pageLanguage: 'es', includedLanguages: 'en,ja,ko'}, 'google_translate_element');
+      
+      const savedLang = localStorage.getItem('lenguaje_activo') || 'es';
+      if(savedLang === 'es') return;
+      
+      const checkInterval = setInterval(() => {
+        var selectField = document.querySelector('select.goog-te-combo');
+        if (selectField && selectField.options.length > 0) {
+          clearInterval(checkInterval);
+          if (selectField.value !== savedLang) {
+              selectField.value = savedLang;
+              selectField.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+        }
+      }, 100);
+    }
+</script>
+
+<!-- Hidden Google Translate Element -->
+<style>
+  body { top: 0 !important; }
+  .skiptranslate { display: none !important; }
+  #goog-gt-tt { display: none !important; }
+</style>
+<div id="google_translate_element" style="display:none;"></div>
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script>
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({pageLanguage: 'es', includedLanguages: 'en,ja,ko'}, 'google_translate_element');
+      
+      const savedLang = localStorage.getItem('lenguaje_activo') || 'es';
+      if(savedLang === 'es') return;
+      
+      const checkInterval = setInterval(() => {
+        var selectField = document.querySelector('select.goog-te-combo');
+        if (selectField && selectField.options.length > 0) {
+          clearInterval(checkInterval);
+          if (selectField.value !== savedLang) {
+              selectField.value = savedLang;
+              selectField.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+        }
+      }, 100);
+    }
+</script>
+
+<script>
+function addToCart(btn) {
+    const card = btn.closest('.product-item');
+    const name = card.querySelector('h3').innerText;
+    const priceTxt = card.querySelector('.text-xl.font-black').innerText;
+    const price = parseFloat(priceTxt.replace('$', ''));
+    let img = '';
+    const imgEl = card.querySelector('img');
+    if (imgEl) img = imgEl.src;
+    
+    let catEl = card.querySelector('.text-\\[9px\\]');
+    if (!catEl) catEl = card.querySelector('span:not(.material-symbols-outlined)'); // fallback
+    const category = catEl ? catEl.innerText : 'ITEM';
+
+    let cart = JSON.parse(localStorage.getItem('cartItems')) || [];
+    const existing = cart.find(i => i.name === name);
+    if (existing) {
+        existing.quantity += 1;
+    } else {
+        cart.push({ name, price, img, category, quantity: 1 });
+    }
+    localStorage.setItem('cartItems', JSON.stringify(cart));
+    
+    // Animate to indicate added
+    btn.innerHTML = '<span class="material-symbols-outlined text-[18px]">check</span>';
+    btn.classList.add('bg-emerald-100', 'text-emerald-600');
+    
+    setTimeout(() => {
+        window.location.href = 'carrito.html';
+    }, 300);
+}
+</script>
+<script>
+// Load custom products on window startup
+window.addEventListener('DOMContentLoaded', () => {
+    const grid = document.getElementById('productsGrid');
+    const customProds = JSON.parse(localStorage.getItem('inventarioProductos')) || [];
+    
+    // Add custom products in front of the hardcoded ones
+    customProds.reverse().forEach(prod => {
+        const el = document.createElement('div');
+        el.dataset.category = prod.categoria;
+        el.className = 'product-item bg-white rounded-[24px] p-5 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 hover:shadow-xl transition-all duration-300 flex flex-col group cursor-pointer relative';
+        el.innerHTML = `
+            <button onclick="event.stopPropagation(); deleteProduct('${prod.nombre}')" class="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/60 hover:bg-rose-500 hover:text-white backdrop-blur-md shadow-[0_4px_10px_rgba(0,0,0,0.05)] flex items-center justify-center text-slate-400 opacity-0 group-hover:opacity-100 transition-all z-20" title="Eliminar Producto">
+                <span class="material-symbols-outlined text-[16px]">delete</span>
+            </button>
+            <button onclick="event.stopPropagation(); editProduct('${prod.nombre}')" class="absolute top-2 right-12 w-8 h-8 rounded-full bg-white/60 hover:bg-[#0d4cf0] hover:text-white backdrop-blur-md shadow-[0_4px_10px_rgba(0,0,0,0.05)] flex items-center justify-center text-slate-400 opacity-0 group-hover:opacity-100 transition-all z-20" title="Editar Producto">
+                <span class="material-symbols-outlined text-[16px]">edit</span>
+            </button>
+            <div class="bg-slate-100 rounded-[16px] h-48 mb-5 flex items-center justify-center relative overflow-hidden">
+                <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90" src="${prod.img}" />
+            </div>
+            <div class="flex justify-between items-center mb-3">
+                <span class="text-[9px] font-black tracking-widest uppercase text-[#0d4cf0]">${prod.categoria}</span>
+                <div class="flex items-center gap-1 text-slate-400">
+                    <span class="material-symbols-outlined text-[13px]" translate="no">inventory_2</span>
+                    <span class="text-[10px] font-medium"><span class="inventory-stock-count">${prod.stock}</span> in stock</span>
+                </div>
+            </div>
+            <h3 class="font-black text-slate-800 text-[15px] leading-tight mb-5 pr-4 flex-1">${prod.nombre}</h3>
+            <div class="flex justify-between items-center mt-auto">
+                <span class="text-xl font-black text-slate-900 tracking-tight">$${parseFloat(prod.precio).toFixed(2)}</span>
+                <button onclick="addToCart(this)" class="w-10 h-10 rounded-xl bg-[#f0f4ff] text-[#0d4cf0] flex items-center justify-center group-hover:bg-[#0d4cf0] group-hover:text-white transition-all shadow-sm">
+                    <span class="material-symbols-outlined text-[18px]" translate="no">add_shopping_cart</span>
+                </button>
+            </div>
+        `;
+        grid.prepend(el);
+    });
+    
+    // Initialize the paginator once all products are mapped
+    applyPagination();
+    renderPagination();
+    checkLowStock();
+});
+
+function checkLowStock() {
+    const customProds = JSON.parse(localStorage.getItem('inventarioProductos')) || [];
+    const lowStockItems = customProds.filter(p => parseInt(p.stock) <= 3);
+    
+    const banner = document.getElementById('lowStockBanner');
+    if (lowStockItems.length > 0) {
+        banner.style.display = 'flex';
+        document.getElementById('lowStockText').innerText = `${lowStockItems.length} producto(s) están a punto de agotarse (Stock â‰¤ 3).`;
+    } else {
+        banner.style.display = 'none';
+        if(activeCategory === 'LOW_STOCK') {
+            activeCategory = 'ALL';
+            applyPagination();
+            renderPagination();
+        }
+    }
+}
+
+window.lowStockAlertItems = [];
+window.currentAlertPage = 1;
+
+window.renderAlertPage = function(page) {
+    const itemsPerPage = 3;
+    const totalPages = Math.ceil(window.lowStockAlertItems.length / itemsPerPage);
+    if(page < 1) page = 1;
+    if(page > totalPages) page = totalPages;
+    window.currentAlertPage = page;
+    
+    const start = (page - 1) * itemsPerPage;
+    const items = window.lowStockAlertItems.slice(start, start + itemsPerPage);
+    
+    let html = items.map(p => `
+        <div class="mb-2 flex items-center gap-2">
+            <span class="material-symbols-outlined text-amber-500 text-[18px]">warning</span>
+            <span class="font-bold flex-1 text-left text-ellipsis overflow-hidden whitespace-nowrap">${p.nombre}</span>
+            <span class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded text-[10px] font-black">Quedan ${p.stock}</span>
+        </div>
+    `).join('');
+    
+    const listEl = document.getElementById('swal-alert-list');
+    if(listEl) listEl.innerHTML = html;
+    
+    let paginationHtml = '';
+    if (totalPages > 1) {
+        for (let i = 1; i <= totalPages; i++) {
+            paginationHtml += `<button onclick="window.renderAlertPage(${i})" class="w-7 h-7 mx-0.5 rounded-full text-xs font-bold transition-colors ${i === page ? 'bg-[#0d4cf0] text-white shadow-sm' : 'bg-slate-100 hover:bg-slate-200 text-slate-600'}">${i}</button>`;
+        }
+    }
+    const pagEl = document.getElementById('swal-alert-pagination');
+    if(pagEl) pagEl.innerHTML = paginationHtml;
+};
+
+function checkStockAlertStatus() {
+    const customProds = JSON.parse(localStorage.getItem('inventarioProductos')) || [];
+    window.lowStockAlertItems = customProds.filter(p => parseInt(p.stock) <= 3);
+    
+    if (window.lowStockAlertItems.length > 0) {
+        Swal.fire({
+            title: '¡Alerta de Stock Crítico!',
+            html: `<div class="text-[15px] mb-4 text-slate-600">Tienes <b>${window.lowStockAlertItems.length}</b> productos que se van a acabar (Stock â‰¤ 3).</div>` + 
+                  `<div id="swal-alert-list" class="text-sm min-h-[105px] mt-2 bg-slate-50/50 p-4 rounded-2xl border border-slate-100 text-slate-800 flex flex-col justify-start"></div>` +
+                  `<div id="swal-alert-pagination" class="flex justify-center mt-4"></div>`,
+            icon: 'warning',
+            confirmButtonColor: '#f59e0b',
+            confirmButtonText: 'Filtrar Productos Críticos',
+            showCancelButton: true,
+            cancelButtonText: 'Cerrar',
+            cancelButtonColor: '#64748b',
+            didOpen: () => {
+                window.renderAlertPage(1);
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const btn = document.querySelector('.filter-btn');
+                if (btn) filterProducts(btn, 'LOW_STOCK'); 
+            }
+        });
+    } else {
+        Swal.fire({
+            title: 'Stock Saludable',
+            text: 'Ningún producto está próximo a agotarse (Todos > 3).',
+            icon: 'success',
+            confirmButtonColor: '#0d4cf0',
+            confirmButtonText: 'Entendido'
+        });
+    }
+}
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+function deleteProduct(name) {
+    Swal.fire({
+        title: '¿Eliminar producto?',
+        text: 'Se borrará por completo de tu base de datos.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#ef4444',
+        cancelButtonColor: '#64748b',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar',
+        customClass: {
+            popup: 'rounded-[24px]',
+            confirmButton: 'rounded-full px-6 py-2.5 font-bold tracking-widest text-xs shadow-lg shadow-rose-500/30',
+            cancelButton: 'rounded-full px-6 py-2.5 font-bold tracking-widest text-xs'
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let iv = JSON.parse(localStorage.getItem('inventarioProductos')) || [];
+            iv = iv.filter(p => p.nombre !== name);
+            localStorage.setItem('inventarioProductos', JSON.stringify(iv));
+            
+            Swal.fire({
+                icon: 'success',
+                title: 'Eliminado',
+                text: 'El producto ha sido borrado exitosamente.',
+                showConfirmButton: false,
+                timer: 1500
+            }).then(() => {
+                window.location.reload();
+            });
+        }
+    });
+}
+
+async function editProduct(name) {
+    let iv = JSON.parse(localStorage.getItem('inventarioProductos')) || [];
+    let productIndex = iv.findIndex(p => p.nombre === name);
+    if (productIndex === -1) return;
+    
+    let prod = iv[productIndex];
+    
+    const { value: formValues } = await Swal.fire({
+        title: 'Editar Producto',
+        html:
+            `<div class="text-left space-y-3">
+                <div>
+                    <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Nombre</label>
+                    <input id="swal-edit-nombre" class="swal2-input !w-full !ml-0 mt-1" value="${prod.nombre}">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Categoría</label>
+                    <select id="swal-edit-categoria" class="swal2-input !w-full !ml-0 mt-1">
+                        <option value="SUPPLEMENTS" ${prod.categoria==='SUPPLEMENTS'?'selected':''}>Suplementos</option>
+                        <option value="NUTRITIONAL" ${prod.categoria==='NUTRITIONAL'?'selected':''}>Nutricional</option>
+                        <option value="EQUIPMENT" ${prod.categoria==='EQUIPMENT'?'selected':''}>Equipamiento</option>
+                        <option value="APPAREL" ${prod.categoria==='APPAREL'?'selected':''}>Ropa / Apparel</option>
+                        <option value="BEBIDAS" ${prod.categoria==='BEBIDAS'?'selected':''}>Bebidas</option>
+                        <option value="SNACKS" ${prod.categoria==='SNACKS'?'selected':''}>Snacks</option>
+                        <option value="CARGADORES" ${prod.categoria==='CARGADORES'?'selected':''}>Cargadores</option>
+                        <option value="OTROS" ${prod.categoria==='OTROS'?'selected':''}>Otros</option>
+                    </select>
+                </div>
+                <div class="flex gap-4">
+                    <div class="flex-1">
+                        <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Stock</label>
+                        <input id="swal-edit-stock" type="number" min="0" class="swal2-input !w-full !ml-0 mt-1" value="${prod.stock}">
+                    </div>
+                    <div class="flex-1">
+                        <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Precio</label>
+                        <input id="swal-edit-precio" type="number" step="0.01" min="0" class="swal2-input !w-full !ml-0 mt-1" value="${prod.precio}">
+                    </div>
+                </div>
+            </div>`,
+        focusConfirm: false,
+        showCancelButton: true,
+        confirmButtonText: 'Guardar',
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#004cf0',
+        customClass: {
+            popup: 'rounded-[24px]',
+            confirmButton: 'rounded-full px-8 py-3 font-bold tracking-widest text-xs shadow-lg shadow-blue-500/30'
+        },
+        preConfirm: () => {
+            return {
+                nombre: document.getElementById('swal-edit-nombre').value,
+                categoria: document.getElementById('swal-edit-categoria').value,
+                stock: document.getElementById('swal-edit-stock').value,
+                precio: document.getElementById('swal-edit-precio').value
+            };
+        }
+    });
+
+    if (formValues) {
+        iv[productIndex] = { ...prod, ...formValues };
+        localStorage.setItem('inventarioProductos', JSON.stringify(iv));
+        Swal.fire({
+            icon: 'success',
+            title: 'Actualizado',
+            showConfirmButton: false,
+            timer: 1500
+        }).then(() => window.location.reload());
+    }
+}
+</script>
+
+<script src="powerhaus-chat.js"></script>
+</body></html>
+

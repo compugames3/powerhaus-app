@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Titan Fitness - Digital ID Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#003ec7",
+                        "background": "#faf8ff",
+                        "on-background": "#131b2e",
+                        "card-dark": "#1a1a1a",
+                        "card-accent": "#ffc107"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .card-bg-dark {
+            background-color: #1a1a1a;
+            background-image: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 40%),
+                              linear-gradient(135deg, transparent 0%, rgba(255, 193, 7, 0.03) 100%);
+        }
+        .geometric-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0 L50 50 L0 100 Z' fill='rgba(255,255,255,0.03)'/%3E%3C/svg%3E");
+            background-size: 80px 80px;
+        }
+        .angled-divider {
+            clip-path: polygon(0 20%, 50% 0, 100% 20%, 100% 100%, 0 100%);
+        }
+        /* Design Panel */
+        #designPanel {
+            position: fixed;
+            top: 0; right: -360px;
+            width: 340px;
+            height: 100vh;
+            background: #fff;
+            box-shadow: -8px 0 40px rgba(0,0,0,0.15);
+            z-index: 9999;
+            transition: right 0.35s cubic-bezier(0.4,0,0.2,1);
+            overflow-y: auto;
+            padding: 2rem 1.5rem;
+            font-family: 'Inter', sans-serif;
+        }
+        #designPanel.open { right: 0; }
+        #designOverlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.35);
+            z-index: 9998;
+        }
+        #designOverlay.open { display: block; }
+        .dp-section { margin-bottom: 1.5rem; }
+        .dp-label {
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #737688;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        .dp-swatches { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 0.75rem; }
+        .dp-swatch {
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid #f1f5f9;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+            transition: transform 0.15s;
+        }
+        .dp-swatch:hover { transform: scale(1.2); }
+        .dp-color-input {
+            width: 100%; height: 44px;
+            border: none; border-radius: 0.75rem;
+            cursor: pointer; padding: 3px;
+            background: #f8fafc;
+        }
+        .dp-divider { border: none; border-top: 1px solid #f1f5f9; margin: 1.25rem 0; }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body antialiased overflow-x-hidden min-h-screen flex flex-col">
+<!-- Navigation / Top Actions -->
+<header class="w-full pt-8 pb-4 flex justify-center items-center z-20 relative">
+    <button onclick="window.location.href = 'carnet_miembro.html' + window.location.search;" class="px-8 py-3 bg-[#004cf0] text-white rounded-2xl hover:bg-blue-700 transition-all font-bold text-sm shadow-md shadow-blue-900/20 active:scale-95 tracking-wide">
+        Cara Delantera
+    </button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex items-center justify-center relative px-8">
+<div class="max-w-7xl w-full mx-auto flex flex-col items-center">
+<!-- Focused ID Card Layout -->
+<div class="flex flex-col items-center justify-center w-full">
+<!-- Wrapper for Screenshot -->
+<div id="carnetScreenshotBox" class="p-8 pb-12 bg-[#F6F8FD] rounded-3xl">
+<!-- The Card Component -->
+<div id="carnetAreaTrasero" class="w-full max-w-[380px] aspect-[1/1.6] rounded-[2rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.4)] relative card-bg-dark border border-white/10 shrink-0 transform transition-transform duration-500 flex flex-col justify-between">
+<!-- Geometric background overlay -->
+<div class="absolute inset-0 geometric-pattern opacity-40"></div>
+
+<!-- Top Dark Section (Flex-1 allows it to take natural space) -->
+<div class="relative flex-1 p-8 pb-4 flex flex-col items-center justify-start z-10 w-full shrink-0">
+<!-- Header Info -->
+<div class="w-full flex justify-center"><div class="flex flex-col items-start gap-4 w-fit">
+<div class="flex items-center gap-4">
+<div id="iconBg1" class="w-10 h-10 rounded-full flex items-center justify-center border border-card-accent/30 shrink-0" style="background-color: rgba(255,193,7,0.1)">
+<span id="iconClr1" class="material-symbols-outlined text-card-accent text-xl">mail</span>
+</div>
+<span id="contactText1" class="text-white text-sm font-medium tracking-wide truncate max-w-[200px]">Cargando...</span>
+</div>
+<div class="flex items-center gap-4">
+<div id="iconBg2" class="w-10 h-10 rounded-full flex items-center justify-center border border-card-accent/30 shrink-0" style="background-color: rgba(255,193,7,0.1)">
+<span id="iconClr2" class="material-symbols-outlined text-card-accent text-xl">call</span>
+</div>
+<span id="contactText2" class="text-white text-sm font-medium tracking-wide">Cargando...</span>
+</div>
+<div class="flex items-center gap-4">
+<div id="iconBg3" class="w-10 h-10 rounded-full flex items-center justify-center border border-card-accent/30 shrink-0" style="background-color: rgba(255,193,7,0.1)">
+<span id="iconClr3" class="material-symbols-outlined text-card-accent text-xl">location_on</span>
+</div>
+<span id="contactText3" class="text-white text-sm font-medium tracking-wide">Sede Principal</span>
+</div>
+</div></div>
+<!-- Dates Section -->
+<div class="pt-4 border-t border-white/5 space-y-2 flex flex-col items-center mt-4">
+<div class="flex items-center gap-4">
+<span id="joinDot1" class="w-2 h-2 rounded-full" style="background:#ffc107"></span>
+<p id="joinText" class="text-[10px] tracking-[0.2em] text-card-accent font-black uppercase" style="color:#ffc107">JOIN: <span id="cardJoin">--/--/----</span></p>
+<span id="joinDot2" class="w-2 h-2 rounded-full" style="background:#ffc107"></span>
+</div>
+<div class="flex items-center gap-4">
+<span class="w-2 h-2 bg-white rounded-full"></span>
+<p id="expireText" class="text-[10px] tracking-[0.2em] text-white font-black uppercase">EXPIRE: <span id="cardExpire">--/--/----</span></p>
+<span class="w-2 h-2 bg-white rounded-full"></span>
+</div>
+</div>
+</div>
+
+<!-- Bottom Content Container (Stacked perfectly using flex) -->
+<div class="relative w-full flex flex-col shrink-0 mt-[-20px] z-20">
+    <svg preserveAspectRatio="none" viewBox="0 0 100 10" class="w-full h-8 flex-shrink-0" id="accentSvgDivider" style="color: #ffc107">
+        <polygon points="0,10 50,0 100,10" fill="currentColor"/>
+    </svg>
+    <div id="accentSection" class="w-full flex flex-col items-center justify-center pb-6 min-h-[140px]" style="background-color: #ffc107">
+        <!-- QR Container -->
+        <div class="bg-white p-3 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.2)] mb-2 flex flex-col items-center shrink-0 w-[240px]">
+            <canvas id="cardBarcode" width="220" height="60" class="w-full h-[60px] object-contain bg-white"></canvas>
+        </div>
+        <p id="cardBrandUrl" class="text-[11px] font-black tracking-[0.2em] text-black lowercase mt-1">www.powerhaus.com</p>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Floating Actions -->
+<div class="absolute bottom-8 left-8 md:left-12 lg:left-16 flex gap-3">
+<button onclick="descargarCarnetJPG('carnetScreenshotBox', 'Carnet_Reverso')" class="flex items-center gap-2 px-6 py-4 bg-white border border-slate-200 rounded-2xl hover:border-primary hover:text-primary transition-all font-black uppercase tracking-widest text-xs shadow-md hover:shadow-xl group">
+<span class="material-symbols-outlined group-hover:translate-y-0.5 transition-transform">download</span>
+Descargar JPG
+</button>
+<button onclick="abrirDiseñador()" class="flex items-center gap-2 px-6 py-4 bg-[#004cf0] text-white rounded-2xl hover:bg-blue-700 transition-all font-black uppercase tracking-widest text-xs shadow-md shadow-blue-500/30 group">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">palette</span>
+Diseñar
+</button>
+</div>
+<!-- Design Panel Overlay -->
+<div id="designOverlay" onclick="cerrarDiseñador()"></div>
+<!-- Design Panel -->
+<div id="designPanel">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+    <h2 style="font-family:Manrope,sans-serif;font-weight:800;font-size:1.1rem;color:#131b2e;">🎨 Editor de Estilo</h2>
+    <button onclick="cerrarDiseñador()" style="background:none;border:none;cursor:pointer;font-size:1.25rem;color:#737688;">✕</button>
+  </div>
+
+  <!-- Accent Color -->
+  <div class="dp-section">
+    <span class="dp-label">🟡 Color de Acento (sección inferior + íconos)</span>
+    <div class="dp-swatches">
+      <button class="dp-swatch" style="background:#facc15" onclick="setAccentColor('#facc15')"></button>
+      <button class="dp-swatch" style="background:#f43f5e" onclick="setAccentColor('#f43f5e')"></button>
+      <button class="dp-swatch" style="background:#3b82f6" onclick="setAccentColor('#3b82f6')"></button>
+      <button class="dp-swatch" style="background:#10b981" onclick="setAccentColor('#10b981')"></button>
+      <button class="dp-swatch" style="background:#8b5cf6" onclick="setAccentColor('#8b5cf6')"></button>
+      <button class="dp-swatch" style="background:#f97316" onclick="setAccentColor('#f97316')"></button>
+    </div>
+    <input type="color" class="dp-color-input" value="#ffc107" onchange="setAccentColor(this.value)" id="accentPicker">
+  </div>
+  <hr class="dp-divider">
+
+  <!-- Card Background -->
+  <div class="dp-section">
+    <span class="dp-label">⬛ Color de Fondo del Carnet</span>
+    <div class="dp-swatches">
+      <button class="dp-swatch" style="background:#111827" onclick="setCardBg('#111827')"></button>
+      <button class="dp-swatch" style="background:#1e293b" onclick="setCardBg('#1e293b')"></button>
+      <button class="dp-swatch" style="background:#0f172a" onclick="setCardBg('#0f172a')"></button>
+      <button class="dp-swatch" style="background:#18181b" onclick="setCardBg('#18181b')"></button>
+      <button class="dp-swatch" style="background:#1c1917" onclick="setCardBg('#1c1917')"></button>
+      <button class="dp-swatch" style="background:#134e4a" onclick="setCardBg('#134e4a')"></button>
+    </div>
+    <input type="color" class="dp-color-input" value="#1a1a1a" onchange="setCardBg(this.value)" id="bgPicker">
+  </div>
+  <hr class="dp-divider">
+
+  <!-- Contact Text Color -->
+  <div class="dp-section">
+    <span class="dp-label">✉️ Color de Texto de Contacto</span>
+    <div class="dp-swatches">
+      <button class="dp-swatch" style="background:#ffffff" onclick="setContactTextColor('#ffffff')"></button>
+      <button class="dp-swatch" style="background:#e2e8f0" onclick="setContactTextColor('#e2e8f0')"></button>
+      <button class="dp-swatch" style="background:#facc15" onclick="setContactTextColor('#facc15')"></button>
+      <button class="dp-swatch" style="background:#93c5fd" onclick="setContactTextColor('#93c5fd')"></button>
+    </div>
+    <input type="color" class="dp-color-input" value="#ffffff" onchange="setContactTextColor(this.value)" id="contactTextPicker">
+  </div>
+  <hr class="dp-divider">
+
+  <!-- URL Text Color -->
+  <div class="dp-section">
+    <span class="dp-label">🌐 Color de URL (parte inferior)</span>
+    <div class="dp-swatches">
+      <button class="dp-swatch" style="background:#000000" onclick="setUrlColor('#000000')"></button>
+      <button class="dp-swatch" style="background:#1e293b" onclick="setUrlColor('#1e293b')"></button>
+      <button class="dp-swatch" style="background:#ffffff" onclick="setUrlColor('#ffffff')"></button>
+      <button class="dp-swatch" style="background:#7c3aed" onclick="setUrlColor('#7c3aed')"></button>
+    </div>
+    <input type="color" class="dp-color-input" value="#000000" onchange="setUrlColor(this.value)" id="urlPicker">
+  </div>
+  <hr class="dp-divider">
+
+  <button onclick="resetDiseño()" style="width:100%;padding:0.65rem;background:#f1f5f9;color:#475569;border:none;border-radius:0.75rem;font-weight:700;font-size:0.8rem;cursor:pointer;margin-bottom:0.75rem;">↩ Restablecer</button>
+  <button onclick="cerrarDiseñador()" style="width:100%;padding:0.75rem;background:#0f172a;color:#fff;border:none;border-radius:0.75rem;font-weight:700;font-size:0.875rem;cursor:pointer;">✓ Aplicar y Cerrar</button>
+</div>
+</main>
+<!-- Footer -->
+<footer class="p-8 flex flex-col items-center gap-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest border-t border-slate-100">
+<div id="footerText">
+            PowerHaus © 2026
+        </div>
+<div class="flex space-x-6">
+<a class="hover:text-blue-600 transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-blue-600 transition-colors" href="#">Terms of Service</a>
+<a class="hover:text-blue-600 transition-colors" href="#">System Status</a>
+</div>
+</footer>
+
+<script>
+    // ─── DESIGN EDITOR ───────────────────────────────────────────
+    function abrirDiseñador() {
+        const s = loadDesignState();
+        document.getElementById('accentPicker').value = s.accent;
+        document.getElementById('bgPicker').value = s.bg;
+        document.getElementById('contactTextPicker').value = s.contactText;
+        document.getElementById('urlPicker').value = s.urlColor;
+        document.getElementById('designPanel').classList.add('open');
+        document.getElementById('designOverlay').classList.add('open');
+    }
+
+    function cerrarDiseñador() {
+        document.getElementById('designPanel').classList.remove('open');
+        document.getElementById('designOverlay').classList.remove('open');
+    }
+
+    function loadDesignState() {
+        return {
+            accent:      localStorage.getItem('ct_accent')      || '#ffc107',
+            bg:          localStorage.getItem('ct_bg')          || '#1a1a1a',
+            contactText: localStorage.getItem('ct_contactText') || '#ffffff',
+            urlColor:    localStorage.getItem('ct_urlColor')    || '#000000',
+        };
+    }
+
+    function applyDesignState(s) {
+        // Accent: bottom section, icon backgrounds, icon colors, join dots & text
+        const accentSection = document.getElementById('accentSection');
+        if (accentSection) accentSection.style.backgroundColor = s.accent;
+        const accentSvgDivider = document.getElementById('accentSvgDivider');
+        if (accentSvgDivider) accentSvgDivider.style.color = s.accent;
+
+        ['iconBg1','iconBg2','iconBg3'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.style.backgroundColor = s.accent + '22';
+                el.style.borderColor = s.accent + '55';
+            }
+        });
+        ['iconClr1','iconClr2','iconClr3'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.style.color = s.accent;
+        });
+        ['joinDot1','joinDot2'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.style.backgroundColor = s.accent;
+        });
+        const joinText = document.getElementById('joinText');
+        if (joinText) joinText.style.color = s.accent;
+
+        // Card Background
+        const card = document.getElementById('carnetAreaTrasero');
+        if (card) card.style.backgroundColor = s.bg;
+
+        // Contact text
+        ['contactText1','contactText2','contactText3'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.style.color = s.contactText;
+        });
+
+        // URL text
+        const urlEl = document.getElementById('urlText') || document.getElementById('cardBrandUrl');
+        if (urlEl) urlEl.style.color = s.urlColor;
+    }
+
+    function setAccentColor(hex) {
+        localStorage.setItem('ct_accent', hex);
+        document.getElementById('accentPicker').value = hex;
+        applyDesignState(loadDesignState());
+    }
+    function setCardBg(hex) {
+        localStorage.setItem('ct_bg', hex);
+        document.getElementById('bgPicker').value = hex;
+        applyDesignState(loadDesignState());
+    }
+    function setContactTextColor(hex) {
+        localStorage.setItem('ct_contactText', hex);
+        document.getElementById('contactTextPicker').value = hex;
+        applyDesignState(loadDesignState());
+    }
+    function setUrlColor(hex) {
+        localStorage.setItem('ct_urlColor', hex);
+        document.getElementById('urlPicker').value = hex;
+        applyDesignState(loadDesignState());
+    }
+    function resetDiseño() {
+        ['ct_accent','ct_bg','ct_contactText','ct_urlColor'].forEach(k => localStorage.removeItem(k));
+        applyDesignState(loadDesignState());
+        abrirDiseñador(); // refresh pickers
+    }
+    // ─────────────────────────────────────────────────────────────
+
+    function normalizeText(v) {
+        return String(v || '').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    }
+
+
+    function formatDate(dateInput) {
+        const d = new Date(dateInput);
+        if (isNaN(d.getTime())) return '--/--/----';
+        return d.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '.');
+    }
+
+    function addMonths(dateInput, months) {
+        const d = new Date(dateInput);
+        if (isNaN(d.getTime())) return null;
+        d.setMonth(d.getMonth() + months);
+        return d;
+    }
+
+    function getJoinDate(user) {
+        if (user?.createdAt) return new Date(user.createdAt);
+        if (user?.id) {
+            const byId = new Date(user.id);
+            if (!isNaN(byId.getTime())) return byId;
+        }
+        return new Date();
+    }
+
+    async function loadMemberBackCarnet() {
+        const params = new URLSearchParams(window.location.search);
+        const nombre = (params.get('nombre') || '').trim();
+        const id = (params.get('id') || '').trim();
+        const email = (params.get('email') || '').trim();
+
+        let users = [];
+        try {
+            const req = await fetch('/api/users?t=' + Date.now(), { cache: 'no-store' });
+            if (req.ok) {
+                users = await req.json();
+            }
+        } catch(e) {
+            console.warn("API no disponible, usando fallback local", e);
+        }
+
+        let user = null;
+        if (users && users.length > 0) {
+            user = users.find(u => normalizeText(u.name) === normalizeText(nombre));
+            if (!user && id) user = users.find(u => String(u.id || '') === id);
+            if (!user && email) user = users.find(u => normalizeText(u.email) === normalizeText(email));
+        }
+
+        if (!user) {
+            // Fallback object to ensure the card renders perfectly even offline
+            user = {
+                name: nombre || 'Miembro VIP',
+                id: id || '0000',
+                email: email || 'usuario@powerhaus.com',
+                phone: '+00 00000000',
+                barcode: 'PHVIP001'
+            };
+        }
+
+        const memberName = String(user.name || nombre || 'Miembro');
+        const memberId = String(user.id || user.email || '0000').replace(/[^0-9A-Za-z.-]/g, '').slice(0, 16);
+        const memberEmail = String(user.email || 'Sin correo');
+        const memberPhone = String(user.phone || user.telefono || user.cel || user.celular || 'Sin teléfono');
+        const joinDate = getJoinDate(user);
+        const expireDate = addMonths(joinDate, 1);
+        
+        document.getElementById('contactText1').textContent = memberEmail;
+        document.getElementById('contactText2').textContent = memberPhone;
+        document.getElementById('cardJoin').textContent = formatDate(joinDate);
+        document.getElementById('cardExpire').textContent = formatDate(expireDate);
+
+
+        const barcodeSource = String(
+            user.barcode ||
+            user.codigoBarras ||
+            user.member_id ||
+            user.miembro_id ||
+            user.phone ||
+            (user.email ? user.email.split('@')[0] : 'PH001')
+        ).trim().substring(0, 32);
+
+        // Render Barcode
+        JsBarcode('#cardBarcode', barcodeSource, {
+            format: 'CODE128',
+            width: 2,
+            height: 50,
+            displayValue: true,
+            fontSize: 12,
+            textMargin: 4,
+            margin: 0,
+            background: '#ffffff',
+            lineColor: '#000000'
+        });
+
+        applyBrandIdentity();
+    }
+
+    function applyBrandIdentity() {
+        const title = (localStorage.getItem('powerhaus_brand_title') || 'PowerHaus').trim();
+        const subtitle = (localStorage.getItem('powerhaus_brand_subtitle') || 'Elite Performance').trim();
+        
+        document.getElementById('contactText3').textContent = title + ' - ' + subtitle;
+        document.getElementById('cardBrandUrl').textContent = 'www.' + title.replace(/\s+/g, '').toLowerCase() + '.com';
+        
+        const currentYear = new Date().getFullYear();
+        document.getElementById('footerText').textContent = `${title} © ${currentYear}`;
+        
+        // Tab Title
+        document.title = `${title} - Digital ID Management`;
+    }
+
+    async function descargarCarnetJPG(elementId, filenamePrefix) {
+        const targetId = elementId === 'carnetScreenshotBox' ? 'carnetAreaTrasero' : elementId;
+        const element = document.getElementById(targetId);
+        if (!element) return;
+
+        // Scroll the card into view and wait a frame so layout settles
+        element.scrollIntoView({ behavior: 'instant', block: 'center' });
+        await new Promise(r => setTimeout(r, 150));
+
+        try {
+            const canvas = await html2canvas(element, {
+                scale: 3,
+                backgroundColor: localStorage.getItem('ct_bg') || '#1a1a1a',
+                useCORS: true,
+                allowTaint: true,
+                logging: false,
+                ignoreElements: el => el.id === 'designPanel' || el.id === 'designOverlay'
+            });
+
+            const params = new URLSearchParams(window.location.search);
+            const memberName = (params.get('nombre') || 'Miembro')
+                .trim()
+                .replace(/\s+/g, '_')
+                .replace(/[^a-zA-Z0-9_\-]/g, '');
+
+            const filename = `${filenamePrefix}_${memberName || 'Miembro'}.jpg`;
+
+            canvas.toBlob((blob) => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }, 'image/jpeg', 0.95);
+        } catch (error) {
+            console.error('Error al generar JPG:', error);
+            alert('No se pudo descargar el carnet como imagen.');
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        loadMemberBackCarnet();
+        applyDesignState(loadDesignState());
+    });
+</script>
+</body>
+</html>

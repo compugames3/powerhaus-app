@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PowerHaus | Editar Entrenador</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: {
+                    primary: "#003ec7",
+                    "surface-bright": "#faf8ff",
+                    surface: "#f4f6fa",
+                    "surface-container-high": "#e2e7ff",
+                },
+                fontFamily: {
+                    headline: ["Manrope"],
+                    body: ["Inter"],
+                }
+            }
+        }
+    }
+</script>
+<style>
+    body { font-family: 'Inter', sans-serif; background-color: #f0f2f5; }
+    h1, h2, h3, h4, .font-headline { font-family: 'Manrope', sans-serif; }
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+    .photo-ring { background: linear-gradient(135deg, #003ec7, #0052ff); padding: 3px; border-radius: 1.5rem; }
+
+    /* Toast */
+    #toast { transition: opacity 0.4s, transform 0.4s; }
+    #toast.show { opacity:1 !important; transform: translateY(0) !important; }
+
+    /* Input focus */
+    input:focus, select:focus, textarea:focus { outline: none; ring: 0; border-color: #004cf0; box-shadow: 0 0 0 3px rgba(0,76,240,0.15); }
+</style>
+    <script src="theme-applier.js"></script>
+</head>
+<body class="text-slate-800 flex min-h-screen">
+
+<!-- SideNavBar -->
+<aside class="hidden md:flex flex-col h-screen w-64 sticky top-0 bg-slate-100 dark:bg-slate-900 py-6">
+<div class="px-6 mb-10">
+<div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-[#0d4cf0] rounded-full flex items-center justify-center text-white shadow-md">
+                <span class="material-symbols-outlined -rotate-45 notranslate" translate="no" style="font-variation-settings: 'FILL' 1; font-size: 24px;">fitness_center</span>
+            </div>
+            <div>
+                <h1 class="text-[1.3rem] font-black text-slate-800 dark:text-slate-50 tracking-tight leading-none mb-0.5">PowerHaus</h1>
+                <p class="text-[9px] tracking-[0.06em] uppercase font-bold text-slate-500 leading-none">ELITE PERFORMANCE</p>
+            </div>
+        </div>
+</div>
+<nav class="flex-1 flex flex-col gap-2">
+<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-slate-50 group text-slate-500 dark:text-slate-400" href="administrador.html">
+<span class="material-symbols-outlined group-hover:scale-125 transition-all duration-300 notranslate" translate="no">dashboard</span>
+<span class="tracking-wider uppercase text-xs font-bold">Panel Principal</span>
+</a>
+<div class="relative group rounded-l-[1.5rem] ml-4 transition-all duration-300 flex flex-col shadow-sm bg-white dark:bg-slate-800">
+<button onclick="document.getElementById('submenu-miembros').classList.toggle('hidden'); document.getElementById('icon-miembros').classList.toggle('rotate-180')" class="w-full flex justify-between items-center text-emerald-600 dark:text-emerald-400 pl-4 py-3 transition-transform duration-300 hover:translate-x-1 focus:outline-none cursor-pointer select-none">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined notranslate" translate="no">group</span>
+<span class="tracking-wider uppercase text-xs font-bold">Miembros</span>
+</div>
+<span id="icon-miembros" class="material-symbols-outlined text-sm mr-4 transition-transform duration-300 notranslate" translate="no">expand_more</span>
+</button>
+<div id="submenu-miembros" class="flex-col pl-[3.25rem] pb-4 pt-1 hidden gap-3">
+<a href="gestion de miembros.html?view=miembros" class="text-[11px] font-bold tracking-widest text-slate-500 hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-400 transition-colors flex items-center gap-2">
+    <div class="w-1.5 h-1.5 rounded-full bg-transparent border border-slate-300 group-hover:border-emerald-300"></div> MIEMBRO </a>
+<a href="gestion de miembros.html?view=entrenadores" class="text-[11px] font-bold tracking-widest text-slate-500 hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-400 transition-colors flex items-center gap-2">
+    <div class="w-1.5 h-1.5 rounded-full bg-transparent border border-slate-300 group-hover:border-emerald-300"></div> ENTRENADORES
+</a>
+</div>
+</div>
+<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-purple-50 group text-slate-500 dark:text-slate-400" href="calendario.html">
+<span class="material-symbols-outlined group-hover:scale-110 group-hover:-rotate-12 transition-all duration-300 notranslate" translate="no">fitness_center</span>
+<span class="tracking-wider uppercase text-xs font-bold">Clases</span>
+</a>
+<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-amber-50 group text-slate-500 dark:text-slate-400" href="punto de venta.html">
+<span class="material-symbols-outlined group-hover:-translate-y-1 group-hover:scale-110 transition-all duration-300 notranslate" translate="no">badge</span>
+<span class="tracking-wider uppercase text-xs font-bold">Personal</span>
+</a>
+<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-slate-200 group text-slate-500 dark:text-slate-400" href="cierre.html">
+<span class="material-symbols-outlined group-hover:scale-110 transition-all duration-300 notranslate" translate="no" style="font-variation-settings:'FILL' 1">nights_stay</span>
+<span class="tracking-wider uppercase text-xs font-bold">Cierre del Día</span>
+</a>
+
+</nav>
+<div class="px-6 mt-auto flex flex-col gap-4">
+
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 text-slate-500 text-xs font-bold tracking-wider uppercase py-2 hover:text-blue-600" href="soporte.html" target="_blank">
+<span class="material-symbols-outlined text-sm notranslate" translate="no">help</span>
+                    SOPORTE
+                </a>
+<a class="flex items-center gap-3 text-slate-500 text-xs font-bold tracking-wider uppercase py-2 hover:text-blue-600" href="javascript:void(0)" onclick="cerrarSesion(event)">
+<span class="material-symbols-outlined text-sm notranslate" translate="no">logout</span>
+CERRAR SESIÓN</a>
+</div>
+</div>
+</aside>
+
+<!-- Main -->
+<main class="flex-1 flex flex-col min-w-0 bg-[#f8f9fc]">
+
+    <!-- Header -->
+    <header class="flex justify-between items-center w-full px-8 py-5 border-b border-white shrink-0 bg-[#f8f9fc]/80 backdrop-blur-md sticky top-0 z-50">
+        <div>
+            <h2 class="text-xl font-extrabold text-slate-800 tracking-tight">Editar Entrenador</h2>
+            <p class="text-xs text-slate-400 font-medium mt-0.5">Modifica los datos del entrenador y guarda los cambios en la base de datos</p>
+        </div>
+        <div class="flex items-center gap-3">
+            <button onclick="volverAlHistorial()" class="flex items-center gap-2 text-slate-500 hover:text-slate-800 text-sm font-bold px-4 py-2 rounded-xl hover:bg-white transition-all">
+                <span class="material-symbols-outlined text-[18px]">close</span> Cancelar
+            </button>
+            <button onclick="guardarEntrenador()" class="flex items-center gap-2 bg-[#004cf0] hover:bg-[#0038b6] text-white px-6 py-2.5 rounded-xl font-black text-[11px] tracking-widest uppercase shadow-md shadow-blue-500/20 active:scale-95 transition-all">
+                <span class="material-symbols-outlined text-[16px]">save</span> Guardar Cambios
+            </button>
+        </div>
+    </header>
+
+    <!-- Content -->
+    <div class="p-8 pb-16 flex-1 overflow-y-auto">
+        <div class="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+            <!-- Left: Photo + Status -->
+            <div class="lg:col-span-1 flex flex-col gap-6">
+
+                <!-- Photo Card -->
+                <div class="bg-white rounded-[2rem] p-6 shadow-sm border border-slate-100 flex flex-col items-center gap-4">
+                    <div class="photo-ring">
+                        <div class="w-32 h-32 rounded-[1.3rem] overflow-hidden bg-slate-100 flex items-center justify-center" id="photoPreviewWrapper">
+                            <img id="photoPreview" src="" alt="Foto" class="w-full h-full object-cover hidden"/>
+                            <span id="photoInitials" class="text-4xl font-black text-slate-300">?</span>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <p class="font-extrabold text-slate-800 text-base" id="previewName">—</p>
+                        <p class="text-[10px] font-bold text-[#004cf0] uppercase tracking-widest mt-0.5" id="previewSpec">Entrenador</p>
+                    </div>
+
+                    <div class="w-full border-t border-slate-100 pt-4">
+                        <div class="relative group cursor-pointer w-full">
+                            <input type="file" id="file-upload-entrenador" accept="image/*" onchange="handleImageUpload(event, 'avatar-circle-entrenador', 'placeholder-entrenador', 'del-photo-entrenador')" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20">
+                            <input type="hidden" id="trainerPhoto" value="">
+                            <div class="w-full bg-[#eff4ff] border-2 border-dashed border-[#004cf0]/40 rounded-2xl flex flex-col items-center justify-center py-6 text-[#004cf0] hover:bg-[#e6edff] hover:border-[#004cf0] transition-all relative overflow-hidden group-hover:scale-[1.02]">
+                                <div id="placeholder-entrenador" class="flex flex-col items-center justify-center">
+                                    <span class="material-symbols-outlined text-3xl mb-1" translate="no">file_upload</span>
+                                    <span class="text-[10px] font-bold uppercase tracking-widest">SUBIR NUEVA FOTO</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- State Card -->
+                <div class="bg-white rounded-[2rem] p-6 shadow-sm border border-slate-100">
+                    <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Estado del Entrenador</h4>
+                    <div class="flex flex-col gap-3">
+                        <button type="button" onclick="setEstado('Active')" id="estado-Active"
+                            class="estado-opt flex items-center gap-3 p-3 rounded-xl cursor-pointer border-2 border-[#004cf0] bg-[#eef2ff] transition-all w-full text-left">
+                            <div id="dot-Active" class="w-4 h-4 rounded-full bg-emerald-500 flex-shrink-0"></div>
+                            <span id="text-Active" class="text-sm font-bold text-[#004cf0]">Activo</span>
+                        </button>
+                        <button type="button" onclick="setEstado('Inactive')" id="estado-Inactive"
+                            class="estado-opt flex items-center gap-3 p-3 rounded-xl cursor-pointer border-2 border-transparent hover:bg-slate-50 transition-all w-full text-left">
+                            <div id="dot-Inactive" class="w-4 h-4 rounded-full bg-slate-300 flex-shrink-0"></div>
+                            <span id="text-Inactive" class="text-sm font-semibold text-slate-500">Inactivo</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Specialization Card -->
+                <div class="bg-white rounded-[2rem] p-6 shadow-sm border border-slate-100">
+                    <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Nivel / Categoría</h4>
+                    <select id="trainerEstadoFisico"
+                        class="w-full bg-[#f1f4fb] border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-700 font-medium">
+                        <option value="Principiante">Principiante</option>
+                        <option value="Intermedio">Intermedio</option>
+                        <option value="Avanzado">Avanzado</option>
+                        <option value="Elite">Elite</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Right: Main Form -->
+            <div class="lg:col-span-2 flex flex-col gap-6">
+
+                <!-- Personal Info -->
+                <div class="bg-white rounded-[2rem] p-7 shadow-sm border border-slate-100">
+                    <h3 class="text-[11px] font-black text-slate-400 tracking-widest uppercase flex items-center gap-2 mb-6">
+                        <span class="material-symbols-outlined text-[18px] text-[#004cf0]">person</span>
+                        Información Personal
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div class="sm:col-span-2">
+                            <label class="block text-xs font-bold text-slate-600 mb-2">Nombre Completo *</label>
+                            <input id="trainerName" type="text" placeholder="Ej. Carlos Ramírez" oninput="actualizarPreview()"
+                                class="w-full bg-[#f1f4fb] border border-slate-200 rounded-xl px-4 py-3.5 text-sm text-slate-700 font-medium transition-all" required/>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-2">Correo Electrónico *</label>
+                            <input id="trainerEmail" type="email" placeholder="entrenador@powerhaus.com"
+                                class="w-full bg-[#f1f4fb] border border-slate-200 rounded-xl px-4 py-3.5 text-sm text-slate-700 font-medium transition-all" required/>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-2">Teléfono</label>
+                            <div class="flex">
+                            <select id="country-code-editar" class="bg-[#f1f4fb] border border-slate-200 border-r-0 rounded-l-xl px-2 py-3.5 text-sm text-slate-800 font-medium outline-none hover:bg-slate-50 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 cursor-pointer">
+                                <option value="+52">🇲🇽 +52</option>
+                                <option value="+54">🇦🇷 +54</option>
+                                <option value="+591">🇧🇴 +591</option>
+                                <option value="+55">🇧🇷 +55</option>
+                                <option value="+56">🇨🇱 +56</option>
+                                <option value="+57">🇨🇴 +57</option>
+                                <option value="+506">🇨🇷 +506</option>
+                                <option value="+53">🇨🇺 +53</option>
+                                <option value="+593">🇪🇨 +593</option>
+                                <option value="+503">🇸🇻 +503</option>
+                                <option value="+502">🇬🇹 +502</option>
+                                <option value="+504">🇭🇳 +504</option>
+                                <option value="+505">🇳🇮 +505</option>
+                                <option value="+507">🇵🇦 +507</option>
+                                <option value="+595">🇵🇾 +595</option>
+                                <option value="+51">🇵🇪 +51</option>
+                                <option value="+1">🇵🇷 +1</option>
+                                <option value="+1">🇩🇴 +1</option>
+                                <option value="+598">🇺🇾 +598</option>
+                                <option value="+58">🇻🇪 +58</option>
+                                <option value="">Otro</option>
+                            </select>
+                            <input id="trainerPhone" type="tel" placeholder="55 1234 5678"
+                                class="w-full bg-[#f1f4fb] border border-slate-200 border-l-0 rounded-r-xl px-4 py-3.5 text-sm text-slate-700 font-medium outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-all"/>
+                        </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-2">Fecha de Nacimiento</label>
+                            <input id="trainerDob" type="date"
+                                class="w-full bg-[#f1f4fb] border border-slate-200 rounded-xl px-4 py-3.5 text-sm text-slate-700 font-medium transition-all"/>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-2">Especialización</label>
+                            <input id="trainerSpec" type="text" placeholder="Ej. CrossFit / HIIT" oninput="actualizarPreview()"
+                                class="w-full bg-[#f1f4fb] border border-slate-200 rounded-xl px-4 py-3.5 text-sm text-slate-700 font-medium transition-all"/>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Physical Data -->
+                <div class="bg-white rounded-[2rem] p-7 shadow-sm border border-slate-100">
+                    <h3 class="text-[11px] font-black text-slate-400 tracking-widest uppercase flex items-center gap-2 mb-6">
+                        <span class="material-symbols-outlined text-[18px] text-[#004cf0]">monitor_heart</span>
+                        Datos Físicos
+                    </h3>
+                    <div class="grid grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-2">Altura (cm)</label>
+                            <input id="trainerHeight" type="number" placeholder="175"
+                                class="w-full bg-[#f1f4fb] border border-slate-200 rounded-xl px-4 py-3.5 text-sm text-slate-700 font-medium transition-all"/>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-2">Peso (kg)</label>
+                            <input id="trainerWeight" type="number" placeholder="75"
+                                class="w-full bg-[#f1f4fb] border border-slate-200 rounded-xl px-4 py-3.5 text-sm text-slate-700 font-medium transition-all"/>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Security -->
+                <div class="bg-white rounded-[2rem] p-7 shadow-sm border border-slate-100">
+                    <h3 class="text-[11px] font-black text-slate-400 tracking-widest uppercase flex items-center gap-2 mb-2">
+                        <span class="material-symbols-outlined text-[18px] text-[#004cf0]">lock</span>
+                        Seguridad (Opcional)
+                    </h3>
+                    <p class="text-[11px] text-slate-400 mb-6">Deja en blanco para conservar la contraseña actual</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-2">Nueva Contraseña</label>
+                            <div class="relative">
+                                <input id="trainerPass" type="password" placeholder="••••••••"
+                                    class="w-full bg-[#f1f4fb] border border-slate-200 rounded-xl px-4 py-3.5 text-sm text-slate-700 font-medium transition-all pr-12"/>
+                                <button type="button" onclick="togglePass('trainerPass', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700">
+                                    <span class="material-symbols-outlined text-[20px]">visibility</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-2">Confirmar Contraseña</label>
+                            <div class="relative">
+                                <input id="trainerPassConfirm" type="password" placeholder="••••••••"
+                                    class="w-full bg-[#f1f4fb] border border-slate-200 rounded-xl px-4 py-3.5 text-sm text-slate-700 font-medium transition-all pr-12"/>
+                                <button type="button" onclick="togglePass('trainerPassConfirm', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700">
+                                    <span class="material-symbols-outlined text-[20px]">visibility</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons (Bottom) -->
+                <div class="flex items-center justify-between gap-4 bg-white rounded-[2rem] p-6 shadow-sm border border-slate-100">
+                    <button onclick="volverAlHistorial()" class="flex items-center gap-2 text-slate-500 hover:text-slate-800 font-bold text-sm px-5 py-3 rounded-xl hover:bg-slate-50 transition-all">
+                        <span class="material-symbols-outlined text-[18px]">arrow_back</span> Cancelar
+                    </button>
+                    <button onclick="guardarEntrenador()" class="flex items-center gap-2 bg-[#004cf0] hover:bg-[#0038b6] text-white px-8 py-3.5 rounded-xl font-black text-[12px] tracking-widest uppercase shadow-lg shadow-blue-500/25 active:scale-95 transition-all">
+                        <span class="material-symbols-outlined text-[18px]">save</span> Guardar Cambios
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Toast Notification -->
+<div id="toast" class="fixed bottom-6 right-6 z-[200] flex items-center gap-3 bg-white rounded-2xl shadow-2xl shadow-slate-900/10 border border-slate-100 px-5 py-4 opacity-0 translate-y-4 pointer-events-none transition-all duration-400">
+    <div id="toastIcon" class="w-8 h-8 rounded-xl flex items-center justify-center text-white bg-emerald-500 shrink-0">
+        <span class="material-symbols-outlined text-[18px]" style="font-variation-settings:'FILL' 1">check_circle</span>
+    </div>
+    <div>
+        <p id="toastTitle" class="text-sm font-extrabold text-slate-800">¡Guardado!</p>
+        <p id="toastMsg" class="text-xs text-slate-500 font-medium">Los cambios se guardaron correctamente.</p>
+    </div>
+</div>
+
+<script>
+    let currentEstado = 'Active';
+    let trainerOriginalId = null;
+    let trainerOriginalEmail = null;
+
+    function volverAlHistorial() {
+        const nombre = localStorage.getItem('trainerToEdit') || '';
+        if (nombre) {
+            window.location.href = 'historial.html?nombre=' + encodeURIComponent(nombre);
+        } else {
+            window.location.href = 'historial.html';
+        }
+    }
+
+    
+    function handleImageUpload(e, bgElementId, placeholderId, delBtnId) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                const url = evt.target.result;
+                const img = document.getElementById('photoPreview');
+                const ini = document.getElementById('photoInitials');
+                const hid = document.getElementById('trainerPhoto');
+                if(img && ini && hid) {
+                     img.src = url;
+                     img.classList.remove('hidden');
+                     ini.classList.add('hidden');
+                     hid.value = url;
+                }
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+    
+    // ---- Load trainer data from DB ----
+    window.addEventListener('DOMContentLoaded', async () => {
+        const nombreToEdit = localStorage.getItem('trainerToEdit');
+        if (!nombreToEdit) {
+            history.back();
+            return;
+        }
+
+        try {
+            const res = await fetch('/api/users');
+            if (!res.ok) throw new Error('No se pudo conectar al servidor');
+            const users = await res.json();
+
+            const trainer = users.find(u =>
+                u.name && u.name.toLowerCase() === nombreToEdit.toLowerCase()
+                && (u.role === 'Entrenador' || u.role === 'Trainer' || u.role === 'Staff')
+            ) || users.find(u => u.name && u.name.toLowerCase() === nombreToEdit.toLowerCase());
+
+            if (!trainer) {
+                showToast('No se encontró el entrenador en la base de datos.', 'Error', true);
+                setTimeout(() => history.back(), 2000);
+                return;
+            }
+
+            trainerOriginalId = trainer.id || null;
+            trainerOriginalEmail = trainer.email || null;
+
+            // Fill form
+            document.getElementById('trainerName').value = trainer.name || '';
+            document.getElementById('trainerEmail').value = trainer.email || '';
+            const splitPhone = (fullPhone, telId, codeId) => {
+                if (!fullPhone) return;
+                const telInput = document.getElementById(telId);
+                const codeSelector = document.getElementById(codeId);
+                if (!telInput || !codeSelector) return;
+                let matchedCode = '';
+                Array.from(codeSelector.options).forEach(opt => {
+                    const pureOpt = opt.value.trim();
+                    const purePhone = fullPhone.trim();
+                    if (pureOpt && purePhone.startsWith(pureOpt) && pureOpt.length > matchedCode.length) {
+                        matchedCode = pureOpt;
+                    }
+                });
+                if (matchedCode) {
+                    codeSelector.value = matchedCode;
+                    telInput.value = fullPhone.trim().substring(matchedCode.length).trim();
+                } else {
+                    telInput.value = fullPhone;
+                }
+            };
+            
+            splitPhone(trainer.phone || trainer.telefono || trainer.celular || trainer.cel, 'trainerPhone', 'country-code-editar');
+            document.getElementById('trainerDob').value = trainer.dob || trainer.fechaNacimiento || '';
+            document.getElementById('trainerHeight').value = trainer.height || '';
+            document.getElementById('trainerWeight').value = trainer.weight || '';
+            document.getElementById('trainerSpec').value = trainer.spec || trainer.especialidad || '';
+            document.getElementById('trainerPhoto').value = trainer.photo || '';
+
+            // Set estado
+            setEstado(trainer.state || 'Active');
+
+            // Set nivel
+            const nivelSel = document.getElementById('trainerEstadoFisico');
+            if (trainer.estadoFisico) nivelSel.value = trainer.estadoFisico;
+
+            // Update preview
+            actualizarPreview();
+            actualizarFoto();
+
+        } catch (err) {
+            showToast('Error: ' + err.message, 'Error de Conexión', true);
+        }
+    });
+
+    // ---- Live preview updates ----
+    function actualizarPreview() {
+        const nombre = document.getElementById('trainerName').value.trim();
+        const spec = document.getElementById('trainerSpec').value.trim();
+        document.getElementById('previewName').textContent = nombre || '—';
+        document.getElementById('previewSpec').textContent = spec || 'Entrenador';
+        document.getElementById('photoInitials').textContent = nombre ? nombre.charAt(0).toUpperCase() : '?';
+    }
+
+    function actualizarFoto() {
+        const url = document.getElementById('trainerPhoto').value.trim();
+        const img = document.getElementById('photoPreview');
+        const initials = document.getElementById('photoInitials');
+        if (url) {
+            img.src = url;
+            img.classList.remove('hidden');
+            initials.classList.add('hidden');
+            img.onerror = () => {
+                img.classList.add('hidden');
+                initials.classList.remove('hidden');
+            };
+        } else {
+            img.classList.add('hidden');
+            initials.classList.remove('hidden');
+        }
+    }
+
+    // ---- Estado toggle ----
+    function setEstado(estado) {
+        currentEstado = estado;
+
+        // Reset both buttons
+        const estados = ['Active', 'Inactive'];
+        estados.forEach(e => {
+            const btn = document.getElementById('estado-' + e);
+            const dot = document.getElementById('dot-' + e);
+            const txt = document.getElementById('text-' + e);
+            if (!btn) return;
+            btn.className = 'estado-opt flex items-center gap-3 p-3 rounded-xl cursor-pointer border-2 border-transparent hover:bg-slate-50 transition-all w-full text-left';
+            dot.className = 'w-4 h-4 rounded-full flex-shrink-0 ' + (e === 'Active' ? 'bg-slate-300' : 'bg-slate-300');
+            txt.className = 'text-sm font-semibold text-slate-500';
+        });
+
+        // Activate selected
+        const activeBtn = document.getElementById('estado-' + estado);
+        const activeDot = document.getElementById('dot-' + estado);
+        const activeTxt = document.getElementById('text-' + estado);
+        if (activeBtn) {
+            if (estado === 'Active') {
+                activeBtn.className = 'estado-opt flex items-center gap-3 p-3 rounded-xl cursor-pointer border-2 border-emerald-500 bg-emerald-50 transition-all w-full text-left';
+                activeTxt.className = 'text-sm font-bold text-emerald-600';
+                activeDot.className = 'w-4 h-4 rounded-full flex-shrink-0 bg-emerald-500 shadow-sm shadow-emerald-500/40';
+            } else {
+                activeBtn.className = 'estado-opt flex items-center gap-3 p-3 rounded-xl cursor-pointer border-2 border-red-500 bg-red-50 transition-all w-full text-left';
+                activeTxt.className = 'text-sm font-bold text-red-600';
+                activeDot.className = 'w-4 h-4 rounded-full flex-shrink-0 bg-red-500 shadow-sm shadow-red-500/40';
+            }
+        }
+    }
+
+    // ---- Password visibility ----
+    function togglePass(inputId, btn) {
+        const inp = document.getElementById(inputId);
+        const icon = btn.querySelector('.material-symbols-outlined');
+        if (inp.type === 'password') {
+            inp.type = 'text';
+            icon.textContent = 'visibility_off';
+        } else {
+            inp.type = 'password';
+            icon.textContent = 'visibility';
+        }
+    }
+
+    // ---- Save to DB ----
+    async function guardarEntrenador() {
+        const nombre = document.getElementById('trainerName').value.trim();
+        const email = document.getElementById('trainerEmail').value.trim();
+
+        if (!nombre || !email) {
+            showToast('El nombre y el correo son obligatorios.', 'Faltan Datos', true);
+            return;
+        }
+
+        const pass = document.getElementById('trainerPass').value;
+        const passConfirm = document.getElementById('trainerPassConfirm').value;
+
+        if (pass !== '' && pass !== passConfirm) {
+            showToast('Las contraseñas no coinciden.', 'Error de Seguridad', true);
+            return;
+        }
+
+        const telRaw = document.getElementById('trainerPhone').value.trim();
+        const telCode = document.getElementById('country-code-editar') ? document.getElementById('country-code-editar').value : '';
+        const phoneFinal = telRaw ? (telCode + ' ' + telRaw).trim() : '';
+
+        const updatedData = {
+            name: nombre,
+            email: email,
+            phone: phoneFinal,
+            dob: document.getElementById('trainerDob').value,
+            height: document.getElementById('trainerHeight').value,
+            weight: document.getElementById('trainerWeight').value,
+            spec: document.getElementById('trainerSpec').value.trim(),
+            especialidad: document.getElementById('trainerSpec').value.trim(),
+            estadoFisico: document.getElementById('trainerEstadoFisico').value,
+            photo: document.getElementById('trainerPhoto').value.trim(),
+            state: currentEstado,
+        };
+
+        if (pass !== '') updatedData.pass = pass;
+
+        // Use id if available, otherwise email
+        const identifier = trainerOriginalId || trainerOriginalEmail;
+        if (!identifier) {
+            showToast('No se pudo identificar al entrenador.', 'Error', true);
+            return;
+        }
+
+        try {
+            const res = await fetch('/api/users/' + identifier, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updatedData)
+            });
+
+            if (!res.ok) throw new Error('Respuesta del servidor: ' + res.status);
+
+            // Update localStorage trainerToEdit with new name
+            localStorage.setItem('trainerToEdit', nombre);
+
+            showToast('Datos del entrenador actualizados correctamente.', '¡Guardado!', false);
+            setTimeout(() => {
+                window.location.href = 'historial.html?nombre=' + encodeURIComponent(nombre);
+            }, 1800);
+
+        } catch (err) {
+            showToast('Error al guardar: ' + err.message, 'Error de Conexión', true);
+        }
+    }
+
+    // ---- Toast ----
+    function showToast(msg, title = '¡Listo!', isError = false) {
+        const toast = document.getElementById('toast');
+        const icon = document.getElementById('toastIcon');
+        const toastTitle = document.getElementById('toastTitle');
+        const toastMsg = document.getElementById('toastMsg');
+
+        toastTitle.textContent = title;
+        toastMsg.textContent = msg;
+
+        icon.className = `w-8 h-8 rounded-xl flex items-center justify-center text-white shrink-0 ${isError ? 'bg-red-500' : 'bg-emerald-500'}`;
+        icon.querySelector('span').textContent = isError ? 'error' : 'check_circle';
+
+        toast.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
+        toast.classList.add('show');
+        setTimeout(() => {
+            toast.classList.remove('show');
+            toast.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
+        }, 3500);
+    }
+</script>
+<script src="cerrar-sesion.js"></script>
+
+<script src="powerhaus-chat.js"></script>
+</body>
+</html>
+
+
+
+

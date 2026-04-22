@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PowerHaus - Member Management</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed": "#3c0800",
+                    "tertiary-fixed": "#ffdbd2",
+                    "surface": "#faf8ff",
+                    "outline": "#737688",
+                    "surface-dim": "#d2d9f4",
+                    "surface-container-highest": "#dae2fd",
+                    "primary": "#003ec7",
+                    "inverse-primary": "#b7c4ff",
+                    "on-secondary-fixed-variant": "#3a485b",
+                    "on-secondary-fixed": "#0d1c2e",
+                    "background": "#faf8ff",
+                    "primary-fixed-dim": "#b7c4ff",
+                    "on-error": "#ffffff",
+                    "on-background": "#131b2e",
+                    "on-tertiary-container": "#ffddd5",
+                    "secondary-container": "#d5e3fc",
+                    "on-primary-fixed": "#001452",
+                    "error-container": "#ffdad6",
+                    "surface-variant": "#dae2fd",
+                    "on-secondary-container": "#57657a",
+                    "on-surface-variant": "#434656",
+                    "on-primary": "#ffffff",
+                    "inverse-on-surface": "#eef0ff",
+                    "secondary": "#515f74",
+                    "secondary-fixed": "#d5e3fc",
+                    "surface-container-high": "#e2e7ff",
+                    "tertiary-container": "#bf3003",
+                    "surface-container-low": "#f2f3ff",
+                    "on-primary-fixed-variant": "#0038b6",
+                    "surface-tint": "#004ced",
+                    "inverse-surface": "#283044",
+                    "on-primary-container": "#dfe3ff",
+                    "surface-container": "#eaedff",
+                    "on-surface": "#131b2e",
+                    "surface-bright": "#faf8ff",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "tertiary": "#952200",
+                    "secondary-fixed-dim": "#b9c7df",
+                    "outline-variant": "#c3c5d9",
+                    "tertiary-fixed-dim": "#ffb4a1",
+                    "on-tertiary-fixed-variant": "#891e00",
+                    "error": "#ba1a1a",
+                    "on-error-container": "#93000a",
+                    "on-tertiary": "#ffffff",
+                    "primary-container": "#0052ff",
+                    "primary-fixed": "#dde1ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "2xl": "1.5rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        }
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .font-headline { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .signature-gradient {
+            background: linear-gradient(135deg, #003ec7 0%, #0052ff 100%);
+        }
+    </style>
+    <script src="theme-applier.js"></script>
+</head>
+<body class="bg-background text-on-background min-h-screen flex">
+<!-- SideNavBar (Authority: JSON) -->
+<aside class="hidden md:flex flex-col h-screen w-64 sticky top-0 bg-slate-100 dark:bg-slate-900 py-6">
+<div class="px-6 mb-10">
+<div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-[#0d4cf0] rounded-full flex items-center justify-center text-white shadow-md">
+                <span class="material-symbols-outlined -rotate-45 notranslate" translate="no" style="font-variation-settings: 'FILL' 1; font-size: 24px;">fitness_center</span>
+            </div>
+            <div>
+                <h1 class="text-[1.3rem] font-black text-slate-800 dark:text-slate-50 tracking-tight leading-none mb-0.5">PowerHaus</h1>
+                <p class="text-[9px] tracking-[0.06em] uppercase font-bold text-slate-500 leading-none">ELITE PERFORMANCE</p>
+            </div>
+        </div>
+</div>
+<nav class="flex-1 flex flex-col gap-2">
+<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-slate-50 group text-slate-500 dark:text-slate-400" href="administrador.html">
+<span class="material-symbols-outlined group-hover:scale-125 transition-all duration-300 notranslate" translate="no">dashboard</span>
+<span class="tracking-wider uppercase text-xs font-bold">Panel Principal</span>
+</a>
+<div class="relative group rounded-l-[1.5rem] ml-4 transition-all duration-300 flex flex-col shadow-sm bg-white dark:bg-slate-800">
+<button onclick="document.getElementById('submenu-miembros').classList.toggle('hidden'); document.getElementById('icon-miembros').classList.toggle('rotate-180')" class="w-full flex justify-between items-center text-emerald-600 dark:text-emerald-400 pl-4 py-3 transition-transform duration-300 hover:translate-x-1 focus:outline-none cursor-pointer select-none">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined notranslate" translate="no">group</span>
+<span class="tracking-wider uppercase text-xs font-bold">Miembros</span>
+</div>
+<span id="icon-miembros" class="material-symbols-outlined text-sm mr-4 transition-transform duration-300 notranslate" translate="no">expand_more</span>
+</button>
+<div id="submenu-miembros" class="flex-col pl-[3.25rem] pb-4 pt-1 hidden gap-3">
+<a href="gestion de miembros.html?view=miembros" class="text-[11px] font-bold tracking-widest text-slate-500 hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-400 transition-colors flex items-center gap-2">
+    <div class="w-1.5 h-1.5 rounded-full bg-transparent border border-slate-300 group-hover:border-emerald-300"></div> MIEMBRO </a>
+<a href="gestion de miembros.html?view=entrenadores" class="text-[11px] font-bold tracking-widest text-slate-500 hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-400 transition-colors flex items-center gap-2">
+    <div class="w-1.5 h-1.5 rounded-full bg-transparent border border-slate-300 group-hover:border-emerald-300"></div> ENTRENADORES
+</a>
+</div>
+</div>
+<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-purple-50 group text-slate-500 dark:text-slate-400" href="calendario.html">
+<span class="material-symbols-outlined group-hover:scale-110 group-hover:-rotate-12 transition-all duration-300 notranslate" translate="no">fitness_center</span>
+<span class="tracking-wider uppercase text-xs font-bold">Clases</span>
+</a>
+<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-amber-50 group text-slate-500 dark:text-slate-400" href="punto de venta.html">
+<span class="material-symbols-outlined group-hover:-translate-y-1 group-hover:scale-110 transition-all duration-300 notranslate" translate="no">badge</span>
+<span class="tracking-wider uppercase text-xs font-bold">Personal</span>
+</a>
+<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-slate-200 group text-slate-500 dark:text-slate-400" href="cierre.html">
+<span class="material-symbols-outlined group-hover:scale-110 transition-all duration-300 notranslate" translate="no" style="font-variation-settings:'FILL' 1">nights_stay</span>
+<span class="tracking-wider uppercase text-xs font-bold">Cierre del Día</span>
+</a>
+
+</nav>
+<div class="px-6 mt-auto flex flex-col gap-4">
+
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 text-slate-500 text-xs font-bold tracking-wider uppercase py-2 hover:text-blue-600" href="soporte.html" target="_blank">
+<span class="material-symbols-outlined text-sm notranslate" translate="no">help</span>
+                    SOPORTE
+                </a>
+<a class="flex items-center gap-3 text-slate-500 text-xs font-bold tracking-wider uppercase py-2 hover:text-blue-600" href="javascript:void(0)" onclick="cerrarSesion(event)">
+<span class="material-symbols-outlined text-sm notranslate" translate="no">logout</span>
+CERRAR SESIÓN</a>
+</div>
+</div>
+</aside>
+<main class="flex-1 flex flex-col min-w-0">
+<!-- TopNavBar (Authority: JSON) -->
+<header class="bg-slate-50/70 dark:bg-slate-950/70 backdrop-blur-xl docked full-width top-0 sticky z-50 shadow-sm flex justify-between items-center w-full px-8 py-4">
+<div class="flex items-center gap-6 flex-1">
+<div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 bg-[#0d4cf0] rounded-full flex items-center justify-center text-white shadow-sm">
+                <span class="material-symbols-outlined -rotate-45 notranslate" translate="no" style="font-variation-settings: 'FILL' 1; font-size: 18px;">fitness_center</span>
+            </div>
+            <div>
+                <h1 class="text-base font-black text-slate-800 dark:text-slate-50 tracking-tight leading-none mb-0.5">PowerHaus</h1>
+                <p class="text-[7.5px] tracking-[0.08em] uppercase font-bold text-slate-500 leading-none">ELITE PERFORMANCE</p>
+            </div>
+        </div>
+<div class="relative max-w-md w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xl notranslate" translate="no" data-icon="search">search</span>
+<input class="w-full bg-surface-container-high border-none rounded-full pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all" placeholder="Buscar un miembro o plan..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-2 sm:gap-4">
+<div class="flex items-center gap-1 sm:gap-2">
+<button class="p-2 rounded-full text-slate-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors">
+<span class="material-symbols-outlined notranslate" translate="no" data-icon="notifications">notifications</span>
+</button>
+
+
+</div>
+<div class="h-8 w-[1px] bg-slate-200 mx-1 sm:mx-2 hidden sm:block"></div>
+<div class="flex items-center gap-3">
+<div class="text-right hidden sm:block mr-2">
+<p class="text-xs font-bold text-on-surface">admin</p>
+<p class="text-[10px] text-slate-500 tracking-tight">admin</p>
+</div>
+<div class="relative prdeile-dropdown-container">
+<button onclick="document.getElementById('dropdown-miembros').classList.toggle('hidden')" class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/10 transition-all active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary block">
+<img alt="Manager Profile" class="w-full h-full object-cover" data-alt="Close-up portrait of a professional male facility manager in a modern fitness center office setting, bright natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1yrXufMXjgvHeMSdCSfP8fSbkl0nQbHSMvBYB7bh_KKtZIzusZ-ztSLqsS8xwv6vpa2mlH-NdbH-Dw1OceYcxOhJnIxBxBaVBc-aT5wI9xJgwqRCxOdOG6-pvA7jL07p4HMMf0ziEwAzvszbUf3OQOE_EsAmILXIDTrgjR4Vvmc98njNqh2Tv4-UszM-83V53UrFyUO6n-rPlznok4eOxNgg3cMSyV-udql81j5VD2ppN_SlXNS4YpkVv6eYsndFmnZ54tpeeIqU"/>
+</button>
+<div id="dropdown-members" class="hidden absolute right-0 mt-3 w-48 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-100 dark:border-slate-700 overflow-hidden z-50">
+<button onclick="cerrarSesion()" class="w-full text-left px-4 py-3 flex items-center gap-2 text-[#ba1a1a] hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+<span class="material-symbols-outlined text-[18px] notranslate" translate="no">logout</span>
+<span class="text-sm font-bold">Cerrar Sesión</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<!-- Main Content Space -->
+<div class="relative bg-slate-50 flex-1 min-h-[500px]">
+    <!-- Blue Header Background -->
+    <div class="absolute top-0 left-0 w-full h-48 bg-[#004cf0] z-0 flex flex-col justify-end pb-8 pl-[5%] sm:pl-8">
+        <!-- Background watermark -->
+        <span class="material-symbols-outlined absolute right-10 -bottom-10 text-[200px] text-white/5 notranslate select-none" translate="no" style="font-variation-settings: 'FILL' 1;">fitness_center</span>
+
+    </div>
+
+    <!-- Content Container -->
+    <div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 pt-24 pb-12">
+        
+        <!-- Big Profile Card -->
+        <div class="bg-white rounded-[2rem] shadow-xl shadow-slate-200/50 p-6 sm:p-8 flex flex-col lg:flex-row items-center gap-8 mb-8 border border-white relative overflow-hidden">
+            <!-- Profile Avatar & Details -->
+            <div class="relative group shrink-0 z-10 mt-2 lg:mt-0">
+                <div class="w-24 h-24 sm:w-32 sm:h-32 bg-slate-200 rounded-3xl overflow-hidden shadow-md shadow-slate-300 flex items-center justify-center text-5xl font-black text-white bg-gradient-to-tr from-slate-400 to-slate-200" id="profileInicial">A</div>
+                <div id="profilePhoto" class="absolute inset-0 hidden rounded-3xl overflow-hidden shadow-md shadow-slate-300">
+                     <img src="" class="w-full h-full object-cover" id="profileImg" />
+                </div>
+                <!-- Status Badge -->
+                <div class="absolute -bottom-2 -left-2 sm:-right-2 sm:left-auto bg-[#004cf0] text-white text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full border-[3px] border-white shadow-sm" id="profileState">ACTIVO</div>
+            </div>
+            
+            <div class="flex-1 text-center lg:text-left flex flex-col xl:flex-row justify-between items-center xl:items-center gap-6 relative z-10">
+                <!-- Info Grid -->
+                <div class="flex flex-col sm:flex-row items-center sm:items-start gap-8 relative z-10">
+                    <div class="flex flex-col text-center lg:text-left">
+                        <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-1">MIEMBRO</span>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-800 leading-tight" id="profileName">Cargando...</h2>
+                        <a href="#" class="text-xs font-semibold text-slate-500 hover:text-[#004cf0] hover:underline transition-colors mt-0.5 inline-block" id="profileEmail">...</a>
+                        <a href="#" target="_blank" class="text-xs font-black text-emerald-600 hover:text-emerald-700 hover:underline transition-colors mt-0.5 flex items-center lg:justify-start justify-center gap-1" id="profilePhoneBanner" style="display:none;"><span class="material-symbols-outlined text-[14px]">phone_iphone</span><span id="profilePhoneBannerText">...</span></a>
+                    </div>
+                    
+                    <div class="w-px h-12 bg-slate-100 hidden sm:block mt-2"></div>
+                    
+                    <div class="flex flex-col items-center sm:items-start">
+                        <span class="text-[9px] text-slate-400 font-bold uppercase tracking-widest mb-1">MEMBRESÍA</span>
+                        <div class="flex items-center gap-1.5 text-slate-700 mt-0.5">
+                            <span class="material-symbols-outlined text-[#004cf0] text-[20px] notranslate" translate="no" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+                            <span class="font-extrabold text-[15px]" id="profilePlan">Gold Elite</span>
+                        </div>
+                    </div>
+
+                    <div class="w-px h-12 bg-slate-100 hidden sm:block mt-2"></div>
+                    
+                    <div class="flex flex-col items-center sm:items-start">
+                        <span class="text-[9px] text-slate-400 font-bold uppercase tracking-widest mb-1">DESDE</span>
+                        <div class="flex items-center gap-1.5 text-slate-700 mt-0.5">
+                            <span class="material-symbols-outlined text-slate-400 text-[18px] notranslate" translate="no" style="font-variation-settings: 'FILL' 1;">calendar_month</span>
+                            <span class="font-extrabold text-[15px]" id="profileDesde">---</span>
+                        </div>
+                    </div>
+                    
+                    <div class="w-px h-12 bg-slate-100 hidden sm:block mt-2"></div>
+                    
+                    <div class="flex flex-col items-center sm:items-start">
+                        <span class="text-[9px] text-slate-400 font-bold uppercase tracking-widest mb-1">TOTAL VISITAS</span>
+                        <div class="flex items-center gap-1.5 text-slate-700 mt-0.5">
+                            <span class="material-symbols-outlined text-slate-400 text-[18px] notranslate" translate="no" style="font-variation-settings: 'FILL' 1;">bolt</span>
+                            <span class="font-extrabold text-[15px]"><span id="profileVisits">0</span> <span class="text-[11px] font-semibold text-slate-500 ml-0.5">Sesiones</span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Button -->
+                <div class="relative z-10 w-full xl:w-auto flex flex-col items-center mt-2 xl:mt-0 xl:min-w-[170px] gap-3">
+                     <div class="flex items-center gap-2 w-full sm:w-auto">
+                         <button id="btnEditProfile" class="bg-[#eef0ff] text-[#004cf0] hover:bg-[#dfe3ff] px-6 py-3 rounded-xl font-bold flex flex-1 items-center justify-center gap-2 transition-all active:scale-95 shadow-sm text-xs uppercase tracking-wider">
+                             <span class="material-symbols-outlined text-sm notranslate" translate="no">edit</span>
+                             Editar Perfil
+                         </button>
+                         <button id="btnCarnet" class="bg-emerald-50 text-emerald-600 hover:bg-emerald-100 px-6 py-3 rounded-xl font-bold flex flex-1 items-center justify-center gap-2 transition-all active:scale-95 shadow-sm text-xs uppercase tracking-wider">
+                             <span class="material-symbols-outlined text-sm notranslate" translate="no">badge</span>
+                             Carnet
+                         </button>
+                     </div>
+
+                </div>
+            </div>
+            <!-- Abstract background shape -->
+            <div class="absolute right-0 top-0 w-[400px] h-[400px] bg-gradient-to-br from-[#eef0ff]/80 to-transparent -translate-y-1/3 translate-x-1/4 rounded-full pointer-events-none"></div>
+        </div>
+
+
+        <!-- Navigation Tabs -->
+        <div class="flex items-center gap-3 mb-8 overflow-x-auto pb-2 scrollbar-hide" id="profileTabs">
+            <button id="tab-clases" onclick="switchTab('clases')" class="bg-white text-[#004cf0] shadow-sm shadow-blue-100/50 px-6 py-3 rounded-full font-extrabold text-[11px] uppercase tracking-wider whitespace-nowrap border border-blue-50 transition-all">Asistencia a Clases</button>
+            <button id="tab-asistencia" onclick="switchTab('asistencia')" class="bg-transparent text-slate-500 hover:bg-white hover:shadow-sm px-6 py-3 rounded-full font-bold text-[11px] uppercase tracking-wider whitespace-nowrap transition-colors border border-transparent hover:border-slate-100">Historial de Asistencia</button>
+            <button id="tab-pagos" onclick="switchTab('pagos')" class="bg-transparent text-slate-500 hover:bg-white hover:shadow-sm px-6 py-3 rounded-full font-bold text-[11px] uppercase tracking-wider whitespace-nowrap transition-colors border border-transparent hover:border-slate-100">Historial de Pagos</button>
+            <button id="tab-consumos" onclick="switchTab('consumos')" class="bg-transparent text-slate-500 hover:bg-white hover:shadow-sm px-6 py-3 rounded-full font-bold text-[11px] uppercase tracking-wider whitespace-nowrap transition-colors border border-transparent hover:border-slate-100">Consumos y Artículos</button>
+            <button id="tab-progreso" class="bg-transparent text-slate-500 hover:bg-white hover:shadow-sm px-6 py-3 rounded-full font-bold text-[11px] uppercase tracking-wider whitespace-nowrap transition-colors border border-transparent hover:border-slate-100 opacity-50 cursor-not-allowed">Progreso Físico</button>
+        </div>
+
+        <!-- Dashboard Grid (Clases/Progreso) -->
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 sm:gap-8 active-view" id="view-clases">
+            
+            <!-- Left Column (Wider) -->
+            <div class="col-span-1 xl:col-span-2 flex flex-col gap-6 sm:gap-8">
+                <!-- Últimas Clases section -->
+                <div class="bg-white rounded-[2rem] p-6 sm:p-8 shadow-sm border border-slate-100 overflow-hidden relative group">
+                    <div class="flex items-center justify-between mb-8">
+                        <h3 class="text-[17px] font-extrabold text-slate-800">Últimas Clases</h3>
+                        <a href="calendario.html" class="text-xs font-bold text-[#004cf0] flex items-center gap-1 hover:text-blue-800 transition-colors bg-[#eef0ff] px-4 py-1.5 rounded-full">Ver todo <span class="material-symbols-outlined text-sm" translate="no">arrow_forward</span></a>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full min-w-[500px]">
+                            <thead>
+                                <tr class="text-[9px] uppercase tracking-widest font-black text-slate-400 border-b border-slate-100 text-left">
+                                    <th class="pb-4 pl-2">Fecha</th>
+                                    <th class="pb-4">Clase</th>
+                                    <th class="pb-4">Coach</th>
+                                    <th class="pb-4 text-right pr-2">Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-clases" class="text-sm">
+                                <tr>
+                                    <td colspan="4" class="text-center py-8 text-slate-400 font-bold text-xs italic">Cargando clases...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Datos Físicos -->
+                <div class="bg-white rounded-[2rem] p-6 sm:p-8 shadow-sm border border-slate-100">
+                    <h3 class="text-[17px] font-extrabold text-slate-800 mb-6">Métricas y Datos Físicos</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100 flex flex-col items-center text-center">
+                            <span class="material-symbols-outlined text-slate-400 mb-2">monitor_weight</span>
+                            <span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Peso</span>
+                            <span class="font-extrabold text-[#004cf0] text-lg" id="profileWeight">--</span>
+                        </div>
+                        <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100 flex flex-col items-center text-center">
+                            <span class="material-symbols-outlined text-slate-400 mb-2">height</span>
+                            <span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Altura</span>
+                            <span class="font-extrabold text-[#004cf0] text-lg" id="profileHeight">--</span>
+                        </div>
+                        <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100 flex flex-col items-center text-center">
+                            <span class="material-symbols-outlined text-slate-400 mb-2">fitness_center</span>
+                            <span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Estado</span>
+                            <span class="font-extrabold text-[#004cf0] text-sm mt-1" id="profileNivel">--</span>
+                        </div>
+                        <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100 flex flex-col items-center text-center">
+                            <span class="material-symbols-outlined text-slate-400 mb-2">cake</span>
+                            <span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Nacimiento</span>
+                            <span class="font-extrabold text-[#004cf0] text-xs mt-1" id="profileDob">--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column (Narrower) -->
+            <div class="col-span-1 flex flex-col gap-6 sm:gap-8">
+                <!-- Progreso Mensual -->
+                <div class="bg-[#f2f3ff] rounded-[2rem] p-6 sm:p-8 border border-blue-100 relative overflow-hidden shadow-inner">
+                    <span class="text-[9px] uppercase tracking-widest font-black text-[#004cf0] mb-1 block">Progreso Mensual</span>
+                    <div class="flex items-baseline gap-2 mb-2">
+                        <h4 class="text-4xl font-black text-[#0038b6]" id="progressVal">+0%</h4>
+                        <span class="text-[10px] font-bold text-blue-800">Participación</span>
+                    </div>
+                    <p class="text-[10px] text-blue-600/70 font-bold mb-8">Comparado con el total de clases.</p>
+                    
+                    <!-- SVG Dial -->
+                    <div class="relative w-full aspect-[2/1] overflow-hidden flex justify-center">
+                        <!-- Half circle gauge background -->
+                        <svg viewBox="0 0 100 50" class="w-[85%] overflow-visible">
+                            <!-- Background track -->
+                            <path d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="#d5e3fc" stroke-width="10" stroke-linecap="round"/>
+                            <!-- Fill track -->
+                            <path id="gaugeLine" d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="#004cf0" stroke-width="10" stroke-linecap="round" stroke-dasharray="125" stroke-dashoffset="125" class="transition-all duration-1000 ease-out"/>
+                            <!-- Text overlay inside gauge -->
+                            <rect x="35" y="35" width="30" height="15" fill="#004cf0" rx="4"></rect>
+                            <text x="50" y="46" font-family="Manrope" font-weight="900" font-size="10" fill="#ffffff" text-anchor="middle" id="gaugeText">0%</text>
+                            <!-- Divider base shadow -->
+                            <line x1="20" y1="50" x2="80" y2="50" stroke="#b7c4ff" stroke-width="3" stroke-linecap="round"/>
+                        </svg>
+                        <p class="absolute -bottom-2 text-[8px] font-black uppercase tracking-widest text-blue-400 flex items-center gap-1"><span class="w-1.5 h-1.5 bg-blue-300 rounded-full inline-block"></span> Objetivo Trimestral</p>
+                    </div>
+                    
+                    <!-- Arrow decoration -->
+                    <span class="material-symbols-outlined absolute right-4 bottom-4 text-[#e2e7ff] text-6xl rotate-[-30deg] notranslate" translate="no" style="font-variation-settings: 'FILL' 1, 'wght' 200;">trending_up</span>
+                </div>
+
+                <!-- Notas del Entrenador -->
+                <div class="bg-white rounded-[2rem] p-6 sm:p-7 shadow-sm border-[1.5px] border-[#004cf0] relative overflow-hidden group">
+                    <h3 class="text-[13px] font-extrabold text-slate-800 mb-5 relative z-10">Notas del Entrenador</h3>
+                    
+                    <div class="flex gap-3 relative z-10">
+                        <div class="w-6 h-6 shrink-0 bg-[#eef0ff] rounded-md flex items-center justify-center text-[#004cf0]">
+                             <span class="material-symbols-outlined text-[13px] notranslate" translate="no">chat_bubble</span>
+                        </div>
+                        <div>
+                            <p class="text-[11px] text-slate-600 leading-relaxed font-bold italic mb-4" id="coachNote">"Este atleta ha mostrado gran compromiso en las clases esta semana. Su resistencia cardiovascular está mejorando notablemente."</p>
+                            <div class="flex items-center justify-end gap-2 text-[9px] text-slate-400 font-bold uppercase tracking-widest">
+                                 <span class="w-4 h-px bg-slate-300"></span> Coach Principal
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-[#f2f3ff] rounded-full pointer-events-none -z-0"></div>
+                </div>
+            </div>
+
+            <!-- START: Moved Pagos Recientes (from tab) to Asistencia a clases -->
+            <div class="col-span-1 xl:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mt-2 border-t border-slate-100 pt-8">
+                <!-- Left: Recientes -->
+                <div class="col-span-1 md:col-span-2 flex flex-col">
+                    <h3 class="text-xl font-extrabold text-slate-800 mb-6">Pagos Recientes</h3>
+                    <div class="flex flex-col gap-4" id="table-pagos-recientes">
+                        <!-- JS injected -->
+                    </div>
+                </div>
+
+                <!-- Right: Renovación -->
+                <div class="col-span-1 flex flex-col justify-start">
+                    <div class="bg-[#1f2937] text-white rounded-[1.5rem] p-7 shadow-2xl shadow-slate-900/10 relative overflow-hidden flex flex-col justify-center">
+                        <h3 class="text-xl font-extrabold mb-1.5 relative z-10 tracking-tight">Próxima Renovación</h3>
+                        <p class="text-[13px] text-slate-300 font-medium mb-6 relative z-10" id="renovacionDesc">Su membresía vence en -- días.</p>
+                        <button id="btnRenovarAhora" class="bg-white text-[#1f2937] hover:bg-slate-100 transition-colors w-full py-3 rounded-xl text-sm font-extrabold shadow-md active:scale-95 relative z-10">
+                            Renovar Ahora
+                        </button>
+                        <div class="absolute -top-12 -right-12 w-40 h-40 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- END: Moved Pagos -->
+        </div>
+
+        <!-- Dashboard Grid (Historial de Asistencia DETALLE) -->
+        <div class="hidden flex-col gap-6 sm:gap-8" id="view-asistencia">
+            <div class="bg-white rounded-[2rem] p-6 sm:p-8 shadow-sm border border-slate-100 overflow-hidden relative">
+                <div class="flex items-center justify-between mb-8">
+                    <h3 class="text-[17px] font-extrabold text-slate-800">Historial Completo de Asistencia</h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full min-w-[700px]">
+                        <thead>
+                            <tr class="text-[9px] uppercase tracking-widest font-black text-slate-400 border-b border-slate-100 text-left">
+                                <th class="pb-4 pl-2">Fecha</th>
+                                <th class="pb-4">Clase / Actividad</th>
+                                <th class="pb-4">Entrada</th>
+                                <th class="pb-4">Salida</th>
+                                <th class="pb-4 text-right pr-2">Estado</th>
+                                <th class="pb-4 text-right px-4"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-asistencia-historial" class="text-sm">
+                            <tr>
+                                <td colspan="6" class="text-center py-8 text-slate-400 font-bold text-xs italic">Cargando historial de asistencia...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Grid (Pagos Historial DETALLE) -->
+        <div class="hidden flex-col gap-6 sm:gap-8" id="view-pagos">
+            <div class="bg-white rounded-[2rem] p-6 sm:p-8 shadow-sm border border-slate-100 overflow-hidden relative">
+                <div class="flex items-center justify-between mb-8">
+                    <h3 class="text-[17px] font-extrabold text-slate-800">Historial Completo de Facturación</h3>
+                    <button class="bg-[#eef0ff] text-[#004cf0] px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider active:scale-95 transition-all">
+                        <span class="material-symbols-outlined text-[14px] align-middle mr-1.5" translate="no">download</span>Exportar
+                    </button>
+                </div>
+                <!-- Resumen Pagos -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                    <div class="bg-emerald-50 border border-emerald-100 p-5 rounded-2xl flex flex-col justify-center">
+                        <p class="text-[10px] text-emerald-600 font-bold uppercase tracking-widest mb-1">Total Pagado</p>
+                        <p class="text-2xl font-black text-emerald-700" id="pagosTotalMonto">$0.00</p>
+                    </div>
+                    <div class="bg-slate-50 border border-slate-100 p-5 rounded-2xl flex flex-col justify-center">
+                        <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-1">Plan Actual</p>
+                        <p class="text-lg font-black text-slate-700 leading-tight" id="pagosPlanActual">--</p>
+                    </div>
+                    <div class="bg-blue-50 border border-blue-100 p-5 rounded-2xl flex flex-col justify-center relative overflow-hidden">
+                        <p class="text-[10px] text-blue-600 font-bold uppercase tracking-widest mb-1 relative z-10">Estado de Membresía</p>
+                        <p class="text-lg font-black text-blue-700 flex items-center gap-2 relative z-10" id="pagosEstadoPlan">
+                            <span class="material-symbols-outlined text-xl" translate="no">verified</span> Al día
+                        </p>
+                        <span class="material-symbols-outlined absolute right-2 -bottom-2 text-6xl text-blue-100/50" translate="no">health_and_safety</span>
+                    </div>
+                </div>
+                <!-- Tabla Resolutiva Pagos -->
+                <div class="overflow-x-auto">
+                    <table class="w-full min-w-[600px]">
+                        <thead>
+                            <tr class="text-[9px] uppercase tracking-widest font-black text-slate-400 border-b border-slate-100 text-left">
+                                <th class="pb-4 pl-2">Fecha / Mes</th>
+                                <th class="pb-4">Descripción</th>
+                                <th class="pb-4">Método</th>
+                                <th class="pb-4">Monto</th>
+                                <th class="pb-4 text-right pr-2">Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-pagos-historial" class="text-sm">
+                            <tr>
+                                <td colspan="5" class="text-center py-8 text-slate-400 font-bold text-xs italic">Cargando historial...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Grid (Consumos DETALLE) -->
+        <div class="hidden flex-col gap-6 sm:gap-8" id="view-consumos">
+            <div class="bg-white rounded-[2rem] p-6 sm:p-8 shadow-sm border border-slate-100 overflow-hidden relative">
+                <div class="flex items-center justify-between mb-8">
+                    <h3 class="text-[17px] font-extrabold text-slate-800">Historial de Consumos y Artículos</h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full min-w-[600px]">
+                        <thead>
+                            <tr class="text-[9px] uppercase tracking-widest font-black text-slate-400 border-b border-slate-100 text-left">
+                                <th class="pb-4 pl-2">Fecha</th>
+                                <th class="pb-4">Artículos</th>
+                                <th class="pb-4 text-right pr-2">Total ($)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-consumos-historial" class="text-sm">
+                            <tr>
+                                <td colspan="3" class="text-center py-8 text-slate-400 font-bold text-xs italic">Cargando consumos...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+            
+            <!-- Global Footer -->
+            <div class="mt-4 flex flex-col sm:flex-row justify-between items-center text-[11px] text-slate-400 font-medium gap-4">
+                <p>© compugames2026</p>
+                <div class="flex flex-wrap gap-4 sm:gap-6 justify-center">
+                    <a href="#" class="hover:text-slate-600 transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-slate-600 transition-colors">Terms of Service</a>
+                    <a href="#" class="hover:text-slate-600 transition-colors">Support</a>
+                </div>
+            </div>
+
+</main>
+<style>
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+</style>
+<script>
+    function switchTab(tabId) {
+        const btnClases = document.getElementById('tab-clases');
+        const btnAsistencia = document.getElementById('tab-asistencia');
+        const btnPagos = document.getElementById('tab-pagos');
+        const btnConsumos = document.getElementById('tab-consumos');
+
+        const activeClasses = "bg-white text-[#004cf0] shadow-sm shadow-blue-100/50 border-blue-50 border transition-all".split(' ');
+        const inactiveClasses = "bg-transparent text-slate-500 hover:bg-white hover:shadow-sm transition-colors border border-transparent hover:border-slate-100".split(' ');
+
+        [btnClases, btnAsistencia, btnPagos, btnConsumos].forEach(btn => {
+            if (!btn) return;
+            btn.classList.remove(...activeClasses);
+            btn.classList.add(...inactiveClasses);
+        });
+
+        const vClases = document.getElementById('view-clases');
+        const vAsistencia = document.getElementById('view-asistencia');
+        const vPagos = document.getElementById('view-pagos');
+        const vConsumos = document.getElementById('view-consumos');
+
+        if (vClases) { vClases.classList.add('hidden'); vClases.classList.remove('grid'); }
+        if (vAsistencia) { vAsistencia.classList.add('hidden'); vAsistencia.classList.remove('flex'); }
+        if (vPagos) { vPagos.classList.add('hidden'); vPagos.classList.remove('flex'); }
+        if (vConsumos) { vConsumos.classList.add('hidden'); vConsumos.classList.remove('flex'); }
+
+        if (tabId === 'clases') {
+            if (btnClases) { btnClases.classList.add(...activeClasses); btnClases.classList.remove(...inactiveClasses); }
+            if (vClases) { vClases.classList.remove('hidden'); vClases.classList.add('grid'); }
+        } else if (tabId === 'asistencia') {
+            if (btnAsistencia) { btnAsistencia.classList.add(...activeClasses); btnAsistencia.classList.remove(...inactiveClasses); }
+            if (vAsistencia) { vAsistencia.classList.remove('hidden'); vAsistencia.classList.add('flex'); }
+        } else if (tabId === 'pagos') {
+            if (btnPagos) { btnPagos.classList.add(...activeClasses); btnPagos.classList.remove(...inactiveClasses); }
+            if (vPagos) { vPagos.classList.remove('hidden'); vPagos.classList.add('flex'); }
+        } else if (tabId === 'consumos') {
+            if (btnConsumos) { btnConsumos.classList.add(...activeClasses); btnConsumos.classList.remove(...inactiveClasses); }
+            if (vConsumos) { vConsumos.classList.remove('hidden'); vConsumos.classList.add('flex'); }
+        }
+    }
+
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        let nombreMiembro = urlParams.get('nombre');
+        
+        if (!nombreMiembro) {
+             window.location.href = 'gestion de miembros.html';
+             return;
+        }
+        
+        document.getElementById('profileName').innerText = nombreMiembro;
+        document.getElementById('profileInicial').innerText = nombreMiembro.charAt(0).toUpperCase();
+
+        try {
+            // Load user profile details
+            const usersReq = await fetch('/api/users?t=' + Date.now(), { cache: 'no-store' });
+            const users = await usersReq.json();
+            let searchedName = nombreMiembro.trim().toLowerCase();
+            let userData = users.find(u => (u.name || '').trim().toLowerCase() === searchedName && (!u.role || u.role.toLowerCase() === 'miembro'));
+            if (!userData) userData = users.find(u => (u.name || '').trim().toLowerCase() === searchedName);
+            
+            if (userData) {
+                const planValue = userData.plan || userData.planLevel || userData.membership || 'Plan Standard';
+                const stateRaw = String(userData.state || userData.status || 'Active').toLowerCase();
+                const emailValue = userData.email || userData.correo || '';
+                const phoneValue = userData.phone || userData.telefono || userData.celular || userData.cel || '';
+
+                document.getElementById('profilePlan').innerText = planValue;
+                document.getElementById('profileState').innerText = stateRaw === 'active' ? 'ACTIVO' : 'INACTIVO';
+                document.getElementById('profileEmail').innerText = emailValue || 'Sin Correo';
+
+                if (phoneValue) {
+                    const pb = document.getElementById('profilePhoneBanner');
+                    const pt = document.getElementById('profilePhoneBannerText');
+                    if (pb && pt) {
+                        pb.style.display = 'flex';
+                        pt.innerText = phoneValue;
+                        const c = String(phoneValue).replace(/[^\d]/g, '');
+                        pb.href = c ? ('https://wa.me/' + c) : '#';
+                    }
+                }
+
+                if (emailValue) {
+                    document.getElementById('profileEmail').href = `https://mail.google.com/mail/?view=cm&fs=1&to=${emailValue}`;
+                    document.getElementById('profileEmail').target = '_blank';
+                }
+
+                let mesesArray = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+
+                let desdeDate = null;
+                if (userData.createdAt) {
+                    const dCreated = new Date(userData.createdAt);
+                    if (!isNaN(dCreated.getTime())) desdeDate = dCreated;
+                }
+                if (!desdeDate && userData.id) {
+                    const dId = new Date(userData.id);
+                    if (!isNaN(dId.getTime())) desdeDate = dId;
+                }
+                if (desdeDate) {
+                    document.getElementById('profileDesde').innerText = `${mesesArray[desdeDate.getMonth()]} ${desdeDate.getFullYear()}`;
+                }
+
+                // Generador de Pagos
+                document.getElementById('pagosPlanActual').innerText = userData.plan || 'Plan Standard';
+                const pagosCards = document.getElementById('table-pagos-recientes');
+                const pagosHistorial = document.getElementById('table-pagos-historial');
+                pagosCards.innerHTML = '';
+                pagosHistorial.innerHTML = '';
+                
+                let totalPagado = 0;
+                
+                // Inicializar matriz de pagos temporal si no existe o generarla retroactivamente para demo
+                if (!userData.payments && userData.id) {
+                    userData.payments = [];
+                    let d = new Date(userData.id);
+                    let currentDate = new Date();
+                    let numPagos = Math.max(1, (currentDate.getFullYear() - d.getFullYear()) * 12 + (currentDate.getMonth() - d.getMonth()) + 1);
+                    if (numPagos > 6) numPagos = 6;
+                    
+                    for(let i=0; i<numPagos; i++) {
+                        let pagoDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - i, Math.min(25, new Date(currentDate.getFullYear(), currentDate.getMonth() - i + 1, 0).getDate()));
+                        let isVencido = (i === 0 && userData.state === 'Inactive');
+                        let baseMonto = userData.planPrice !== undefined ? parseFloat(userData.planPrice) : (userData.plan && userData.plan.toLowerCase().includes('elite') ? 89.99 : 45.00);
+                        let descripcion = i % 2 === 0 ? `Membresía Mensual - ${mesesArray[pagoDate.getMonth()]}` : 'Suplementos Whey Protein';
+                        let icono = i % 2 === 0 ? 'receipt_long' : 'medication';
+                        
+                        userData.payments.push({
+                            date: pagoDate.getTime(),
+                            amount: baseMonto,
+                            status: isVencido ? 'Vencido' : 'ÉXITO',
+                            desc: descripcion,
+                            icon: icono
+                        });
+                    }
+                }
+                
+                if(userData.payments && userData.payments.length > 0) {
+                    userData.payments.forEach((pago, index) => {
+                        let pd = new Date(pago.date);
+                        let fechaFormatTabla = `${pd.getDate().toString().padStart(2, '0')} ${mesesArray[pd.getMonth()]} ${pd.getFullYear()}`;
+                        let fechaFormatReciente = `${pd.getDate().toString().padStart(2, '0')}/${(pd.getMonth()+1).toString().padStart(2, '0')}/${pd.getFullYear()}`;
+                        
+                        if (pago.status !== 'Vencido') {
+                            totalPagado += pago.amount;
+                        }
+                        
+                        // Generar componente Tabla Completa
+                        let estadoEstilo = pago.status === 'Vencido' ? "text-[#ba1a1a] bg-red-50 border border-red-100" : "text-[#004cf0] bg-[#eef0ff] border border-blue-100";
+                        let estadoTexto = pago.status === 'Vencido' ? "Vencido" : "Exitoso";
+                        
+                        pagosHistorial.innerHTML += `
+                            <tr class="border-b border-slate-100 last:border-0 hover:bg-slate-50/50 transition-colors">
+                                <td class="py-4 pl-2 font-bold text-slate-500 text-[11px]">${fechaFormatTabla}</td>
+                                <td class="py-4 font-extrabold text-slate-800 text-[12px]">${pago.desc}</td>
+                                <td class="py-4 text-[11px] font-semibold text-slate-500 flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-[14px]">credit_card</span> Tarjeta
+                                </td>
+                                <td class="py-4 font-black text-slate-700 text-sm">$${pago.amount.toFixed(2)}</td>
+                                <td class="py-4 text-right pr-2">
+                                    <span class="text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-lg inline-block ${estadoEstilo}">${estadoTexto}</span>
+                                </td>
+                            </tr>
+                        `;
+
+                        // Generar componente Cards Recientes
+                        if (index < 3) {
+                            let recEstadoCls = pago.status === 'Vencido' ? "text-[#ba1a1a]" : "text-[#004cf0]";
+                            let recEstado = pago.status === 'Vencido' ? "VENCIDO" : "ÉXITO";
+                            
+                            pagosCards.innerHTML += `
+                                <div class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm shadow-blue-900/5 flex items-center justify-between border border-transparent hover:border-blue-50 transition-colors">
+                                    <div class="flex items-center gap-5">
+                                        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center bg-[#eef0ff] text-[#004cf0] shadow-inner shrink-0">
+                                            <span class="material-symbols-outlined text-[20px] sm:text-[24px]" translate="no">${pago.icon}</span>
+                                        </div>
+                                        <div>
+                                            <p class="font-extrabold text-slate-800 text-[14px] sm:text-[15px] mb-0.5">${pago.desc}</p>
+                                            <p class="text-[12px] text-slate-500 font-medium">Pagado el ${fechaFormatReciente}</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right pl-2">
+                                        <p class="font-extrabold text-slate-800 text-[15px] sm:text-[17px] mb-1">$${pago.amount.toFixed(2)}</p>
+                                        <p class="uppercase text-[10px] font-black tracking-widest ${recEstadoCls}">${recEstado}</p>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    });
+                    
+                    document.getElementById('pagosTotalMonto').innerText = '$' + totalPagado.toFixed(2);
+                    if (userData.state === 'Inactive') {
+                        document.getElementById('pagosEstadoPlan').innerHTML = '<span class="material-symbols-outlined text-xl" translate="no">error</span> Suspendido';
+                        document.getElementById('pagosEstadoPlan').classList.replace('text-blue-700', 'text-[#ba1a1a]');
+                    }
+                    
+                    // Lógica de expiración dinámica basada en el último pago
+                    let lastPayment = new Date(userData.payments[0].date);
+                    let diffDays = Math.floor((Date.now() - lastPayment.getTime()) / (1000 * 3600 * 24));
+                    let daysLeft = 30 - diffDays;
+                    if (daysLeft < 0) daysLeft = 0;
+                    document.getElementById('renovacionDesc').innerText = `Su membresía ${userData.plan || 'Standard'} vence en ${daysLeft} días.`;
+                    
+                } else {
+                     pagosCards.innerHTML = '<div class="text-center py-8 text-slate-400 font-bold text-xs">Información no disponible.</div>';
+                     pagosHistorial.innerHTML = '<tr><td colspan="5" class="text-center py-8 text-slate-400 font-bold text-xs italic">Sin registros de pago.</td></tr>';
+                     document.getElementById('renovacionDesc').innerText = `Membresía inactiva.`;
+                }
+
+                // Lógica de validación para BOTÓN RENOVAR AHORA
+                const btnRenovarAhora = document.getElementById('btnRenovarAhora');
+                if (btnRenovarAhora) {
+                    btnRenovarAhora.onclick = () => {
+                        let isYaActivo = (userData.state === 'Active' && userData.payments && userData.payments.length > 0 && userData.payments[0].status === 'ÉXITO');
+                        let titlePrompt = isYaActivo ? "¿Renovar de nuevo?" : "¿Proceder con Renovación?";
+                        let textDesc = isYaActivo ? "El miembro ya tiene un mes pago en curso. ¿Estás seguro que deseas registrar una nueva renovación de membresía por adelantado?" : "¿Estás seguro que deseas registrar una nueva renovación de membresía y marcar la cuenta como al día?";
+
+                        Swal.fire({
+                            title: titlePrompt,
+                            text: textDesc,
+                            icon: 'question',
+                            showCancelButton: true,
+                            confirmButtonColor: '#004cf0',
+                            cancelButtonColor: '#ba1a1a',
+                            confirmButtonText: 'Sí, registrar',
+                            cancelButtonText: 'No, cancelar'
+                        }).then(async (result) => {
+                            if (result.isConfirmed) {
+                                let baseMonto = userData.planPrice !== undefined ? parseFloat(userData.planPrice) : (userData.plan && userData.plan.toLowerCase().includes('elite') ? 89.99 : 45.00);
+                                let currentDate = new Date();
+                                
+                                userData.state = 'Active';
+                                userData.payments = userData.payments || [];
+                                
+                                if (userData.payments.length > 0 && userData.payments[0].status === 'Vencido') {
+                                    userData.payments[0].status = 'ÉXITO';
+                                    userData.payments[0].date = Date.now();
+                                } else {
+                                    let newPago = {
+                                        date: Date.now(),
+                                        amount: baseMonto,
+                                        status: 'ÉXITO',
+                                        desc: `Membresía Mensual - ${mesesArray[currentDate.getMonth()]}`,
+                                        icon: 'receipt_long'
+                                    };
+                                    userData.payments.unshift(newPago);
+                                }
+                                
+                                try {
+                                    let identifier = userData.id ? String(userData.id) : userData.email;
+                                    const resp = await fetch('/api/users/' + encodeURIComponent(identifier), {
+                                        method: 'PUT',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({ state: userData.state, payments: userData.payments })
+                                    });
+                                    if(resp.ok) {
+                                        Swal.fire('¡Renovación Exitosa!', 'El pago ha sido registrado en la base de datos y en el historial.', 'success').then(() => {
+                                            window.location.reload();
+                                        });
+                                    } else {
+                                        Swal.fire('Error', 'No se pudo guardar la renovación.', 'error');
+                                    }
+                                } catch(e) {
+                                    console.error(e);
+                                    Swal.fire('Error de red', 'No hay conexión con la base de datos.', 'error');
+                                }
+                            }
+                        });
+                    };
+                }
+
+
+                const weightValue = userData.weight ?? userData.peso;
+                const heightValue = userData.height ?? userData.altura;
+                const nivelValue = userData.estadoFisico || userData.estado || userData.nivel || '--';
+                const dobValue = userData.dob || userData.fechaNacimiento || userData.nacimiento || '--';
+
+                document.getElementById('profileWeight').innerText = (weightValue !== undefined && weightValue !== null && String(weightValue).trim() !== '') ? (weightValue + ' kg') : '--';
+                document.getElementById('profileHeight').innerText = (heightValue !== undefined && heightValue !== null && String(heightValue).trim() !== '') ? (heightValue + ' cm') : '--';
+                document.getElementById('profileNivel').innerText = nivelValue;
+                document.getElementById('profileDob').innerText = dobValue;
+                
+                try {
+                     let barcodeVal = userData.barcode || userData.codigoBarras || userData.member_id || userData.miembro_id || userData.phone || (userData.email ? userData.email.split('@')[0] : 'PH001');
+                     JsBarcode('#profileBarcode', String(barcodeVal).substring(0, 32), {
+                         format: 'CODE128',
+                         width: 2,
+                         height: 70,
+                         displayValue: true,
+                         fontSize: 14,
+                         margin: 8,
+                         background: '#ffffff',
+                         lineColor: '#111827'
+                     });
+                } catch(e) { console.error('Barcode:', e); }
+                
+                const btnEditProfile = document.getElementById('btnEditProfile');
+                if (btnEditProfile) {
+                    btnEditProfile.onclick = () => {
+                        if (userData) {
+                            let editId = userData.id ? String(userData.id) : userData.email;
+                            localStorage.setItem('userToEdit', JSON.stringify(userData));
+                            window.location.href = 'nuevo_miembro.html?edit=' + encodeURIComponent(editId);
+                        }
+                    };
+                }
+
+                const btnCarnet = document.getElementById('btnCarnet');
+                if (btnCarnet) {
+                    btnCarnet.onclick = () => {
+                        const nombreCarnet = userData?.name || document.getElementById('profileName').innerText || 'miembro';
+                        const idCarnet = userData?.id ? String(userData.id) : '';
+                        const emailCarnet = userData?.email ? String(userData.email) : '';
+                        const urlCarnet = 'carnet_miembro.html?nombre=' + encodeURIComponent(nombreCarnet)
+                            + '&id=' + encodeURIComponent(idCarnet)
+                            + '&email=' + encodeURIComponent(emailCarnet);
+                        window.open(urlCarnet, '_blank');
+                    };
+                }
+
+                if (userData.state === 'Inactive') {
+                    document.getElementById('profileState').classList.replace('bg-[#004cf0]', 'bg-slate-400');
+                    document.getElementById('profileState').classList.replace('border-white', 'border-slate-100');
+                }
+                if (userData.photo) {
+                    document.getElementById('profileImg').src = userData.photo;
+                    document.getElementById('profilePhoto').classList.remove('hidden');
+                }
+
+
+                // Generar Consumos
+                const tablaConsumos = document.getElementById('table-consumos-historial');
+                if (tablaConsumos) {
+                    if (userData.consumos && userData.consumos.length > 0) {
+                        tablaConsumos.innerHTML = '';
+                        const consumosList = [...userData.consumos];
+                        consumosList.sort((a,b) => b.fecha.localeCompare(a.fecha));
+                        
+                        consumosList.forEach(c => {
+                            let pd = new Date(c.fecha);
+                            let fechaFormat = pd.getDate().toString().padStart(2, '0') + '/' + (pd.getMonth()+1).toString().padStart(2, '0') + '/' + pd.getFullYear() + ' ' + pd.getHours().toString().padStart(2,'0') + ':' + pd.getMinutes().toString().padStart(2,'0');
+                            
+                            let itemsStr = c.items.map(item => '<span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-[10px] font-bold mr-1 inline-block">' + item.quantity + 'x ' + item.name + '</span>').join(' ');
+                            
+                            tablaConsumos.innerHTML += `
+                                <tr class="border-b border-slate-100 last:border-0 hover:bg-slate-50/50 transition-colors">
+                                    <td class="py-4 pl-2 font-bold text-slate-500 text-[11px]">${fechaFormat}</td>
+                                    <td class="py-4 text-[12px]">${itemsStr}</td>
+                                    <td class="py-4 font-black text-slate-700 text-sm text-right pr-2">
+                                        <span class="text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-lg">+$${c.totalMonto.toFixed(2)}</span>
+                                    </td>
+                                </tr>
+                            `;
+                        });
+                    } else {
+                        tablaConsumos.innerHTML = '<tr><td colspan="3" class="text-center py-8 text-slate-400 font-bold text-xs italic">No hay registros de consumos o artículos comprados.</td></tr>';
+                    }
+                }
+                
+                if (urlParams.get('tab') === 'consumos') {
+                    setTimeout(() => switchTab('consumos'), 100);
+                }
+            } else {
+                document.getElementById('profilePlan').innerText = 'Registrado (Generado)';
+            }
+
+            // Fetch classes to extract history
+            const classReq = await fetch('/api/classes?t=' + Date.now(), { cache: 'no-store' });
+            const classes = await classReq.json();
+            
+            const normalize = (v) => String(v || '').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+            const samePerson = (a, b) => {
+                const na = normalize(a);
+                const nb = normalize(b);
+                if (!na || !nb) return false;
+                return na === nb || na.includes(nb) || nb.includes(na);
+            };
+            let historial = [];
+            let terminalHistorial = [];
+            let allTaps = [];
+            if (userData.checkIns) userData.checkIns.forEach(c => allTaps.push({ time: new Date(c), type: 'in', raw: c }));
+            if (userData.checkOuts) userData.checkOuts.forEach(c => allTaps.push({ time: new Date(c), type: 'out', raw: c }));
+            
+            allTaps.sort((a,b) => a.time - b.time);
+            
+            let currentIn = null;
+            allTaps.forEach(tap => {
+                if (tap.type === 'in') {
+                    if (currentIn) { terminalHistorial.push({ inTime: currentIn.time, outTime: null, inRaw: currentIn.raw, outRaw: null }); }
+                    currentIn = tap;
+                } else if (tap.type === 'out') {
+                    if (currentIn) {
+                        terminalHistorial.push({ inTime: currentIn.time, outTime: tap.time, inRaw: currentIn.raw, outRaw: tap.raw });
+                        currentIn = null;
+                    } else {
+                        terminalHistorial.push({ inTime: null, outTime: tap.time, inRaw: null, outRaw: tap.raw });
+                    }
+                }
+            });
+            if (currentIn) terminalHistorial.push({ inTime: currentIn.time, outTime: null, inRaw: currentIn.raw, outRaw: null });
+
+            terminalHistorial.forEach(visit => {
+                const theDate = visit.inTime || visit.outTime;
+                const yyyy = theDate.getFullYear();
+                const mm = String(theDate.getMonth() + 1).padStart(2, '0');
+                const dd = String(theDate.getDate()).padStart(2, '0');
+                
+                const formatTime = (d) => String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+                const inStr = visit.inTime ? formatTime(visit.inTime) : '--:--';
+                const outStr = visit.outTime ? formatTime(visit.outTime) : '--:--';
+                
+                let stateTxt = 'Realizado';
+                if (visit.inTime && !visit.outTime) stateTxt = 'En Gimnasio';
+                if (!visit.inTime && visit.outTime) stateTxt = 'Solo Salida';
+
+                historial.push({
+                    fecha: `${yyyy}-${mm}-${dd}`,
+                    horaString: inStr !== '--:--' ? inStr : outStr,
+                    nombre: "Ingreso General",
+                    entrenador: "Recepción",
+                    sala: "Instalaciones",
+                    entrada: inStr,
+                    salida: outStr,
+                    asistencia: { [nombreMiembro]: stateTxt },
+                    inRaw: visit.inRaw,
+                    outRaw: visit.outRaw,
+                    rawDate: visit.outRaw || visit.inRaw
+                });
+            });
+
+            historial.sort((a,b) => {
+                 const da = a.rawDate ? new Date(a.rawDate) : new Date(a.fecha);
+                 const db = b.rawDate ? new Date(b.rawDate) : new Date(b.fecha);
+                 return db - da; 
+            });
+
+            const table = document.getElementById('table-clases');
+            const fullAttendanceTable = document.getElementById('table-asistencia-historial');
+            if(historial.length === 0) {
+                table.innerHTML = '<tr><td colspan="4" class="text-center py-8 text-slate-400 font-bold text-xs italic">No hay historial de clases para este miembro.</td></tr>';
+                if (fullAttendanceTable) {
+                    fullAttendanceTable.innerHTML = '<tr><td colspan="5" class="text-center py-8 text-slate-400 font-bold text-xs italic">No hay historial de asistencia registrado.</td></tr>';
+                }
+            } else {
+                table.innerHTML = '';
+                if (fullAttendanceTable) fullAttendanceTable.innerHTML = '';
+            }
+
+            let realizadosCant = 0;
+            let displayCount = 0;
+
+            historial.forEach((c) => {
+                let status = 'Pendiente';
+                if (c.asistencia && typeof c.asistencia === 'object') {
+                    const asistenciaKey = Object.keys(c.asistencia).find(k => samePerson(k, nombreMiembro));
+                    if (asistenciaKey) status = c.asistencia[asistenciaKey] || 'Pendiente';
+                }
+                let statusClasses = "text-slate-500 font-black tracking-widest";
+                let statusTexto = "Completado";
+
+                if (status === 'Realizado') {
+                     statusClasses = "text-[#004cf0] font-black tracking-widest";
+                     statusTexto = c.horaString ? "Asistió" : "Realizado";
+                     realizadosCant++;
+                } else if (status === 'En Gimnasio') {
+                     statusClasses = "text-emerald-500 font-black tracking-widest";
+                     statusTexto = "En Progreso";
+                     realizadosCant++;
+                } else if (status === 'Solo Salida') {
+                     statusClasses = "text-amber-500 font-black tracking-widest";
+                     statusTexto = "Salida Libre";
+                     realizadosCant++;
+                } else if (status === 'Pendiente') {
+                     statusClasses = "text-[#ba1a1a] font-black tracking-widest";
+                     statusTexto = "Ausente";
+                } else {
+                     statusClasses = "text-red-500 font-black tracking-widest";
+                     statusTexto = status;
+                }
+
+                if (c.nombre !== 'Ingreso General' && displayCount < 8) {
+                    const tr = document.createElement('tr');
+                    tr.className = "border-b border-slate-100 last:border-0 hover:bg-slate-50/50 transition-colors";
+                    tr.innerHTML = `
+                        <td class="py-4 pl-2 font-bold text-slate-500 text-[11px]">${c.fecha || 'â€”'} ${c.horaString ? `<span class='text-[9px] text-slate-400 font-bold ml-1'>${c.horaString}</span>` : ''}</td>
+                        <td class="py-4 font-extrabold text-slate-800 text-[12px]">${c.nombre || 'Clase de Entrenamiento'}</td>
+                        <td class="py-4 text-[11px] font-semibold text-slate-500">${c.entrenador || 'Staff'}</td>
+                        <td class="py-4 text-right pr-2">
+                            <span class="text-[10.5px] uppercase ${statusClasses}">${statusTexto}</span>
+                        </td>
+                    `;
+                    table.appendChild(tr);
+                    displayCount++;
+                }
+
+                if (fullAttendanceTable) {
+                    let deleteBtn = '';
+                    if (c.nombre === 'Ingreso General') {
+                        deleteBtn = `<button onclick="eliminarAsistenciaMiembro('${c.inRaw || ''}', '${c.outRaw || ''}', '${c.fecha || ''}', '${c.entrada || ''}', '${c.salida || ''}')" class="text-slate-300 hover:text-red-500 transition-colors"><span class="material-symbols-outlined text-[16px]">delete</span></button>`;
+                    }
+                
+                    const trFull = document.createElement('tr');
+                    trFull.className = "border-b border-slate-100 last:border-0 hover:bg-slate-50/50 transition-colors";
+                    trFull.innerHTML = `
+                        <td class="py-4 pl-2 font-bold text-slate-500 text-[11px]">${c.fecha || 'â€”'}</td>
+                        <td class="py-4 font-extrabold text-slate-800 text-[12px]">${c.nombre || 'Clase de Entrenamiento'}</td>
+                        <td class="py-4 text-[11px] font-semibold text-[#004cf0] tracking-wide">${c.entrada || '--:--'}</td>
+                        <td class="py-4 text-[11px] font-semibold text-amber-600 tracking-wide">${c.salida || '--:--'}</td>
+                        <td class="py-4 text-right pr-2"><span class="text-[10.5px] uppercase ${statusClasses}">${statusTexto}</span></td>
+                        <td class="py-4 text-right px-4">${deleteBtn}</td>
+                    `;
+                    fullAttendanceTable.appendChild(trFull);
+                }
+            });
+
+            document.getElementById('profileVisits').innerText = realizadosCant;
+
+            // Update Progress Percentage
+            let percent = 0;
+            if (historial.length > 0) {
+                percent = Math.round((realizadosCant / historial.length) * 100);
+            }
+            
+            // Animar gauge SVG (Max length 125 represents 180 degrees)
+            setTimeout(() => {
+                 document.getElementById('gaugeText').innerHTML = percent + '%';
+                 document.getElementById('progressVal').innerText = '+' + percent + '%';
+                 const offset = 125 - (125 * (percent / 100));
+                 document.getElementById('gaugeLine').style.strokeDashoffset = offset;
+            }, 300);
+
+            // Personalized Coach Quote
+            if(percent >= 80) {
+                 document.getElementById('coachNote').innerText = '"' + nombreMiembro.split(' ')[0] + ' ha sido una máquina imparable este mes. Su disciplina marcará la diferencia y lo encamina al éxito total."';
+            } else if (percent >= 40) {
+                 document.getElementById('coachNote').innerText = '"' + nombreMiembro.split(' ')[0] + ' mantiene una constancia decente, pero asegurémonos de que siga motivado para no perder el ritmo."';
+            } else {
+                 document.getElementById('coachNote').innerText = '"Es importante hacer seguimiento a ' + nombreMiembro.split(' ')[0] + ' para incentivar su recurrencia en las sesiones y mejorar el resultado."';
+            }
+
+        } catch (e) {
+            console.error(e);
+            document.getElementById('profileName').innerText = "Error cargando";
+        }
+    });
+
+    async function eliminarAsistenciaMiembro(inRaw, outRaw, fechaRow, entradaRow, salidaRow) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const userId = urlParams.get('id');
+        const nombre = (urlParams.get('nombre') || '').trim();
+
+        Swal.fire({
+            title: '¿Eliminar Registro?',
+            text: "Ambas marcas (entrada y salida) para esta sesión serán borradas.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#004cf0',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const identifier = userId || nombre;
+                    if (!identifier) throw new Error('No se pudo identificar al usuario');
+
+                    const delReq = await fetch('/api/users/' + encodeURIComponent(identifier) + '/attendance/delete', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            inRaw: inRaw || null,
+                            outRaw: outRaw || null,
+                            fecha: fechaRow || null,
+                            entrada: entradaRow || null,
+                            salida: salidaRow || null
+                        })
+                    });
+
+                    if (!delReq.ok) {
+                        const data = await delReq.json().catch(() => ({}));
+                        throw new Error(data.error || 'No se pudo eliminar el registro');
+                    }
+
+                    Swal.fire('Eliminado', 'El registro de asistencia ha sido borrado.', 'success').then(() => {
+                        location.reload();
+                    });
+                } catch(e) {
+                    console.error(e);
+                    Swal.fire('Error', 'No se pudo completar la eliminación.', 'error');
+                }
+            }
+        });
+    }
+
+</script>
+<script src="cerrar-sesion.js"></script>
+
+<script src="powerhaus-chat.js"></script>
+<script>
+    function descargarBarcodeJPG(svgId, username) {
+    try {
+        let svgEl = document.getElementById(svgId);
+        if(!svgEl) { Swal.fire('Error', 'No se encontró el SVG', 'error'); return; }
+        let barcodeVal = svgEl.getAttribute('jsbarcode-value') || svgEl.getAttribute('data-value') || svgEl.textContent.trim();
+        if(!barcodeVal) { Swal.fire('Generando por defecto','Intentando recuperar valor original.','info'); barcodeVal = svgEl.textContent.trim() || 'UNDEFINED'; }
+        
+        let canvas = document.createElement('canvas');
+        JsBarcode(canvas, barcodeVal, {
+            format: 'CODE128', width: 3, height: 100,
+            displayValue: true, fontSize: 20, margin: 15,
+            background: '#ffffff', lineColor: '#000000'
+        });
+
+        let finalCanvas = document.createElement('canvas');
+        finalCanvas.width = canvas.width;
+        finalCanvas.height = canvas.height + 50;
+        let ctx = finalCanvas.getContext('2d');
+        
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
+        ctx.drawImage(canvas, 0, 40);
+        
+        ctx.fillStyle = '#004cf0';
+        ctx.font = 'bold 20px Inter, Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('PowerHaus Gym', finalCanvas.width/2, 30);
+        
+        let dataUrl = finalCanvas.toDataURL('image/jpeg', 1.0);
+        
+        // Show visual confirmation AND download
+        Swal.fire({
+            title: 'Código Generado',
+            imageUrl: dataUrl,
+            imageWidth: finalCanvas.width,
+            imageAlt: 'Barcode JPG',
+            text: 'Descargando...',
+            timer: 1500,
+            showConfirmButton: false
+        });
+
+        fetch(dataUrl).then(res => res.blob()).then(blob => {
+            let blobUrl = window.URL.createObjectURL(blob);
+            let a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = blobUrl;
+            let safeName = username ? username.replace(/[^a-z0-9]/gi, '_').toLowerCase() : 'user';
+            a.download = 'barcode_' + safeName + '.jpg';
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(() => {
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(blobUrl);
+            }, 1000);
+        }).catch(e => {
+            Swal.fire('Error al procesar', e.toString(), 'error');
+        });
+        
+    } catch(e) {
+        Swal.fire('Error', e.message || e.toString(), 'error');
+    }
+}
+    </script>
+</body>
+</html>
+
+

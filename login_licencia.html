@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Compugames Kinetic Archive</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'Inter': ['Inter', 'sans-serif'],
+                        'Space_Grotesk': ['Space Grotesk', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-auth-compat.js"></script>
+</head>
+<body class="bg-[#0e0e0e] text-white font-['Inter'] min-h-screen flex flex-col relative overflow-x-hidden m-0 p-0" 
+      style="background-image: linear-gradient(rgba(14, 14, 14, 0.7), rgba(14, 14, 14, 0.85)), url('https://lh3.googleusercontent.com/aida-public/AB6AXuBRxKUrOVGNqp03hjxvAvep_HEXBCQ4YYo-cvG-y0bYW3DjzUZiy5m_6nk9HhWXnbegU068cms7p9mn1t3zVXoc-HD9xOujHsOg-w51Pb7qzrQiqxTR30Fqq8VAl42z261tNcQXBCgrAfVVYkqLlHujQ-hCOEk7OXhEkPTKx9FFHx6DddPk0jycH-eCbK6pg4WY5RgA6Htu-25-xqJPp8pmFR7FCtl757CC2C-fUsMFWqQ_eSJ5RHTAw0zPqlEUe6JSfDdz58WXp8g'); background-size: cover; background-position: center; background-attachment: fixed;">
+
+    <div class="absolute top-4 left-4 md:top-8 md:left-8 z-50">
+        <a href="index.html" class="group flex items-center gap-1.5 md:gap-2 font-['Space_Grotesk'] tracking-[0.1em] sm:tracking-[0.2em] md:tracking-[0.3em] text-[#767575] hover:text-[#ff8d87] transition-all duration-300 uppercase text-[9px] sm:text-xs md:text-base px-3 py-2 md:px-6 md:py-3 border border-[#767575]/20 hover:border-[#ff8d87]/50 hover:bg-[#ff8d87]/5 bg-[#0e0e0e]/80 backdrop-blur-md">
+            <span class="material-symbols-outlined transition-transform duration-300 group-hover:-translate-x-1 text-sm sm:text-base md:text-2xl">arrow_back</span>
+            VOLVER AL INICIO
+        </a>
+    </div>
+
+    <div class="absolute top-0 right-0 w-1/2 h-1/2 bg-[#ff8d87]/5 blur-[120px] rounded-full pointer-events-none"></div>
+    <div class="absolute bottom-0 left-0 w-1/3 h-1/3 bg-[#ff8d87]/10 blur-[150px] rounded-full pointer-events-none"></div>
+
+    <main class="flex-grow flex items-center justify-center w-full relative z-10 py-24 px-4 sm:px-0">
+        <div class="w-full max-w-[480px]">
+            <div class="bg-[#131313]/70 backdrop-blur-2xl border-l border-[#ff8d87]/20 p-8 md:p-12 shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-4 opacity-20 pointer-events-none">
+                    <span class="text-[10px] font-['Space_Grotesk'] tracking-[0.3em] text-[#ff8d87] uppercase">AUTH_SYSTEM_v4.0</span>
+                </div>
+                <div class="absolute bottom-0 left-0 h-1 w-24 bg-[#ff8d87]/40"></div>
+
+                <div class="mb-12 text-center">
+                    <h1 class="font-['Space_Grotesk'] font-bold italic text-4xl tracking-tighter text-[#ff8d87] mb-2">COMPUGAMES</h1>
+                    <div class="flex items-center justify-center gap-4">
+                        <div class="h-[1px] w-8 bg-[#484847]"></div>
+                        <span class="font-['Space_Grotesk'] text-xs tracking-[0.4em] text-[#767575] uppercase">KINETIC_ARCHIVE</span>
+                        <div class="h-[1px] w-8 bg-[#484847]"></div>
+                    </div>
+                </div>
+
+                <div class="space-y-8">
+                    <header class="mb-8">
+                        <h2 class="font-['Space_Grotesk'] text-2xl font-light italic tracking-tight text-white">LOGIN</h2>
+                        <p class="font-['Space_Grotesk'] text-[10px] tracking-[0.2em] text-[#484847] uppercase mt-1">ACCESS_PROTOCOL_RESTRICTED</p>
+                    </header>
+
+                    <div id="error-message" class="hidden mb-6 p-3 bg-red-500/20 border border-red-500 text-red-200 text-sm rounded">
+                    </div>
+
+                    <form id="loginForm" class="space-y-6">
+                        <div class="space-y-2">
+                            <label class="font-['Space_Grotesk'] text-[11px] tracking-[0.2em] text-[#adaaaa] uppercase flex items-center gap-2">
+                                <span class="material-symbols-outlined text-[14px]">alternate_email</span>
+                                CORREO ELECTRÓNICO
+                            </label>
+                            <div class="relative group">
+                                <input id="email" class="w-full bg-[#201f1f]/50 border-0 border-b-2 border-[#484847]/30 text-white font-['Space_Grotesk'] tracking-wider px-4 py-3 focus:ring-0 focus:border-[#ff8d87] focus:outline-none transition-all duration-300 placeholder:text-[#484847]/40" placeholder="USER@ARCHIVE.SYS" type="email" required />
+                                <div class="absolute bottom-0 left-0 w-0 h-[2px] bg-[#ff8d87] transition-all duration-500 group-focus-within:w-full"></div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-end">
+                                <label class="font-['Space_Grotesk'] text-[11px] tracking-[0.2em] text-[#adaaaa] uppercase flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-[14px]">lock_open</span>
+                                    CONTRASEÑA
+                                </label>
+                                <a href="#" class="font-['Space_Grotesk'] text-[9px] tracking-widest text-[#484847] hover:text-[#ff8d87] transition-colors uppercase">¿OLVIDASTE TU CONTRASEÑA?</a>
+                            </div>
+                            <div class="relative group">
+                                <input id="password" class="w-full bg-[#201f1f]/50 border-0 border-b-2 border-[#484847]/30 text-white font-['Space_Grotesk'] tracking-widest px-4 py-3 pr-12 focus:ring-0 focus:border-[#ff8d87] focus:outline-none transition-all duration-300 placeholder:text-[#484847]/40" placeholder="••••••••" type="password" required />
+                                <button type="button" onclick="togglePassword()" class="absolute right-4 top-1/2 -translate-y-1/2 text-[#484847] hover:text-white transition-colors z-10">
+                                    <span id="pwd-icon" class="material-symbols-outlined text-[20px]">visibility</span>
+                                </button>
+                                <div class="absolute bottom-0 left-0 w-0 h-[2px] bg-[#ff8d87] transition-all duration-500 group-focus-within:w-full"></div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-center py-2">
+                            <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
+                        </div>
+
+                        <div class="pt-6">
+                            <button id="submit-btn" type="submit" class="w-full bg-[#ff8d87] text-[#65000a] font-['Space_Grotesk'] font-bold text-sm tracking-[0.25em] uppercase py-4 transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,141,135,0.4)] active:scale-[0.98] relative overflow-hidden group">
+                                <span id="submit-text" class="relative z-10">INICIAR SESIÓN</span>
+                                <div class="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                            </button>
+                        </div>
+
+                        <div class="relative flex items-center py-2">
+                            <div class="flex-grow border-t border-[#484847]/30"></div>
+                            <span class="flex-shrink-0 mx-4 text-[#767575] text-xs uppercase tracking-widest font-['Space_Grotesk']">O</span>
+                            <div class="flex-grow border-t border-[#484847]/30"></div>
+                        </div>
+
+                        <button type="button" id="google-btn" class="w-full bg-white text-black font-['Space_Grotesk'] uppercase tracking-[0.1em] font-bold py-3 sm:py-4 hover:bg-gray-200 active:scale-[0.98] transition-all text-sm sm:text-base flex items-center justify-center gap-3">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+                                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+                            </svg>
+                            CONTINUAR CON GOOGLE
+                        </button>
+                    </form>
+
+                    <div class="text-center pt-4">
+                        <p class="font-['Space_Grotesk'] text-xs tracking-widest text-[#484847] uppercase">
+                            ¿No tienes cuenta? 
+                            <a href="#" class="text-white font-bold hover:text-[#ff8d87] transition-colors border-b border-white/20 hover:border-[#ff8d87] pb-0.5 ml-2">CREAR UNA</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 flex justify-between items-center px-4">
+                <div class="flex gap-2">
+                    <div class="w-1.5 h-1.5 bg-[#ff8d87]/30"></div>
+                    <div class="w-1.5 h-1.5 bg-[#ff8d87]/30"></div>
+                    <div class="w-1.5 h-1.5 bg-[#ff8d87]"></div>
+                </div>
+                <div class="text-[9px] font-['Space_Grotesk'] tracking-[0.4em] text-[#484847] uppercase">
+                    ENCRYPTION_LAYER_6_ACTIVE
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="absolute inset-0 pointer-events-none opacity-[0.03] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%]"></div>
+
+    <footer class="relative w-full z-20 flex flex-col md:flex-row justify-between items-center px-6 md:px-12 py-6 bg-black/60 backdrop-blur-md mt-auto border-t border-white/5 gap-4 md:gap-0">
+        <div class="flex items-center gap-6">
+            <span class="font-['Space_Grotesk'] italic font-black text-[#ff8d87] text-sm tracking-tighter">COMPUGAMES</span>
+            <div class="hidden md:block h-3 w-[1px] bg-[#484847]/30"></div>
+            <p class="font-['Space_Grotesk'] text-xs md:text-sm tracking-[0.3em] text-[#ff8d87] uppercase font-bold drop-shadow-md">© 2026 COMPUGAMES. ALL RIGHTS RESERVED.</p>
+        </div>
+        <div class="flex gap-8 mt-4 md:mt-0">
+            <a class="font-['Space_Grotesk'] text-[9px] tracking-[0.2em] text-zinc-600 hover:text-white transition-colors uppercase" href="#">TERMS OF SERVICE</a>
+            <a class="font-['Space_Grotesk'] text-[9px] tracking-[0.2em] text-zinc-600 hover:text-white transition-colors uppercase" href="#">PRIVACY POLICY</a>
+            <a class="font-['Space_Grotesk'] text-[9px] tracking-[0.2em] text-zinc-600 hover:text-white transition-colors uppercase" href="#">TECHNICAL SUPPORT</a>
+        </div>
+    </footer>
+    <div id="beta-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+        <div class="bg-[#100f0f] border border-[#ff8d87]/20 shadow-2xl w-full max-w-2xl max-h-[85vh] flex flex-col relative">
+            
+            <button onclick="cerrarModalBeta()" class="absolute top-4 right-4 text-[#767575] hover:text-white transition-colors z-10">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+
+            <div class="p-6 md:p-8 border-b border-white/5">
+                <h2 class="font-['Space_Grotesk'] text-[#ff8d87] font-bold tracking-widest text-lg uppercase">
+                    Términos y Condiciones (Beta)
+                </h2>
+            </div>
+
+            <div class="p-6 md:p-8 overflow-y-auto font-['Inter'] text-sm space-y-6 text-[#adaaaa] flex-grow custom-scrollbar" style="scrollbar-width: thin; scrollbar-color: #ff8d87 #201f1f;">
+                
+                <div>
+                    <h3 class="text-white font-bold mb-2 text-base">1. Uso del Software</h3>
+                    <p>El uso de este software en fase Beta se proporciona "tal cual". Al aceptarlo, el usuario comprende que podría encontrar errores o interrupciones.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-white font-bold mb-2 text-base">2. Pérdida de Datos</h3>
+                    <p>No nos hacemos responsables por la pérdida de información o daños en el sistema del usuario derivados del uso de la versión Beta.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-white font-bold mb-2 text-base">3. Propiedad Intelectual</h3>
+                    <p>Todos los derechos de autor y propiedad intelectual del programa pertenecen exclusivamente a Compugames AI. Se prohíbe la ingeniería inversa o la redistribución no autorizada.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-white font-bold mb-2 text-base">4. Feedback y Datos</h3>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li><strong class="text-white">Reportes:</strong> Al participar, el usuario acepta enviar comentarios o reportes de errores para mejorar el desarrollo.</li>
+                        <li><strong class="text-white">Privacidad:</strong> Los datos recopilados durante las pruebas se utilizarán únicamente para fines técnicos y de optimización del software.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-white font-bold mb-2 text-base">5. Finalización del Periodo Beta</h3>
+                    <p>Nos reservamos el derecho de suspender el acceso a la versión Beta en cualquier momento, sin previo aviso, para transicionar a la versión final o realizar mantenimientos.</p>
+                </div>
+
+                <div class="bg-red-950/20 border border-red-900/50 p-4 mt-6">
+                    <p class="text-red-400/90 italic font-['Inter'] text-sm">
+                        <strong class="font-bold">Nota Confidencial:</strong> Se recomienda incluir una cláusula de Confidencialidad si no deseas que los usuarios compartan capturas de pantalla o funciones del programa antes del lanzamiento oficial.
+                    </p>
+                </div>
+            </div>
+
+            <div class="p-6 md:p-8 border-t border-white/5 bg-[#141414]">
+                <label class="flex items-center gap-3 cursor-pointer mb-6 group">
+                    <input type="checkbox" id="beta-checkbox" class="w-5 h-5 bg-[#0e0e0e] border border-[#484847] rounded-none checked:bg-[#ff8d87] checked:border-[#ff8d87] appearance-none cursor-pointer transition-colors flex items-center justify-center shrink-0 before:content-[''] before:w-3 before:h-3 before:bg-transparent checked:before:bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNjUwMDBhIiBzdHJva2Utd2lkdGg9IjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBvbHlsaW5lIHBvaW50cz0iMjAgNiA5IDE3IDQgMTIiPjwvcG9seWxpbmU+PC9zdmc+')] before:bg-no-repeat before:bg-center before:bg-contain">
+                    <span class="text-sm text-[#adaaaa] group-hover:text-white transition-colors select-none font-['Inter']">
+                        He leído y acepto los Términos y Condiciones de Uso (Beta).
+                    </span>
+                </label>
+
+                <button id="activar-btn" disabled class="w-full bg-[#2a2a2a] text-[#555] font-['Space_Grotesk'] font-bold text-sm tracking-[0.2em] uppercase py-4 transition-all duration-300 cursor-not-allowed">
+                    ACEPTAR Y ACTIVAR 1 PC
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./firebase-config.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore-compat.js"></script>
+    <script>
+        const firebaseConfig = window.__FIREBASE_CONFIG__ || {};
+        const firebaseLicenseConfig = window.__FIREBASE_LICENSE__ || {
+            collection: 'licencias',
+            activeField: 'activa'
+        };
+
+        const form = document.getElementById('loginForm');
+        const errorBox = document.getElementById('error-message');
+        const submitBtn = document.getElementById('submit-btn');
+        const submitText = document.getElementById('submit-text');
+        const googleBtn = document.getElementById('google-btn');
+
+        let auth = null;
+        let db = null;
+        let googleProvider = null;
+        let loginTimeoutId = null;
+        let googleTimeoutId = null;
+        let usuarioTemporalParaBeta = null;
+
+        function firebaseConfigurado() {
+            return !!(firebaseConfig.apiKey && firebaseConfig.authDomain && firebaseConfig.projectId);
+        }
+
+        function mostrarError(msg) {
+            errorBox.innerText = msg;
+            errorBox.classList.remove('hidden');
+        }
+
+        function limpiarError() {
+            errorBox.classList.add('hidden');
+        }
+
+        function redirigirAlIndex() {
+            window.location.href = 'compugames://login-success';
+        }
+
+        function resetEstadoLogin() {
+            submitBtn.disabled = false;
+            submitText.innerText = 'INICIAR SESIÓN';
+            submitBtn.classList.remove('opacity-50');
+        }
+
+        function resetEstadoGoogle() {
+            googleBtn.disabled = false;
+            googleBtn.innerText = 'CONTINUAR CON GOOGLE';
+            googleBtn.classList.remove('opacity-50');
+        }
+
+        function mapFirebaseError(code) {
+            if (code === 'auth/invalid-email') return 'Correo electrónico inválido.';
+            if (code === 'auth/user-not-found') return 'El usuario no existe.';
+            if (code === 'auth/wrong-password') return 'Contraseña incorrecta.';
+            if (code === 'auth/invalid-credential') return 'Credenciales inválidas.';
+            if (code === 'auth/too-many-requests') return 'Demasiados intentos. Inténtalo más tarde.';
+            if (code === 'auth/popup-closed-by-user') return 'Se cerró la ventana de Google antes de completar el acceso.';
+            if (code === 'auth/popup-blocked') return 'La ventana emergente fue bloqueada. Se intentará acceso por redirección.';
+            if (code === 'auth/cancelled-popup-request') return 'Solicitud de popup cancelada. Intenta nuevamente.';
+            if (code === 'auth/unauthorized-domain') return 'El dominio (localhost) no está autorizado en la Consola de Firebase.';
+            if (code === 'auth/admin-restricted-operation') return 'Operación restringida. Falta habilitar Google o habilitar correos en Authentication.';
+            return `No fue posible iniciar sesión con Firebase. (${code || 'Error desconocido'})`;
+        }
+
+        function mapFirestoreError(code) {
+            if (code === 'permission-denied') return 'Firestore bloqueó el acceso a licencias (permission-denied). Revisa las reglas.';
+            if (code === 'unavailable') return 'Firestore no está disponible temporalmente.';
+            if (code === 'failed-precondition') return 'Firestore no está habilitado o falta un índice requerido.';
+            return `Error validando licencia: ${code || 'desconocido'}`;
+        }
+
+        function guardarSesion(user) {
+            localStorage.setItem('usuario_activo', JSON.stringify({
+                usuario: user.displayName || user.email || user.uid,
+                rol: 'Admin',
+                name: user.displayName || user.email || user.uid,
+                email: user.email || '',
+                uid: user.uid
+            }));
+        }
+
+        async function validarLicencia(user) {
+            if (!db || !user) return false;
+
+            const collectionName = firebaseLicenseConfig.collection || 'licencias';
+            const activeField = firebaseLicenseConfig.activeField || 'activa';
+
+            const checkFirestore = async () => {
+                const porUid = await db.collection(collectionName).doc(user.uid).get();
+                if (porUid.exists) {
+                    const data = porUid.data() || {};
+                    if (data[activeField] === true || data.estado === 'activa') return true;
+                }
+
+                if (!user.email) return false;
+
+                const porEmail = await db.collection(collectionName)
+                    .where('email', '==', user.email.toLowerCase())
+                    .limit(1)
+                    .get();
+
+                if (porEmail.empty) return false;
+                const data = porEmail.docs[0].data() || {};
+                return data[activeField] === true || data.estado === 'activa';
+            };
+
+            // Límite de 5 segundos. Si Firestore se queda colgado, asumimos false para que lance la ventana Beta.
+            const timeoutPromise = new Promise((resolve) => setTimeout(() => resolve(false), 5000));
+
+            try {
+                return await Promise.race([checkFirestore(), timeoutPromise]);
+            } catch (e) {
+                return false;
+            }
+        }
+
+        async function procesarUsuarioAutenticado(user) {
+            // Si ya activó la beta en esta PC, saltamos el chequeo para evitar los 5 seg de carga
+            if (localStorage.getItem('powerhaus_beta_activated') === 'true') {
+                guardarSesion(user);
+                redirigirAlIndex();
+                return;
+            }
+
+            const tieneLicencia = await validarLicencia(user);
+            if (!tieneLicencia) {
+                // Lanzar ventana Beta
+                usuarioTemporalParaBeta = user;
+                document.getElementById('beta-modal').classList.remove('hidden');
+                resetEstadoLogin();
+                resetEstadoGoogle();
+                return;
+            }
+
+            localStorage.setItem('powerhaus_beta_activated', 'true');
+            guardarSesion(user);
+            redirigirAlIndex();
+        }
+
+        function cerrarModalBeta() {
+            document.getElementById('beta-modal').classList.add('hidden');
+            if (auth) auth.signOut();
+            usuarioTemporalParaBeta = null;
+        }
+
+        document.getElementById('beta-checkbox').addEventListener('change', function(e) {
+            const btn = document.getElementById('activar-btn');
+            if (e.target.checked) {
+                btn.disabled = false;
+                btn.classList.remove('bg-[#2a2a2a]', 'text-[#555]', 'cursor-not-allowed');
+                btn.classList.add('bg-[#ff8d87]', 'text-[#65000a]', 'hover:shadow-[0_0_30px_rgba(255,141,135,0.4)]', 'active:scale-[0.98]');
+            } else {
+                btn.disabled = true;
+                btn.classList.add('bg-[#2a2a2a]', 'text-[#555]', 'cursor-not-allowed');
+                btn.classList.remove('bg-[#ff8d87]', 'text-[#65000a]', 'hover:shadow-[0_0_30px_rgba(255,141,135,0.4)]', 'active:scale-[0.98]');
+            }
+        });
+
+        document.getElementById('activar-btn').addEventListener('click', async function() {
+            if (!usuarioTemporalParaBeta || !db) return;
+            
+            const btn = document.getElementById('activar-btn');
+            btn.innerText = 'ACTIVANDO LICENCIA...';
+            btn.disabled = true;
+
+            try {
+                const collectionName = firebaseLicenseConfig.collection || 'licencias';
+                
+                const setPromise = db.collection(collectionName).doc(usuarioTemporalParaBeta.uid).set({
+                    email: usuarioTemporalParaBeta.email || '',
+                    nombre: usuarioTemporalParaBeta.displayName || 'Usuario Beta',
+                    activa: true,
+                    plan: 'Beta 1 PC',
+                    fechaActivacion: firebase.firestore.FieldValue.serverTimestamp()
+                }, { merge: true });
+
+                // Timeout de 10 segundos para no quedarse cargando
+                const timeoutPromise = new Promise((_, reject) => 
+                    setTimeout(() => reject(new Error('timeout')), 10000)
+                );
+
+                await Promise.race([setPromise, timeoutPromise]);
+
+                localStorage.setItem('powerhaus_beta_activated', 'true');
+                document.getElementById('beta-modal').classList.add('hidden');
+                guardarSesion(usuarioTemporalParaBeta);
+                redirigirAlIndex();
+
+            } catch (error) {
+                console.error("Error activando beta:", error);
+                // Proceder de todas formas de manera silenciosa
+                localStorage.setItem('powerhaus_beta_activated', 'true');
+                document.getElementById('beta-modal').classList.add('hidden');
+                guardarSesion(usuarioTemporalParaBeta);
+                redirigirAlIndex();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (!firebaseConfigurado()) {
+                mostrarError('Firebase no está configurado. Edita firebase-config.js con tus credenciales.');
+                return;
+            }
+
+            try {
+                if (!firebase.apps.length) {
+                    firebase.initializeApp(firebaseConfig);
+                }
+
+                auth = firebase.auth();
+                db = firebase.firestore();
+                
+                // Forzar Long Polling (soluciona el error "unavailable" en Electron si se bloquean los WebSockets)
+                db.settings({
+                    experimentalForceLongPolling: true,
+                    useFetchStreams: false
+                });
+
+                googleProvider = new firebase.auth.GoogleAuthProvider();
+
+                await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+
+                auth.onAuthStateChanged(async (user) => {
+                    if (loginTimeoutId) {
+                        clearTimeout(loginTimeoutId);
+                        loginTimeoutId = null;
+                    }
+                    if (googleTimeoutId) {
+                        clearTimeout(googleTimeoutId);
+                        googleTimeoutId = null;
+                    }
+
+                    if (!user) {
+                        resetEstadoLogin();
+                        resetEstadoGoogle();
+                        return;
+                    }
+
+                    try {
+                        await procesarUsuarioAutenticado(user);
+                    } catch (e) {
+                        const code = e && (e.code || (e.message || '').match(/\[(.*?)\]/)?.[1]);
+                        console.error('Error validando licencia en Firebase:', e);
+                        await auth.signOut();
+                        mostrarError(mapFirestoreError(code));
+                        resetEstadoLogin();
+                        resetEstadoGoogle();
+                    }
+                });
+            } catch (e) {
+                mostrarError('No se pudo conectar con Firebase. Revisa firebase-config.js y la red.');
+            }
+        });
+
+        function togglePassword() {
+            const pwd = document.getElementById('password');
+            const icon = document.getElementById('pwd-icon');
+            if (pwd.type === 'password') {
+                pwd.type = 'text';
+                icon.innerText = 'visibility_off';
+            } else {
+                pwd.type = 'password';
+                icon.innerText = 'visibility';
+            }
+        }
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            if (!auth) {
+                mostrarError('Firebase no está inicializado.');
+                return;
+            }
+
+            let recaptchaResponse = '';
+            try {
+                recaptchaResponse = grecaptcha.getResponse();
+            } catch (e) {}
+
+            if (!recaptchaResponse) {
+                mostrarError('Por favor, completa la verificación de seguridad (reCAPTCHA).');
+                return;
+            }
+
+            limpiarError();
+            submitBtn.disabled = true;
+            submitText.innerText = 'PROCESANDO...';
+            submitBtn.classList.add('opacity-50');
+
+            const emailVal = document.getElementById('email').value.trim();
+            const passVal = document.getElementById('password').value;
+
+            loginTimeoutId = setTimeout(() => {
+                mostrarError('La conexión está tardando demasiado. Verifica internet o reglas de Firebase.');
+                resetEstadoLogin();
+            }, 15000);
+
+            try {
+                await auth.signInWithEmailAndPassword(emailVal, passVal);
+            } catch (err) {
+                if (loginTimeoutId) {
+                    clearTimeout(loginTimeoutId);
+                    loginTimeoutId = null;
+                }
+                mostrarError(mapFirebaseError(err && err.code));
+                resetEstadoLogin();
+            }
+        });
+
+        googleBtn.addEventListener('click', async function() {
+            if (!auth || !googleProvider) {
+                mostrarError('Firebase no está inicializado.');
+                return;
+            }
+
+            let recaptchaResponse = '';
+            try {
+                recaptchaResponse = grecaptcha.getResponse();
+            } catch (e) {}
+
+            if (!recaptchaResponse) {
+                mostrarError('Por favor, completa la verificación de seguridad (reCAPTCHA).');
+                return;
+            }
+
+            limpiarError();
+            googleBtn.disabled = true;
+            googleBtn.innerText = 'PROCESANDO...';
+            googleBtn.classList.add('opacity-50');
+
+            googleTimeoutId = setTimeout(() => {
+                mostrarError('La autenticación con Google tardó demasiado. Inténtalo de nuevo.');
+                resetEstadoGoogle();
+            }, 15000);
+
+            try {
+                await auth.signInWithPopup(googleProvider);
+            } catch (err) {
+                if (googleTimeoutId) {
+                    clearTimeout(googleTimeoutId);
+                    googleTimeoutId = null;
+                }
+
+                const code = err && err.code;
+                if (code === 'auth/popup-blocked' || code === 'auth/cancelled-popup-request') {
+                    mostrarError('Popup bloqueado. Abriendo autenticación por redirección...');
+                    try {
+                        await auth.signInWithRedirect(googleProvider);
+                        return;
+                    } catch (redirectErr) {
+                        mostrarError(mapFirebaseError(redirectErr && redirectErr.code));
+                        resetEstadoGoogle();
+                        return;
+                    }
+                }
+
+                mostrarError(mapFirebaseError(code));
+                resetEstadoGoogle();
+            }
+        });
+    </script>
+</body>
+</html>

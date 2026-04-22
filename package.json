@@ -1,0 +1,55 @@
+{
+    "name": "gimnasio",
+    "version": "2.5.9",
+    "description": "",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron .",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "electron-builder"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "type": "commonjs",
+    "dependencies": {
+        "cors": "^2.8.6",
+        "express": "^5.2.1"
+    },
+    "build": {
+        "appId": "com.powerhaus.app",
+        "productName": "PowerHaus",
+        "win": {
+            "icon": "build/icon.png",
+            "target": [
+                "nsis",
+                "portable"
+            ]
+        },
+        "mac": {
+            "icon": "build/icon.png",
+            "target": [
+                "dmg",
+                "zip"
+            ]
+        },
+        "linux": {
+            "icon": "build/icon.png",
+            "target": [
+                "AppImage",
+                "deb"
+            ]
+        },
+        "nsis": {
+            "oneClick": false,
+            "perMachine": false,
+            "allowToChangeInstallationDirectory": true,
+            "createDesktopShortcut": "always"
+        }
+    },
+    "devDependencies": {
+        "electron": "^41.2.0",
+        "electron-builder": "^26.8.1",
+        "eslint": "^10.2.1"
+    }
+}

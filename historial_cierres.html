@@ -1,0 +1,406 @@
+﻿<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Historial de Cierres | PowerHaus</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "primary": "#003ec7",
+          "primary-container": "#0052ff",
+          "background": "#faf8ff",
+          "surface": "#faf8ff",
+          "on-background": "#131b2e",
+        },
+        fontFamily: {
+          headline: ["Manrope"],
+          body: ["Inter"],
+        }
+      }
+    }
+  }
+</script>
+<style>
+  body { font-family: 'Inter', sans-serif; }
+  h1, h2, h3, h4, .font-headline { font-family: 'Manrope', sans-serif; }
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+  .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 20px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+</style>
+    <script src="theme-applier.js"></script>
+</head>
+<body class="bg-[#f0f2f8] text-on-background min-h-screen flex">
+
+<!-- SideNavBar -->
+<aside class="hidden md:flex flex-col h-screen w-64 sticky top-0 bg-slate-100 dark:bg-slate-900 py-6">
+<div class="px-6 mb-10">
+<div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-[#0d4cf0] rounded-full flex items-center justify-center text-white shadow-md">
+                <span class="material-symbols-outlined -rotate-45 notranslate" translate="no" style="font-variation-settings: 'FILL' 1; font-size: 24px;">fitness_center</span>
+            </div>
+            <div>
+                <h1 class="text-[1.3rem] font-black text-slate-800 dark:text-slate-50 tracking-tight leading-none mb-0.5">PowerHaus</h1>
+                <p class="text-[9px] tracking-[0.06em] uppercase font-bold text-slate-500 leading-none">ELITE PERFORMANCE</p>
+            </div>
+        </div>
+</div>
+<nav class="flex-1 flex flex-col gap-2">
+<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-slate-50 group text-slate-500 dark:text-slate-400" href="administrador.html">
+<span class="material-symbols-outlined group-hover:scale-125 transition-all duration-300 notranslate" translate="no">dashboard</span>
+<span class="tracking-wider uppercase text-xs font-bold">Panel Principal</span>
+</a>
+<div class="relative group rounded-l-[1.5rem] ml-4 transition-all duration-300 flex flex-col shadow-sm bg-white dark:bg-slate-800">
+<button onclick="document.getElementById('submenu-miembros').classList.toggle('hidden'); document.getElementById('icon-miembros').classList.toggle('rotate-180')" class="w-full flex justify-between items-center text-emerald-600 dark:text-emerald-400 pl-4 py-3 transition-transform duration-300 hover:translate-x-1 focus:outline-none cursor-pointer select-none">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined notranslate" translate="no">group</span>
+<span class="tracking-wider uppercase text-xs font-bold">Miembros</span>
+</div>
+<span id="icon-miembros" class="material-symbols-outlined text-sm mr-4 transition-transform duration-300 notranslate" translate="no">expand_more</span>
+</button>
+<div id="submenu-miembros" class="flex-col pl-[3.25rem] pb-4 pt-1 hidden gap-3">
+<a href="gestion de miembros.html?view=miembros" class="text-[11px] font-bold tracking-widest text-slate-500 hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-400 transition-colors flex items-center gap-2">
+    <div class="w-1.5 h-1.5 rounded-full bg-transparent border border-slate-300 group-hover:border-emerald-300"></div> MIEMBRO </a>
+<a href="gestion de miembros.html?view=entrenadores" class="text-[11px] font-bold tracking-widest text-slate-500 hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-400 transition-colors flex items-center gap-2">
+    <div class="w-1.5 h-1.5 rounded-full bg-transparent border border-slate-300 group-hover:border-emerald-300"></div> ENTRENADORES
+</a>
+</div>
+</div>
+<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-purple-50 group text-slate-500 dark:text-slate-400" href="calendario.html">
+<span class="material-symbols-outlined group-hover:scale-110 group-hover:-rotate-12 transition-all duration-300 notranslate" translate="no">fitness_center</span>
+<span class="tracking-wider uppercase text-xs font-bold">Clases</span>
+</a>
+<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-amber-50 group text-slate-500 dark:text-slate-400" href="punto de venta.html">
+<span class="material-symbols-outlined group-hover:-translate-y-1 group-hover:scale-110 transition-all duration-300 notranslate" translate="no">badge</span>
+<span class="tracking-wider uppercase text-xs font-bold">Personal</span>
+</a>
+<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-slate-200 group text-slate-500 dark:text-slate-400" href="cierre.html">
+<span class="material-symbols-outlined group-hover:scale-110 transition-all duration-300 notranslate" translate="no" style="font-variation-settings:'FILL' 1">nights_stay</span>
+<span class="tracking-wider uppercase text-xs font-bold">Cierre del Día</span>
+</a>
+
+</nav>
+<div class="px-6 mt-auto flex flex-col gap-4">
+
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 text-slate-500 text-xs font-bold tracking-wider uppercase py-2 hover:text-blue-600" href="soporte.html" target="_blank">
+<span class="material-symbols-outlined text-sm notranslate" translate="no">help</span>
+                    SOPORTE
+                </a>
+<a class="flex items-center gap-3 text-slate-500 text-xs font-bold tracking-wider uppercase py-2 hover:text-blue-600" href="javascript:void(0)" onclick="cerrarSesion(event)">
+<span class="material-symbols-outlined text-sm notranslate" translate="no">logout</span>
+CERRAR SESIÓN</a>
+</div>
+</div>
+</aside>
+
+<!-- MAIN -->
+<main class="flex-1 flex flex-col min-w-0 overflow-y-auto">
+
+  <!-- Top Bar -->
+  <header class="bg-white/70 backdrop-blur-xl sticky top-0 z-50 border-b border-slate-200/60 flex justify-between items-center px-8 py-4 shadow-sm">
+    <div class="relative max-w-xs w-full">
+      <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">search</span>
+      <input class="w-full bg-slate-100 border-none rounded-full pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary/20 placeholder:text-slate-400" placeholder="Buscar transacción..." type="text"/>
+    </div>
+    <div class="flex items-center gap-3">
+      <div class="flex items-center gap-2 pl-3 border-l border-slate-200">
+        <div class="text-right">
+          <p class="text-xs font-bold text-on-surface">Admin User</p>
+          <p class="text-[10px] text-slate-500">Manager General</p>
+        </div>
+        <div class="w-9 h-9 rounded-full bg-primary flex items-center justify-center text-white font-black text-sm">A</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Content -->
+  <div class="flex-1 p-8 max-w-6xl mx-auto w-full">
+      <!-- Hero Section -->
+      <div class="relative min-h-[14rem] rounded-[2rem] overflow-hidden mb-8 shadow-md bg-slate-900 border border-slate-800 flex items-end">
+        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop')] bg-cover bg-center opacity-40 mix-blend-luminosity"></div>
+        <div class="absolute inset-0 z-20 flex flex-col justify-end p-10 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent">
+          <h2 class="text-4xl font-black text-white mb-2 tracking-tight">Historial de Cierres</h2>
+          <p class="text-white/80 font-medium max-w-2xl text-sm">Supervisa y audita la precisión financiera diaria. Mantén el control total de los flujos de caja y arqueos de PowerHaus.</p>
+        </div>
+      </div>
+
+      <!-- Filter and Stats row -->
+      <div class="flex flex-col lg:flex-row gap-6 mb-8">
+        <div class="flex-1 bg-white rounded-[2rem] p-6 shadow-sm border border-slate-100 flex flex-col sm:flex-row items-end gap-6 justify-between">
+          <div class="flex flex-col sm:flex-row gap-6 w-full">
+              <div>
+                <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Rango de Fecha</label>
+                <div class="flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 min-w-[200px] focus-within:border-blue-500">
+                    <span class="material-symbols-outlined text-blue-500 text-lg">calendar_month</span>
+                    <input type="text" onfocus="(this.type='date')" onblur="if(!this.value) this.type='text'" onchange="renderHistorialModal()" id="historialFechaFiltro" class="bg-transparent text-sm font-bold text-slate-700 outline-none w-full cursor-pointer" />
+                </div>
+              </div>
+              <div>
+                <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Estado de cierre</label>
+                <div class="flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 min-w-[200px] focus-within:border-blue-500">
+                    <select id="historialEstadoFiltro" onchange="renderHistorialModal()" class="bg-transparent text-sm font-bold text-slate-700 outline-none w-full cursor-pointer">
+                       <option value="">Todos los Estados</option>
+                       <option value="cuadrado">Completado / Cuadrado</option>
+                       <option value="sobrante">Sobrante</option>
+                       <option value="faltante">Discrepancia / Faltante</option>
+                    </select>
+                </div>
+              </div>
+          </div>
+          <div class="flex gap-3 shrink-0">
+             <button onclick="limpiarFiltroHistorial()" class="bg-slate-50 border border-slate-200 text-slate-600 font-bold rounded-xl px-6 py-3 hover:bg-slate-100 text-sm">Limpiar</button>
+          </div>
+        </div>
+        
+        <div class="w-full lg:w-[320px] bg-[#0042e3] text-white rounded-[2rem] p-7 shadow-xl shadow-blue-700/20 flex flex-col justify-center relative overflow-hidden shrink-0">
+            <div class="absolute right-[-10%] bottom-[-15%] opacity-10 pointer-events-none mix-blend-overlay">
+                <span class="material-symbols-outlined text-[160px]" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+            </div>
+            <div class="flex justify-between items-start mb-4 relative z-10 font-medium">
+               <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-md border border-white/10">
+                  <span class="material-symbols-outlined text-white">receipt_long</span>
+               </div>
+               <span class="text-[9px] uppercase tracking-widest font-black bg-blue-800/80 px-3 py-1 rounded-full shadow-sm backdrop-blur-sm">GLOBAL</span>
+            </div>
+            <h3 id="historialTotalGlobal" class="text-4xl font-black mb-1 relative z-10">$0.00</h3>
+            <p class="text-blue-100 text-xs font-semibold relative z-10">Recaudación Total</p>
+        </div>
+      </div>
+
+      <!-- Table Section -->
+      <div class="bg-white rounded-[2rem] shadow-sm border border-slate-100 overflow-hidden flex flex-col">
+          <div class="p-6 md:px-8 md:py-6 border-b border-slate-100 flex justify-between items-center">
+              <h3 class="text-lg font-black text-slate-800">Registros Recientes</h3>
+              <button class="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-slate-50"><span class="material-symbols-outlined text-[20px]">download</span></button>
+          </div>
+          <div class="overflow-x-auto custom-scrollbar">
+              <table class="w-full text-left min-w-[700px]">
+                 <thead class="bg-white">
+                    <tr>
+                       <th class="py-4 px-8 text-[10px] uppercase font-black text-slate-400 tracking-widest border-b border-slate-100">Fecha</th>
+                       <th class="py-4 px-6 text-[10px] uppercase font-black text-slate-400 tracking-widest border-b border-slate-100">Recaudado</th>
+                       <th class="py-4 px-6 text-[10px] uppercase font-black text-slate-400 tracking-widest border-b border-slate-100">Responsable</th>
+                       <th class="py-4 px-6 text-[10px] uppercase font-black text-slate-400 tracking-widest border-b border-slate-100">Diferencia</th>
+                       <th class="py-4 px-8 text-[10px] uppercase font-black text-slate-400 tracking-widest border-b border-slate-100">Estado</th>
+                    </tr>
+                 </thead>
+                 <tbody id="historialCierresList" class="divide-y divide-slate-50/60">
+                 </tbody>
+              </table>
+          </div>
+          <div class="p-4 px-8 border-t border-slate-100 flex justify-between items-center bg-white">
+              <p id="historialCountTxt" class="text-[11px] font-bold text-slate-500">Mostrando 0 registros</p>
+              <div class="flex gap-1">
+                 <button class="w-8 h-8 rounded border border-slate-200 text-slate-400 flex items-center justify-center hover:bg-slate-50"><span class="material-symbols-outlined text-[16px]">chevron_left</span></button>
+                 <button class="w-8 h-8 rounded bg-blue-600 text-white font-bold text-xs flex items-center justify-center">1</button>
+                 <button class="w-8 h-8 rounded border border-slate-200 text-slate-400 flex items-center justify-center hover:bg-slate-50"><span class="material-symbols-outlined text-[16px]">chevron_right</span></button>
+              </div>
+          </div>
+      </div>
+  </div>
+</main>
+
+<!-- Custom Confirm Delete Modal -->
+<div id="deleteModal" class="fixed inset-0 z-[100] hidden items-center justify-center">
+    <!-- Backdrop -->
+    <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm shadow-2xl transition-opacity opacity-0" id="deleteModalBackdrop"></div>
+    
+    <!-- Modal Content -->
+    <div class="bg-white rounded-[24px] shadow-2xl border border-slate-100 p-8 max-w-sm w-full mx-4 relative z-10 transform scale-95 opacity-0 transition-all duration-300 flex flex-col items-center text-center" id="deleteModalContent">
+        <div class="w-16 h-16 bg-red-50 text-red-500 rounded-full flex items-center justify-center mb-5">
+            <span class="material-symbols-outlined text-[32px]">delete_forever</span>
+        </div>
+        <h3 class="text-xl font-black text-slate-800 mb-2">¿Eliminar Registro?</h3>
+        <p class="text-[13px] font-medium text-slate-500 mb-8 leading-relaxed">Esta acción borrará de forma permanente el reporte de cierre. Los datos no podrán recuperarse.</p>
+        
+        <div class="flex w-full gap-3">
+            <button onclick="closeDeleteModal()" class="flex-1 px-4 py-3 bg-slate-50 hover:bg-slate-100 text-slate-600 border border-slate-200 rounded-xl font-bold text-[13px] transition-colors">Cancelar</button>
+            <button id="confirmDeleteBtn" class="flex-1 px-4 py-3 bg-[red] hover:bg-red-600 text-white shadow-lg shadow-red-500/30 rounded-xl font-bold text-[13px] transition-all active:scale-95">Sí, eliminar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Auto-cleaner: Purge all invalid dates immediately on load so it looks clean
+        let hCierres = JSON.parse(localStorage.getItem('historialCierres') || '[]');
+        const originalLength = hCierres.length;
+        hCierres = hCierres.filter(c => c.fecha && !isNaN(new Date(c.fecha).getTime()));
+        if (hCierres.length < originalLength) {
+            localStorage.setItem('historialCierres', JSON.stringify(hCierres));
+        }
+        
+        // Render
+        renderHistorialModal();
+    });
+
+    function limpiarFiltroHistorial() {
+        const fechaEl = document.getElementById('historialFechaFiltro');
+        fechaEl.value = '';
+        fechaEl.type = 'text'; // Returns to blank state
+        document.getElementById('historialEstadoFiltro').value = '';
+        renderHistorialModal();
+    }
+
+    function renderHistorialModal() {
+        const listEl = document.getElementById('historialCierresList');
+        const countEl = document.getElementById('historialCountTxt');
+        const totalEl = document.getElementById('historialTotalGlobal');
+        
+        const fechaFiltro = document.getElementById('historialFechaFiltro').value;
+        const estadoFiltro = document.getElementById('historialEstadoFiltro').value;
+        
+        let hCierres = JSON.parse(localStorage.getItem('historialCierres') || '[]');
+        
+        if (fechaFiltro) {
+            hCierres = hCierres.filter(c => {
+                if (!c.fecha) return false;
+                const d = new Date(c.fecha);
+                const localDateStr = d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,'0') + "-" + String(d.getDate()).padStart(2,'0');
+                return localDateStr === fechaFiltro;
+            });
+        }
+
+        if (estadoFiltro) {
+            hCierres = hCierres.filter(c => {
+                let diff = c.diferencia || 0;
+                if (estadoFiltro === 'cuadrado') return Math.abs(diff) < 0.01;
+                if (estadoFiltro === 'sobrante') return diff > 0;
+                if (estadoFiltro === 'faltante') return diff <= -0.01;
+                return true;
+            });
+        }
+
+        countEl.innerText = `Mostrando ${hCierres.length} registros`;
+        
+        let totalSum = hCierres.reduce((s, c) => s + (parseFloat(c.totalRecaudado) || 0), 0);
+        totalEl.innerText = `$${totalSum.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
+
+        if (hCierres.length === 0) {
+            listEl.innerHTML = `
+                <tr>
+                  <td colspan="5" class="py-16 text-center text-slate-400 border-none">
+                    <span class="material-symbols-outlined text-4xl mb-4 opacity-70 text-slate-300">history_off</span><br/>
+                    <p class="font-bold text-slate-500 mb-1">No se encontraron registros</p>
+                    <p class="text-xs">Intenta ajustar los filtros de fecha o estado.</p>
+                  </td>
+                </tr>
+            `;
+            return;
+        }
+
+        listEl.innerHTML = hCierres.map(c => {
+            let d = new Date(c.fecha);
+            // Fallback for invalid dates
+            let dateForm = isNaN(d.getTime()) ? 'Invalida' : d.toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' });
+            let timeForm = isNaN(d.getTime()) ? '--:--' : d.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
+            
+            let difColor = 'text-slate-400';
+            let statusTag = '';
+            let difVal = (c.diferencia||0);
+            
+            if (Math.abs(difVal) < 0.01) { 
+                difColor = 'text-slate-400 font-semibold'; 
+                statusTag = '<span class="px-2.5 py-1 rounded-full text-[9px] uppercase font-black tracking-widest bg-blue-50 text-blue-600 border border-blue-200/50">Completado</span>'; 
+            } else if (difVal > 0) { 
+                difColor = 'text-emerald-500 font-bold'; 
+                statusTag = '<span class="px-2.5 py-1 rounded-full text-[9px] uppercase font-black tracking-widest bg-emerald-50 text-emerald-600 border border-emerald-200/50">Sobrante</span>'; 
+            } else { 
+                difColor = 'text-red-500 font-bold'; 
+                statusTag = '<span class="px-2.5 py-1 rounded-full text-[9px] uppercase font-black tracking-widest bg-red-50 text-red-600 border border-red-200/50">Discrepancia</span>'; 
+            }
+            
+            return `
+            <tr class="hover:bg-slate-50/60 transition-colors cursor-pointer group">
+               <td class="py-5 px-8 border-b border-slate-100 align-middle">
+                  <p class="text-[13px] font-black text-slate-800 capitalize mb-0.5">${dateForm}</p>
+                  <p class="text-[10px] font-bold text-slate-400 uppercase">${timeForm}</p>
+               </td>
+               <td class="py-5 px-6 border-b border-slate-100 align-middle">
+                  <p class="text-[15px] font-black text-slate-800">$${(c.totalRecaudado||0).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})}</p>
+               </td>
+               <td class="py-5 px-6 border-b border-slate-100 align-middle">
+                  <div class="flex items-center gap-3">
+                     <div class="w-7 h-7 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-[10px] font-black shrink-0 border border-blue-200/40">AD</div>
+                     <span class="text-xs font-bold text-slate-600">Admin User</span>
+                  </div>
+               </td>
+               <td class="py-5 px-6 border-b border-slate-100 align-middle">
+                  <p class="text-sm ${difColor}">$${difVal.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})}</p>
+               </td>
+               <td class="py-5 px-8 border-b border-slate-100 align-middle">
+                  <div class="flex items-center justify-between gap-4">
+                     ${statusTag}
+                     <button onclick="eliminarCierre('${c.fecha}')" class="opacity-0 group-hover:opacity-100 transition-opacity w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:bg-red-50 hover:text-red-500" title="Eliminar este cierre">
+                        <span class="material-symbols-outlined text-[18px]">delete</span>
+                     </button>
+                  </div>
+               </td>
+            </tr>
+            `;
+        }).join('');
+    }
+
+    let currentDeleteFecha = null;
+
+    window.eliminarCierre = function(fecha) {
+        currentDeleteFecha = fecha;
+        const modal = document.getElementById('deleteModal');
+        const backdrop = document.getElementById('deleteModalBackdrop');
+        const content = document.getElementById('deleteModalContent');
+        
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        
+        // Trigger animations
+        setTimeout(() => {
+             backdrop.classList.remove('opacity-0');
+             backdrop.classList.add('opacity-100');
+             content.classList.remove('scale-95', 'opacity-0');
+             content.classList.add('scale-100', 'opacity-100');
+        }, 10);
+    }
+
+    window.closeDeleteModal = function() {
+        const modal = document.getElementById('deleteModal');
+        const backdrop = document.getElementById('deleteModalBackdrop');
+        const content = document.getElementById('deleteModalContent');
+        
+        backdrop.classList.remove('opacity-100');
+        backdrop.classList.add('opacity-0');
+        content.classList.remove('scale-100', 'opacity-100');
+        content.classList.add('scale-95', 'opacity-0');
+        
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            currentDeleteFecha = null;
+        }, 300);
+    }
+
+    document.getElementById('confirmDeleteBtn').addEventListener('click', () => {
+        if (currentDeleteFecha) {
+            let hCierres = JSON.parse(localStorage.getItem('historialCierres') || '[]');
+            hCierres = hCierres.filter(c => c.fecha !== currentDeleteFecha);
+            localStorage.setItem('historialCierres', JSON.stringify(hCierres));
+            renderHistorialModal(); 
+        }
+        closeDeleteModal();
+    });
+</script>
+<script src="cerrar-sesion.js"></script>
+
+<script src="powerhaus-chat.js"></script>
+</body>
+</html>
+
+

@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Tu Carrito | Elevando la Venta</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f6f8fb; }
+        h1, h2, h3, h4, h5, .font-headline { font-family: 'Manrope', sans-serif; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.8);
+        }
+    </style>
+</head>
+<body class="text-slate-800 min-h-screen flex flex-col relative overflow-x-hidden">
+
+    <!-- Top nav -->
+    <header class="w-full flex justify-end px-8 py-4 sticky top-0 z-50">
+        <div class="flex items-center gap-2 bg-white rounded-full px-4 py-1.5 shadow-sm border border-slate-100 hover:shadow-md transition-all cursor-pointer">
+            <span class="material-symbols-outlined text-[16px] text-slate-500" translate="no">language</span>
+            <span class="text-xs font-bold text-slate-600">Español</span>
+            <span class="material-symbols-outlined text-[16px] text-slate-400" translate="no">expand_more</span>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-6xl mx-auto w-full px-8 flex flex-col pb-16">
+        
+        <!-- Header -->
+        <div class="mb-10 relative">
+            <h1 class="text-[42px] font-black tracking-tight text-slate-900 inline-block font-headline">
+                Tu Carrito
+            </h1>
+            <div class="h-1.5 bg-[#004cf0] w-[140px] rounded-full mt-1.5"></div>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-12 items-start relative">
+            
+            <!-- Left: Products List -->
+            <div class="flex-1 flex flex-col gap-6 w-full z-10">
+                
+                
+                <!-- Empty State -->
+                <div id="emptyState" class="hidden bg-white/50 backdrop-blur-sm rounded-[32px] p-16 border border-slate-200 border-dashed flex flex-col items-center justify-center text-center">
+                    <div class="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center text-blue-500 mb-6">
+                        <span class="material-symbols-outlined text-[48px]">shopping_cart_off</span>
+                    </div>
+                    <h2 class="text-2xl font-black text-slate-800 font-headline mb-2">Tu carrito está vacío</h2>
+                    <p class="text-slate-500 font-medium mb-8 max-w-sm">Explora nuestro catálogo para añadir suplementos, equipo e indumentaria.</p>
+                    <a href="punto de venta.html" class="bg-[#004cf0] hover:bg-[#003de0] text-white px-8 py-3 rounded-full font-bold shadow-lg shadow-blue-600/30 transition-all">Ir al Catálogo</a>
+                </div>
+
+                <!-- Dynamic Cart List -->
+                <div id="cartList" class="flex flex-col gap-6 w-full"></div>
+
+                <!-- Back to catalog action -->
+                <div class="mt-8 flex">
+                    <a href="punto de venta.html" class="flex items-center gap-3 text-[#004cf0] hover:text-[#0031a0] font-bold text-sm tracking-wide transition-colors group px-2 py-1">
+                        <span class="material-symbols-outlined text-[18px] group-hover:-translate-x-1 border border-transparent rounded-full transition-transform" translate="no">arrow_back</span>
+                        Volver al Catálogo
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right: Order Summary -->
+            <div id="summaryBlock" class="w-full lg:w-[380px] shrink-0 transition-opacity duration-300">
+                <div class="bg-[#f8fafc] rounded-[32px] p-8 pb-10 border border-slate-200/60 shadow-sm sticky top-24">
+                    <h2 class="font-headline text-[22px] font-black text-slate-800 mb-8 tracking-tighter">Resumen de Orden</h2>
+                    
+                    <div class="space-y-4 mb-8 text-sm font-semibold text-slate-500">
+                        <div class="flex justify-between items-center text-[13px]">
+                            <span class="font-medium">Subtotal</span>
+                            <span id="subtotalLbl" class="font-black tracking-tight text-slate-800 text-[15px]">$0.00</span>
+                        </div>
+                        <div class="flex justify-between items-center text-[13px]">
+                            <span id="ivaLabelText" class="font-medium cursor-pointer text-[#004cf0] hover:text-[#0b3eb0] transition-colors flex items-center gap-1" onclick="editIVA()">IVA (8%) <span class="material-symbols-outlined text-[12px]">edit</span></span>
+                            <span id="taxLbl" class="font-black tracking-tight text-slate-800 text-[15px]">$0.00</span>
+                        </div>
+                        <div class="flex justify-between items-center text-[13px]">
+                            <span class="font-medium">Envío</span>
+                            <span class="font-black tracking-tight text-[#004cf0] uppercase text-[12px]">GRATIS</span>
+                        </div>
+                    </div>
+                    
+                    <div class="border-t border-slate-200/80 pt-6 mb-8">
+                        <div class="flex flex-col gap-1 mb-6 relative" id="userSearchContainer">
+                            <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">Asociar a Perfil</label>
+                            
+                            <div class="relative w-full">
+                                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[#004cf0] text-[20px]" translate="no">search</span>
+                                <input type="text" id="userSearchDisplay" onfocus="openUserSearch()" oninput="filterUserSearch(this.value)" placeholder="Buscar un miembro o plan..." class="w-full h-12 bg-white border-2 border-[#004cf0] rounded-full pl-12 pr-10 text-[13px] font-medium text-slate-700 outline-none focus:ring-4 focus:ring-[#004cf0]/20 transition-all placeholder:text-slate-400 shadow-sm">
+                                
+                                <button id="clearUserBtn" onclick="clearUserSelection()" class="hidden absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-rose-500 transition-colors">
+                                    <span class="material-symbols-outlined text-[18px]">close</span>
+                                </button>
+                            </div>
+                            
+                            <!-- Custom Dropdown -->
+                            <div id="userSearchDropdown" class="hidden absolute top-[74px] left-0 w-full bg-white rounded-2xl shadow-[0_16px_40px_rgba(0,0,0,0.15)] border border-slate-100 max-h-[260px] overflow-y-auto z-[60] py-2">
+                                <!-- Options will be injected here -->
+                            </div>
+
+                            <select id="userSelector" class="hidden">
+                                <option value="" disabled selected>Seleccionar Miembro/Entrenador...</option>
+                            </select>
+                        </div>
+                        
+                        <div class="flex flex-col gap-1">
+                            <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Total a Pagar</span>
+                            <div class="flex items-end gap-2">
+                                <span id="totalLbl" class="text-[40px] font-headline font-black text-slate-800 leading-none tracking-tighter">$0.00</span>
+                                <span class="text-[11px] font-bold text-slate-400 uppercase tracking-widest pb-1.5">USD</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button onclick="proceedToCheckout()" class="w-full bg-[#004cf0] hover:bg-[#003de0] text-white rounded-[16px] h-16 flex items-center justify-between px-8 font-black uppercase tracking-wider text-sm shadow-[0_12px_24px_rgba(0,76,240,0.25)] hover:shadow-[0_16px_36px_rgba(0,76,240,0.35)] hover:-translate-y-1 transition-all active:scale-95 duration-300">
+                        <span>Proceder al Pago</span>
+                        <span class="material-symbols-outlined ml-2 scale-[1.15]" translate="no">payments</span>
+                    </button>
+                    
+                    <div class="mt-8 bg-blue-50/50 rounded-[16px] p-5 flex gap-4 items-start border border-blue-100/50">
+                        <div class="shrink-0">
+                            <span class="material-symbols-outlined text-[#004cf0] text-[20px]" style="font-variation-settings: 'FILL' 1" translate="no">verifiedUser</span>
+                        </div>
+                        <p class="text-[10px] font-medium text-slate-500 leading-relaxed max-w-[200px]">
+                            Compra protegida por la empresa. Garantía de devolución de 30 días en todos los productos de suplementación.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+
+    <!-- Footer border -->
+    <footer class="mt-auto py-8 text-center text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] bg-white border-t border-slate-100 flex flex-col md:flex-row items-center justify-between px-16 relative z-10 w-full">
+        <span>© 2026 CompuGames | Powerhaus Elite Performance.</span>
+        <div class="flex gap-8 mt-4 md:mt-0">
+            <a href="#" class="hover:text-blue-600 transition-colors">Privacy Policy</a>
+            <a href="#" class="hover:text-blue-600 transition-colors">Terms of Service</a>
+            <a href="#" class="hover:text-blue-600 transition-colors">Hardware Status</a>
+        </div>
+    </footer>
+
+
+    <script>
+
+        const savedIVA = localStorage.getItem('powerhaus_iva');
+    let globalIVA = savedIVA ? parseFloat(savedIVA) : 8;
+    
+    // Set initially
+    document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+            const lbl = document.getElementById('ivaLabelText');
+            if(lbl) lbl.innerHTML = 'IVA (' + globalIVA + '%) <span class="material-symbols-outlined text-[12px]">edit</span>';
+        }, 500);
+    });
+
+    const ivaRates = {
+        '0': 'Sin IVA / Exento (0%)',
+        '7': 'Panamá (7%)',
+        '8': 'US Estándar / Otro (8%)',
+        '12': 'Ecuador (12%)',
+        '13': 'Bolivia / Costa Rica (13%)',
+        '15': 'Ecuador 2024 / Honduras (15%)',
+        '16': 'México / Venezuela (16%)',
+        '18': 'Perú / Rep. Dominicana (18%)',
+        '19': 'Colombia / Chile (19%)',
+        '21': 'Argentina / España (21%)',
+        '22': 'Uruguay (22%)',
+        'custom': 'Personalizado...'
+    };
+    
+    async function editIVA() {
+        const { value: selectedIVA } = await Swal.fire({
+            title: 'Configurar Región fiscal',
+            input: 'select',
+            inputOptions: ivaRates,
+            inputPlaceholder: 'Selecciona un país / tasa',
+            showCancelButton: true,
+            confirmButtonText: 'Continuar',
+            cancelButtonText: 'Cancelar',
+            confirmButtonColor: '#004cf0',
+            allowOutsideClick: false,
+            inputValue: ivaRates[globalIVA.toString()] ? globalIVA.toString() : 'custom',
+            inputValidator: (value) => {
+                if (!value) {
+                    return 'Debes seleccionar una opción'
+                }
+            }
+        });
+
+        if (selectedIVA === 'custom') {
+            const { value: customVal } = await Swal.fire({
+                title: 'IVA Personalizado',
+                input: 'number',
+                inputLabel: 'Ingresa el porcentaje manualmente',
+                inputValue: globalIVA,
+                showCancelButton: true,
+                confirmButtonText: 'Aplicar y Bloquear',
+                cancelButtonText: 'Atrás',
+                confirmButtonColor: '#004cf0',
+                inputValidator: (value) => {
+                    if (!value || value < 0) {
+                        return 'Debes ingresar un porcentaje válido'
+                    }
+                }
+            });
+            if (customVal !== undefined) {
+                globalIVA = parseFloat(customVal);
+                localStorage.setItem('powerhaus_iva', globalIVA.toString());
+                document.getElementById('ivaLabelText').innerHTML = 'IVA (' + globalIVA + '%) <span class="material-symbols-outlined text-[12px]">lock</span>';
+                renderCart();
+                
+                Swal.fire({
+                    title: 'Región Actualizada',
+                    text: 'Impuestos ajustados manualmente (' + globalIVA + '%).',
+                    icon: 'success',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            }
+        } else if (selectedIVA !== undefined) {
+            globalIVA = parseFloat(selectedIVA);
+            localStorage.setItem('powerhaus_iva', globalIVA.toString());
+            
+            document.getElementById('ivaLabelText').innerHTML = 'IVA (' + globalIVA + '%) <span class="material-symbols-outlined text-[12px]">lock</span>';
+            renderCart();
+            
+            const countryName = ivaRates[selectedIVA].split(' (')[0];
+
+            Swal.fire({
+                title: 'Región Actualizada',
+                text: 'Impuestos ajustados según la tasa de ' + countryName + ' (' + globalIVA + '%).',
+                icon: 'success',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        }
+    }
+
+    let currentCartPage = 1;
+    let CART_ITEMS_PER_PAGE = 3;
+
+    function renderCart() {
+        const cartList = document.getElementById('cartList');
+        const emptyState = document.getElementById('emptyState');
+        const summaryBlock = document.getElementById('summaryBlock');
+        
+        let cart = JSON.parse(localStorage.getItem('cartItems')) || [];
+        
+        if(cart.length === 0) {
+            cartList.innerHTML = '';
+            emptyState.classList.remove('hidden');
+            summaryBlock.style.opacity = '0.5';
+            summaryBlock.style.pointerEvents = 'none';
+            document.getElementById('subtotalLbl').innerText = '$0.00';
+            document.getElementById('taxLbl').innerText = '$0.00';
+            document.getElementById('totalLbl').innerText = '$0.00';
+            return;
+        }
+
+        emptyState.classList.add('hidden');
+        summaryBlock.style.opacity = '1';
+        summaryBlock.style.pointerEvents = 'auto';
+
+        let html = '';
+        let subtotal = 0;
+
+        cart.forEach((item) => {
+            subtotal += (item.price * item.quantity);
+        });
+
+        const totalPages = Math.ceil(cart.length / CART_ITEMS_PER_PAGE);
+        if(currentCartPage > totalPages && totalPages > 0) currentCartPage = totalPages;
+        const startIndex = (currentCartPage - 1) * CART_ITEMS_PER_PAGE;
+        const paginatedItems = cart.slice(startIndex, startIndex + CART_ITEMS_PER_PAGE);
+
+        paginatedItems.forEach((item, innerIndex) => {
+            const index = startIndex + innerIndex;
+            const itemSubtotal = item.price * item.quantity;
+            
+            html += `
+                <div class="bg-white rounded-[24px] p-6 pr-8 shadow-sm border border-slate-100 flex flex-col sm:flex-row items-center gap-6 relative group hover:shadow-xl transition-all duration-300 mb-6">
+                    <button onclick="removeItem(${index})" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-slate-300 hover:bg-rose-50 hover:text-rose-500 rounded-full transition-colors opacity-0 group-hover:opacity-100">
+                        <span class="material-symbols-outlined text-[18px]">close</span>
+                    </button>
+                    
+                    <div class="w-24 h-24 sm:w-32 sm:h-32 bg-slate-100 rounded-[18px] shrink-0 overflow-hidden flex items-center justify-center relative">
+                        <img class="w-full h-full object-cover rounded-xl mix-blend-multiply" src="${item.img}" />
+                    </div>
+                    
+                    <div class="flex-1 min-w-0 flex flex-col gap-1 w-full">
+                        <h3 class="font-black text-slate-800 text-lg sm:text-[22px] leading-tight font-headline tracking-tighter">${item.name}</h3>
+                        <p class="text-[11px] font-bold text-slate-500 uppercase tracking-widest mt-1">${item.category}</p>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-5 sm:gap-10 w-full sm:w-auto justify-between sm:justify-start mt-4 sm:mt-0 px-2 sm:px-0">
+                        <div class="flex flex-col items-center">
+                            <span class="text-[9px] font-bold text-slate-400 tracking-widest uppercase mb-1">Precio</span>
+                            <span class="font-black text-slate-800 text-lg">${item.price.toFixed(2)}</span>
+                        </div>
+
+                        <div class="flex items-center bg-[#eef2fe] rounded-full px-1 py-1 shadow-inner border border-blue-100">
+                            <button onclick="updateQty(${index}, -1)" class="w-8 h-8 rounded-full flex items-center justify-center text-blue-600 hover:bg-white hover:shadow-sm transition-all text-lg font-medium">-</button>
+                            <span class="w-8 text-center font-black text-sm text-[#004cf0]">${item.quantity}</span>
+                            <button onclick="updateQty(${index}, 1)" class="w-8 h-8 rounded-full flex items-center justify-center text-blue-600 hover:bg-white hover:shadow-sm transition-all text-lg font-medium">+</button>
+                        </div>
+
+                        <div class="flex flex-col items-end min-w-[80px]">
+                            <span class="text-[9px] font-bold text-slate-400 tracking-widest uppercase mb-1">Subtotal</span>
+                            <span class="text-[22px] font-black text-[#004cf0] tracking-tight">${itemSubtotal.toFixed(2)}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        
+        if (totalPages > 1) {
+            html += '<div class="flex items-center justify-between sm:justify-center sm:gap-10 mt-8 mb-4 w-full px-4 overflow-x-auto">';
+            
+            html += `<button onclick="changeCartPage(-1)" ${currentCartPage === 1 ? 'disabled class="flex shrink-0 items-center gap-1.5 text-slate-300 font-bold text-[14px] opacity-50 cursor-not-allowed"' : 'class="flex shrink-0 items-center gap-1.5 text-[#004cf0] hover:text-[#0b3eb0] font-bold text-[14px] transition-colors"'}><span class="material-symbols-outlined text-[16px]">chevron_left</span> Previous</button>`;
+            
+            html += '<div class="flex items-center gap-1.5 sm:gap-3">';
+            for(let i=1; i<=totalPages; i++){
+                if(totalPages > 5 && i !== 1 && i !== totalPages && i !== currentCartPage - 1 && i !== currentCartPage && i !== currentCartPage + 1) {
+                    if (i === currentCartPage - 2 || i === currentCartPage + 2) html += '<span class="text-slate-400 text-sm font-bold tracking-widest px-1">...</span>';
+                    continue;
+                }
+                if (i === currentCartPage) {
+                    html += `<button class="w-10 h-10 rounded-[10px] bg-[#004cf0] text-white flex items-center justify-center text-[14px] font-bold shadow-md shadow-blue-500/30">${i}</button>`;
+                } else {
+                    html += `<button onclick="goToCartPage(${i})" class="w-10 h-10 rounded-[10px] bg-transparent text-slate-500 hover:bg-slate-100 flex items-center justify-center text-[14px] font-bold transition-all">${i}</button>`;
+                }
+            }
+            html += '</div>';
+            
+            html += `<button onclick="changeCartPage(1)" ${currentCartPage === totalPages ? 'disabled class="flex shrink-0 items-center gap-1.5 text-slate-300 font-bold text-[14px] opacity-50 cursor-not-allowed"' : 'class="flex shrink-0 items-center gap-1.5 text-slate-400 hover:text-slate-600 font-bold text-[14px] transition-colors"'}><span class="pr-1 text-slate-500">Next</span> <span class="material-symbols-outlined text-[16px]">chevron_right</span></button>`;
+            
+            html += '</div>';
+        }
+
+        cartList.innerHTML = html;
+
+        const tax = subtotal * (globalIVA / 100);
+        const total = subtotal + tax;
+
+        document.getElementById('subtotalLbl').innerText = '$' + subtotal.toFixed(2);
+        document.getElementById('taxLbl').innerText = '$' + tax.toFixed(2);
+        document.getElementById('totalLbl').innerText = '$' + total.toFixed(2);
+    }
+
+    function changeCartPage(delta) {
+        currentCartPage += delta;
+        renderCart();
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+    
+    function goToCartPage(page) {
+        currentCartPage = page;
+        renderCart();
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+
+    function updateQty(index, delta) {
+        let cart = JSON.parse(localStorage.getItem('cartItems')) || [];
+        if(cart[index]) {
+            cart[index].quantity += delta;
+            if(cart[index].quantity <= 0) cart.splice(index, 1);
+            localStorage.setItem('cartItems', JSON.stringify(cart));
+            renderCart();
+        }
+    }
+
+    function removeItem(index) {
+        let cart = JSON.parse(localStorage.getItem('cartItems')) || [];
+        cart.splice(index, 1);
+        localStorage.setItem('cartItems', JSON.stringify(cart));
+        renderCart();
+    }
+
+    async function proceedToCheckout() {
+        let cart = JSON.parse(localStorage.getItem('cartItems')) || [];
+        if(cart.length === 0) return;
+        
+        let total = 0;
+        cart.forEach(i => total += (i.price * i.quantity));
+        let tax = total * (globalIVA / 100);
+        let superTotal = total + tax;
+
+        let targetRedirect = 'punto de venta.html';
+        const userSelect = document.getElementById('userSelector');
+        
+        if (!userSelect || !userSelect.value) {
+            Swal.fire({
+                title: 'Perfil Requerido',
+                text: 'Por favor, asocia esta compra a un perfil para poder continuar.',
+                icon: 'warning',
+                confirmButtonColor: '#004cf0',
+                confirmButtonText: 'Entendido'
+            });
+            return;
+        }
+
+        if (userSelect && userSelect.value) {
+            try {
+                const userId = userSelect.value;
+                const userOpt = userSelect.options[userSelect.selectedIndex];
+                const userEmail = userOpt.dataset.email;
+                const userNameText = userOpt.textContent.split(' (')[0].trim();
+                const userRole = userOpt.dataset.role;
+
+                const txId = Date.now();
+                const txDate = new Date().toISOString();
+
+                let transacciones = JSON.parse(localStorage.getItem('transaccionesVentas') || '[]');
+
+                transacciones.push({
+                    id: txId, fecha: txDate,
+                    tipo: 'POS', desc: 'Venta Suplementos a ' + userNameText + ' (' + cart.length + ' items)',
+                    monto: superTotal, userId: userId
+                });
+                localStorage.setItem('transaccionesVentas', JSON.stringify(transacciones));
+
+                
+                const response = await fetch(`/api/users?t=${Date.now()}`);
+                const allUsers = await response.json();
+                let userRecord = allUsers.find(u => String(u.id) === userId || u.email === userId);
+                
+                if (userRecord) {
+                    // Deep clone to ensure reactivity isn't lost or circular refs block stringify
+                    let updatedUser = JSON.parse(JSON.stringify(userRecord));
+                    if (!updatedUser.consumos) updatedUser.consumos = [];
+                    
+                    updatedUser.consumos.push({
+                        id: txId,
+                        fecha: txDate,
+                        items: cart,
+                        totalMonto: superTotal
+                    });
+                    
+                    const putResp = await fetch(`/api/users/${encodeURIComponent(updatedUser.id || updatedUser.email || userId)}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(updatedUser)
+                    });
+                    
+                    if (putResp.ok) {
+                        const isTrainer = (userRole.toLowerCase().includes('entrenador') || userRole.toLowerCase().includes('staff') || userRole.toLowerCase().includes('trainer'));
+                        targetRedirect = isTrainer ? `historial.html?nombre=${encodeURIComponent(userNameText)}&tab=consumos` : `perfil_miembro.html?nombre=${encodeURIComponent(userNameText)}&tab=consumos`;
+                    } else {
+                        console.error("Failed to save consumos:", await putResp.text());
+                    }
+                }
+            } catch (err) {
+                console.error("Error saving consumos to user", err);
+            }
+        }
+        
+        Swal.fire({
+            title: '¡Compra Exitosa!',
+            html: '<p style="color: #64748b; font-size: 14px; margin-top: 10px;">Se ha procesado tu compra por un total de <strong>$' + superTotal.toFixed(2) + '</strong> USD.</p>',
+            icon: 'success',
+            confirmButtonColor: '#004cf0',
+            confirmButtonText: 'Aceptar',
+            customClass: {
+                popup: 'rounded-[28px]',
+                title: 'font-headline font-black text-slate-800 mt-2',
+                confirmButton: 'font-bold uppercase tracking-wider text-xs px-8 py-3 rounded-full mt-2'
+            }
+        }).then(() => {
+            localStorage.removeItem('cartItems');
+            window.location.href = targetRedirect;
+        });
+    }
+
+    let allGlobalUsers = [];
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        renderCart();
+        
+        try {
+            const res = await fetch(`/api/users?t=${Date.now()}`);
+            const users = await res.json();
+            const select = document.getElementById('userSelector');
+            if(select) {
+                // Filter out Admin
+                const eligible = users.filter(u => u.role !== 'Admin');
+                eligible.sort((a,b) => (a.name||'').localeCompare(b.name||''));
+                
+                allGlobalUsers = eligible;
+                
+                eligible.forEach(u => {
+                    const opt = document.createElement('option');
+                    opt.value = u.id || u.email;
+                    opt.dataset.email = u.email;
+                    opt.dataset.role = u.role || 'Miembro';
+                    opt.textContent = `${u.name || 'Sin Nombre'} (${u.role || 'Miembro'})`;
+                    select.appendChild(opt);
+                });
+                
+                renderUserDropdown(allGlobalUsers);
+            }
+        } catch(e) {
+            console.error("Error loading users for selector", e);
+        }
+    });
+
+    function renderUserDropdown(usersList) {
+        const drop = document.getElementById('userSearchDropdown');
+        if(!drop) return;
+        drop.innerHTML = '';
+        if(usersList.length === 0) {
+            drop.innerHTML = '<div class="p-4 text-center text-xs font-bold text-slate-400">No se encontraron resultados</div>';
+            return;
+        }
+        usersList.forEach(u => {
+            const isEntrenador = (u.role && u.role.toLowerCase() === 'entrenador');
+            const roleColor = isEntrenador ? 'text-amber-600 bg-amber-50' : 'text-[#004cf0] bg-blue-50';
+            const icon = isEntrenador ? 'sports' : 'person';
+            
+            const div = document.createElement('div');
+            div.className = 'flex items-center gap-3 px-4 py-3 hover:bg-slate-50 cursor-pointer transition-colors border-b border-slate-50 last:border-0';
+            div.onclick = () => selectUser(u.id || u.email, u.name);
+            div.innerHTML = `
+                <div class="w-8 h-8 rounded-full ${roleColor} flex items-center justify-center shrink-0">
+                    <span class="material-symbols-outlined text-[16px]">${icon}</span>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <h4 class="text-[13px] font-black text-slate-800 truncate leading-tight">${u.name || 'Sin Nombre'}</h4>
+                    <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">${u.role || 'Miembro'}</span>
+                </div>
+            `;
+            drop.appendChild(div);
+        });
+    }
+
+    function openUserSearch() {
+        document.getElementById('userSearchDropdown').classList.remove('hidden');
+    }
+
+    function filterUserSearch(query) {
+        query = query.toLowerCase().trim();
+        if(query === '') {
+            renderUserDropdown(allGlobalUsers);
+        } else {
+            const exactBarcode = allGlobalUsers.find(u => (u.barcode || '').toLowerCase() === query);
+            if(exactBarcode && query.length >= 3) {
+                selectUser(exactBarcode.id || exactBarcode.email, exactBarcode.name || 'Sin Nombre');
+                document.getElementById('userSearchDropdown').classList.add('hidden');
+                document.getElementById('userSearchDisplay').blur(); // lose focus to avoid typing 
+                return;
+            }
+
+            const filtered = allGlobalUsers.filter(u => {
+                const q = query;
+                return (u.name || '').toLowerCase().includes(q) 
+                    || (u.email || '').toLowerCase().includes(q)
+                    || (u.barcode || '').toLowerCase().includes(q)
+                    || (u.cedula || '').toLowerCase().includes(q);
+            });
+            renderUserDropdown(filtered);
+        }
+        document.getElementById('userSearchDropdown').classList.remove('hidden');
+    }
+
+    // Capture Enter key from scanners
+    document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+            const input = document.getElementById('userSearchDisplay');
+            if(input) {
+                input.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        const firstDropdownItem = document.querySelector('#userSearchDropdown > div');
+                        if (firstDropdownItem && !document.getElementById('userSearchDropdown').classList.contains('hidden')) {
+                            firstDropdownItem.click();
+                        }
+                    }
+                });
+            }
+        }, 800);
+    });
+
+    function selectUser(id, name) {
+        const select = document.getElementById('userSelector');
+        for(let i = 0; i < select.options.length; i++) {
+            if(String(select.options[i].value) === String(id)) {
+                select.selectedIndex = i;
+                break;
+            }
+        }
+        
+        document.getElementById('userSearchDisplay').value = name;
+        document.getElementById('userSearchDisplay').classList.replace('border-[#004cf0]', 'border-emerald-500');
+        document.getElementById('userSearchDropdown').classList.add('hidden');
+        document.getElementById('clearUserBtn').classList.remove('hidden');
+    }
+
+    function clearUserSelection() {
+        document.getElementById('userSelector').selectedIndex = 0; // point back to disabled 0 index
+        document.getElementById('userSearchDisplay').value = '';
+        document.getElementById('userSearchDisplay').classList.replace('border-emerald-500', 'border-[#004cf0]');
+        document.getElementById('clearUserBtn').classList.add('hidden');
+        filterUserSearch('');
+        setTimeout(() => document.getElementById('userSearchDisplay').focus(), 50);
+    }
+
+    document.addEventListener('click', (e) => {
+        const container = document.getElementById('userSearchContainer');
+        if(container && !container.contains(e.target)) {
+            const drop = document.getElementById('userSearchDropdown');
+            if(drop) drop.classList.add('hidden');
+        }
+    });
+    </script>
+
+<script src="powerhaus-chat.js"></script>
+</body>
+</html>
+
+

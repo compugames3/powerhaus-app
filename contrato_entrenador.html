@@ -1,0 +1,600 @@
+﻿<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PowerHaus | Contrato de Entrenador</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: { primary: "#003ec7" },
+                fontFamily: { headline: ["Manrope"], body: ["Inter"] }
+            }
+        }
+    }
+</script>
+<style>
+    body { font-family: 'Inter', sans-serif; background: #f0f2f5; }
+    h1,h2,h3,h4,.font-headline { font-family: 'Manrope', sans-serif; }
+    .material-symbols-outlined { font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24; vertical-align: middle; }
+    #toast { transition: opacity .4s, transform .4s; }
+    #toast.show { opacity:1 !important; transform:translateY(0) !important; }
+    .status-badge-active { background:#dcfce7; color:#16a34a; }
+    .status-badge-inactive { background:#fee2e2; color:#dc2626; }
+    .status-badge-pending { background:#fef9c3; color:#ca8a04; }
+    @media print {
+        aside, header, .no-print { display:none !important; }
+        .print-area { box-shadow:none !important; border:none !important; }
+    }
+</style>
+    <script src="theme-applier.js"></script>
+</head>
+<body class="text-slate-800 flex min-h-screen">
+
+<!-- SideNav -->
+<aside class="hidden md:flex flex-col h-screen w-64 sticky top-0 bg-slate-100 dark:bg-slate-900 py-6">
+<div class="px-6 mb-10">
+<div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-[#0d4cf0] rounded-full flex items-center justify-center text-white shadow-md">
+                <span class="material-symbols-outlined -rotate-45 notranslate" translate="no" style="font-variation-settings: 'FILL' 1; font-size: 24px;">fitness_center</span>
+            </div>
+            <div>
+                <h1 class="text-[1.3rem] font-black text-slate-800 dark:text-slate-50 tracking-tight leading-none mb-0.5">PowerHaus</h1>
+                <p class="text-[9px] tracking-[0.06em] uppercase font-bold text-slate-500 leading-none">ELITE PERFORMANCE</p>
+            </div>
+        </div>
+</div>
+<nav class="flex-1 flex flex-col gap-2">
+<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-slate-50 group text-slate-500 dark:text-slate-400" href="administrador.html">
+<span class="material-symbols-outlined group-hover:scale-125 transition-all duration-300 notranslate" translate="no">dashboard</span>
+<span class="tracking-wider uppercase text-xs font-bold">Panel Principal</span>
+</a>
+<div class="relative group rounded-l-[1.5rem] ml-4 transition-all duration-300 flex flex-col shadow-sm bg-white dark:bg-slate-800">
+<button onclick="document.getElementById('submenu-miembros').classList.toggle('hidden'); document.getElementById('icon-miembros').classList.toggle('rotate-180')" class="w-full flex justify-between items-center text-emerald-600 dark:text-emerald-400 pl-4 py-3 transition-transform duration-300 hover:translate-x-1 focus:outline-none cursor-pointer select-none">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined notranslate" translate="no">group</span>
+<span class="tracking-wider uppercase text-xs font-bold">Miembros</span>
+</div>
+<span id="icon-miembros" class="material-symbols-outlined text-sm mr-4 transition-transform duration-300 notranslate" translate="no">expand_more</span>
+</button>
+<div id="submenu-miembros" class="flex-col pl-[3.25rem] pb-4 pt-1 hidden gap-3">
+<a href="gestion de miembros.html?view=miembros" class="text-[11px] font-bold tracking-widest text-slate-500 hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-400 transition-colors flex items-center gap-2">
+    <div class="w-1.5 h-1.5 rounded-full bg-transparent border border-slate-300 group-hover:border-emerald-300"></div> MIEMBRO </a>
+<a href="gestion de miembros.html?view=entrenadores" class="text-[11px] font-bold tracking-widest text-slate-500 hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-400 transition-colors flex items-center gap-2">
+    <div class="w-1.5 h-1.5 rounded-full bg-transparent border border-slate-300 group-hover:border-emerald-300"></div> ENTRENADORES
+</a>
+</div>
+</div>
+<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-purple-50 group text-slate-500 dark:text-slate-400" href="calendario.html">
+<span class="material-symbols-outlined group-hover:scale-110 group-hover:-rotate-12 transition-all duration-300 notranslate" translate="no">fitness_center</span>
+<span class="tracking-wider uppercase text-xs font-bold">Clases</span>
+</a>
+<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-amber-50 group text-slate-500 dark:text-slate-400" href="punto de venta.html">
+<span class="material-symbols-outlined group-hover:-translate-y-1 group-hover:scale-110 transition-all duration-300 notranslate" translate="no">badge</span>
+<span class="tracking-wider uppercase text-xs font-bold">Personal</span>
+</a>
+<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-slate-200 group text-slate-500 dark:text-slate-400" href="cierre.html">
+<span class="material-symbols-outlined group-hover:scale-110 transition-all duration-300 notranslate" translate="no" style="font-variation-settings:'FILL' 1">nights_stay</span>
+<span class="tracking-wider uppercase text-xs font-bold">Cierre del Día</span>
+</a>
+
+</nav>
+<div class="px-6 mt-auto flex flex-col gap-4">
+
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 text-slate-500 text-xs font-bold tracking-wider uppercase py-2 hover:text-blue-600" href="soporte.html" target="_blank">
+<span class="material-symbols-outlined text-sm notranslate" translate="no">help</span>
+                    SOPORTE
+                </a>
+<a class="flex items-center gap-3 text-slate-500 text-xs font-bold tracking-wider uppercase py-2 hover:text-blue-600" href="javascript:void(0)" onclick="cerrarSesion(event)">
+<span class="material-symbols-outlined text-sm notranslate" translate="no">logout</span>
+CERRAR SESIÓN</a>
+</div>
+</div>
+</aside>
+
+<!-- Main -->
+<main class="flex-1 flex flex-col min-w-0 bg-[#f8f9fc]">
+
+    <!-- Header -->
+    <header class="flex justify-between items-center w-full px-8 py-5 border-b border-white bg-[#f8f9fc]/80 backdrop-blur-md sticky top-0 z-50 no-print">
+        <div>
+            <h2 class="text-xl font-extrabold text-slate-800 tracking-tight">Contrato de Entrenador</h2>
+            <p class="text-xs text-slate-400 font-medium mt-0.5" id="headerSubtitle">Cargando datos del entrenador...</p>
+        </div>
+        <div class="flex items-center gap-3">
+            <button onclick="imprimirContrato()" class="flex items-center gap-2 text-slate-500 hover:text-slate-800 font-bold text-sm px-4 py-2 rounded-xl hover:bg-white transition-all border border-slate-200">
+                <span class="material-symbols-outlined text-[18px]">print</span> Imprimir / PDF
+            </button>
+            <button onclick="guardarContrato()" id="btnGuardar" class="flex items-center gap-2 bg-[#004cf0] hover:bg-[#0038b6] text-white px-6 py-2.5 rounded-xl font-black text-[11px] tracking-widest uppercase shadow-md shadow-blue-500/20 active:scale-95 transition-all">
+                <span class="material-symbols-outlined text-[16px]">save</span> Guardar Contrato
+            </button>
+        </div>
+    </header>
+
+    <div class="p-8 pb-16 flex-1 overflow-y-auto">
+        <div class="max-w-5xl mx-auto flex flex-col gap-8">
+
+            <!-- Trainer Mini Card -->
+            <div class="bg-white rounded-[2rem] p-6 shadow-sm border border-slate-100 flex items-center gap-6 relative overflow-hidden">
+                <div class="absolute left-0 top-0 bottom-0 w-2 bg-emerald-500 rounded-r-xl"></div>
+                <div class="w-16 h-16 rounded-2xl bg-slate-100 overflow-hidden flex items-center justify-center ml-2 shrink-0">
+                    <img id="trainerImg" src="" class="w-full h-full object-cover hidden"/>
+                    <span id="trainerInitials" class="text-2xl font-black text-slate-300">?</span>
+                </div>
+                <div class="flex-1">
+                    <h3 class="text-lg font-extrabold text-slate-800" id="trainerNameDisplay">—</h3>
+                    <p class="text-[11px] font-bold text-emerald-600 uppercase tracking-widest">Entrenador · PowerHaus</p>
+                </div>
+                <div class="text-right">
+                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-1">Referencia de Contrato</p>
+                    <p class="font-extrabold text-slate-700 font-headline text-lg" id="contratoRef">—</p>
+                </div>
+            </div>
+
+            <!-- Contract Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+                <!-- Left Col: Status + Summary -->
+                <div class="lg:col-span-1 flex flex-col gap-6">
+
+                    <!-- Estado del Contrato -->
+                    <div class="bg-white rounded-[2rem] p-6 shadow-sm border border-slate-100">
+                        <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Estado del Contrato</h4>
+                        <div class="flex flex-col gap-3">
+                            <button type="button" onclick="setEstadoContrato('Activo')" id="cstado-Activo"
+                                class="cstado-opt flex items-center gap-3 p-3 rounded-xl cursor-pointer border-2 border-[#004cf0] bg-[#eef2ff] transition-all w-full text-left">
+                                <div id="cdot-Activo" class="w-4 h-4 rounded-full bg-emerald-500 flex-shrink-0"></div>
+                                <span id="ctxt-Activo" class="text-sm font-bold text-[#004cf0]">Activo</span>
+                            </button>
+                            <button type="button" onclick="setEstadoContrato('Pendiente')" id="cstado-Pendiente"
+                                class="cstado-opt flex items-center gap-3 p-3 rounded-xl cursor-pointer border-2 border-transparent hover:bg-slate-50 transition-all w-full text-left">
+                                <div id="cdot-Pendiente" class="w-4 h-4 rounded-full bg-slate-300 flex-shrink-0"></div>
+                                <span id="ctxt-Pendiente" class="text-sm font-semibold text-slate-500">Pendiente</span>
+                            </button>
+                            <button type="button" onclick="setEstadoContrato('Vencido')" id="cstado-Vencido"
+                                class="cstado-opt flex items-center gap-3 p-3 rounded-xl cursor-pointer border-2 border-transparent hover:bg-slate-50 transition-all w-full text-left">
+                                <div id="cdot-Vencido" class="w-4 h-4 rounded-full bg-slate-300 flex-shrink-0"></div>
+                                <span id="ctxt-Vencido" class="text-sm font-semibold text-slate-500">Vencido</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Tipo de Contrato -->
+                    <div class="bg-white rounded-[2rem] p-6 shadow-sm border border-slate-100">
+                        <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Tipo de Contrato</h4>
+                        <select id="tipoContrato" class="w-full bg-[#f1f4fb] border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-700 font-medium">
+                            <option value="Entrenador">Entrenador</option>
+                        </select>
+                    </div>
+
+                    <!-- Vigencia -->
+                    <div class="bg-white rounded-[2rem] p-6 shadow-sm border border-slate-100">
+                        <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Vigencia del Contrato</h4>
+                        <div class="flex flex-col gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 mb-2">Fecha de Inicio</label>
+                                <input id="fechaInicio" type="date" class="w-full bg-[#f1f4fb] border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-700 font-medium"/>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 mb-2">Fecha de Vencimiento</label>
+                                <input id="fechaVenc" type="date" class="w-full bg-[#f1f4fb] border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-700 font-medium"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Col: Main Contract Form -->
+                <div class="lg:col-span-2 flex flex-col gap-6">
+
+                    <!-- Términos Económicos -->
+                    <div class="bg-white rounded-[2rem] p-7 shadow-sm border border-slate-100 print-area">
+                        <h3 class="text-[11px] font-black text-slate-400 tracking-widest uppercase flex items-center gap-2 mb-5">
+                            <span class="material-symbols-outlined text-[18px] text-emerald-600">payments</span>
+                            Términos Económicos
+                        </h3>
+
+                        <!-- Toggle Tipo de Tarifa -->
+                        <div class="flex items-center gap-2 mb-6 bg-[#f1f4fb] p-1.5 rounded-2xl w-fit">
+                            <button type="button" id="btnPorHora" onclick="setTipoTarifa('hora')"
+                                class="px-5 py-2.5 rounded-xl text-[11px] font-black tracking-widest uppercase bg-white text-[#004cf0] shadow-sm transition-all">
+                                Por Hora
+                            </button>
+                            <button type="button" id="btnPorMes" onclick="setTipoTarifa('mes')"
+                                class="px-5 py-2.5 rounded-xl text-[11px] font-black tracking-widest uppercase text-slate-400 hover:text-slate-600 transition-all">
+                                Por Mes
+                            </button>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <!-- Tarifa -->
+                            <div>
+                                <label id="labelTarifa" class="block text-xs font-bold text-slate-600 mb-2">Tarifa por Hora</label>
+                                <div class="relative">
+                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 font-bold text-sm">$</span>
+                                    <input id="tarifaHora" type="number" step="0.01" placeholder="45.00"
+                                        class="w-full bg-[#f1f4fb] border border-slate-200 rounded-xl pl-8 pr-4 py-3.5 text-sm text-slate-700 font-medium"/>
+                                </div>
+                            </div>
+                            <!-- Moneda -->
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 mb-2">Moneda</label>
+                                <select id="moneda" class="w-full bg-[#f1f4fb] border border-slate-200 rounded-xl px-4 py-3.5 text-sm text-slate-700 font-medium">
+                                    <option value="USD">USD - Dólar</option>
+                                    <option value="MXN">MXN - Peso Mexicano</option>
+                                    <option value="EUR">EUR - Euro</option>
+                                    <option value="COP">COP - Peso Colombiano</option>
+                                </select>
+                            </div>
+                            <!-- Horas por Semana (solo visible en modo "hora") -->
+                            <div id="campoHoras">
+                                <label class="block text-xs font-bold text-slate-600 mb-2">Horas por Semana</label>
+                                <input id="horasSemana" type="number" placeholder="40"
+                                    class="w-full bg-[#f1f4fb] border border-slate-200 rounded-xl px-4 py-3.5 text-sm text-slate-700 font-medium"/>
+                            </div>
+                            <!-- Jornada -->
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 mb-2">Jornada / Horario</label>
+                                <input id="jornada" type="text" placeholder="Lun-Vie, 06:00-14:00"
+                                    class="w-full bg-[#f1f4fb] border border-slate-200 rounded-xl px-4 py-3.5 text-sm text-slate-700 font-medium"/>
+                            </div>
+                        </div>
+                        <!-- Hidden field to track tarifa type -->
+                        <input type="hidden" id="tipoTarifa" value="hora"/>
+                    </div>
+
+                    <!-- Cláusulas Clave -->
+                    <div class="bg-white rounded-[2rem] p-7 shadow-sm border border-slate-100 print-area">
+                        <h3 class="text-[11px] font-black text-slate-400 tracking-widest uppercase flex items-center gap-2 mb-2">
+                            <span class="material-symbols-outlined text-[18px] text-[#004cf0]">gavel</span>
+                            Cláusulas Clave
+                        </h3>
+                        <p class="text-[11px] text-slate-400 mb-5">Escribe cada cláusula en una línea separada</p>
+                        <textarea id="clausulas" rows="5" placeholder="Ej.&#10;Exclusividad de propiedad intelectual sobre planes de entrenamiento.&#10;No competencia por 12 meses en radio de 5km tras el cese."
+                            class="w-full bg-[#f1f4fb] border border-slate-200 rounded-xl px-4 py-3.5 text-sm text-slate-700 font-medium resize-none leading-relaxed"></textarea>
+                    </div>
+
+                    <!-- Notas Adicionales -->
+                    <div class="bg-white rounded-[2rem] p-7 shadow-sm border border-slate-100 print-area">
+                        <h3 class="text-[11px] font-black text-slate-400 tracking-widest uppercase flex items-center gap-2 mb-5">
+                            <span class="material-symbols-outlined text-[18px] text-slate-400">notes</span>
+                            Notas Adicionales
+                        </h3>
+                        <textarea id="notas" rows="3" placeholder="Observaciones, acuerdos especiales, condiciones particulares..."
+                            class="w-full bg-[#f1f4fb] border border-slate-200 rounded-xl px-4 py-3.5 text-sm text-slate-700 font-medium resize-none"></textarea>
+                    </div>
+
+                    <!-- Preview Block (readonly compact view) -->
+                    <div class="bg-gradient-to-br from-[#003ec7] to-[#0052ff] rounded-[2rem] p-7 text-white shadow-xl print-area" id="previewBox">
+                        <div class="flex justify-between items-start mb-6">
+                            <div>
+                                <p class="text-[10px] font-bold uppercase tracking-widest text-blue-200 mb-1">Contrato de Prestación de Servicios</p>
+                                <h3 class="text-xl font-extrabold" id="prevTrainerName">—</h3>
+                                <p class="text-blue-200 text-xs mt-1">Ref: <span id="prevRef">—</span> · Vigente hasta <span id="prevVenc">—</span></p>
+                            </div>
+                            <span id="prevStatus" class="bg-white/20 text-white text-[10px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest">ACTIVO</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-4 border-t border-white/20 pt-5">
+                            <div>
+                                <p class="text-[10px] text-blue-200 uppercase font-bold tracking-widest mb-1">Tarifa / Hora</p>
+                                <p class="font-extrabold text-lg" id="prevTarifa">$—</p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] text-blue-200 uppercase font-bold tracking-widest mb-1">Horas/Semana</p>
+                                <p class="font-extrabold text-lg" id="prevHoras">—</p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] text-blue-200 uppercase font-bold tracking-widest mb-1">Jornada</p>
+                                <p class="font-extrabold text-sm leading-tight" id="prevJornada">—</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="flex items-center justify-between gap-4 bg-white rounded-[2rem] p-6 shadow-sm border border-slate-100 no-print">
+                        <button onclick="volverAlHistorial()" class="flex items-center gap-2 text-slate-500 hover:text-slate-800 font-bold text-sm px-5 py-3 rounded-xl hover:bg-slate-50 transition-all">
+                            <span class="material-symbols-outlined text-[18px]">arrow_back</span> Cancelar
+                        </button>
+                        <div class="flex items-center gap-3">
+                            <button onclick="imprimirContrato()" class="flex items-center gap-2 border border-slate-200 text-slate-600 hover:bg-slate-50 px-5 py-3 rounded-xl font-bold text-sm transition-all">
+                                <span class="material-symbols-outlined text-[18px]">print</span> PDF
+                            </button>
+                            <button onclick="guardarContrato()" class="flex items-center gap-2 bg-[#004cf0] hover:bg-[#0038b6] text-white px-8 py-3.5 rounded-xl font-black text-[12px] tracking-widest uppercase shadow-lg shadow-blue-500/25 active:scale-95 transition-all">
+                                <span class="material-symbols-outlined text-[18px]">save</span> Guardar Contrato
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Toast -->
+<div id="toast" class="fixed bottom-6 right-6 z-[200] flex items-center gap-3 bg-white rounded-2xl shadow-2xl border border-slate-100 px-5 py-4 opacity-0 translate-y-4 pointer-events-none transition-all duration-400 no-print">
+    <div id="toastIcon" class="w-8 h-8 rounded-xl flex items-center justify-center text-white bg-emerald-500 shrink-0">
+        <span class="material-symbols-outlined text-[18px]" style="font-variation-settings:'FILL' 1">check_circle</span>
+    </div>
+    <div>
+        <p id="toastTitle" class="text-sm font-extrabold text-slate-800">¡Guardado!</p>
+        <p id="toastMsg" class="text-xs text-slate-500 font-medium">Contrato actualizado correctamente.</p>
+    </div>
+</div>
+
+<script>
+    let currentEstadoContrato = 'Activo';
+    let trainerOriginalId = null;
+    let trainerOriginalEmail = null;
+
+    // ---- Navigation ----
+    function volverAlHistorial() {
+        const nombre = localStorage.getItem('trainerToEdit') || '';
+        const url = nombre ? 'historial.html?nombre=' + encodeURIComponent(nombre) : 'historial.html';
+        window.location.href = url;
+    }
+
+    // ---- Estado del Contrato toggle ----
+    function setEstadoContrato(estado) {
+        currentEstadoContrato = estado;
+        const colores = { Activo: 'bg-emerald-500', Pendiente: 'bg-amber-400', Vencido: 'bg-red-500' };
+        ['Activo', 'Pendiente', 'Vencido'].forEach(e => {
+            document.getElementById('cstado-' + e).className =
+                'cstado-opt flex items-center gap-3 p-3 rounded-xl cursor-pointer border-2 border-transparent hover:bg-slate-50 transition-all w-full text-left';
+            document.getElementById('cdot-' + e).className = 'w-4 h-4 rounded-full bg-slate-300 flex-shrink-0';
+            document.getElementById('ctxt-' + e).className = 'text-sm font-semibold text-slate-500';
+        });
+        document.getElementById('cstado-' + estado).className =
+            'cstado-opt flex items-center gap-3 p-3 rounded-xl cursor-pointer border-2 border-[#004cf0] bg-[#eef2ff] transition-all w-full text-left';
+        document.getElementById('cdot-' + estado).className = `w-4 h-4 rounded-full flex-shrink-0 ${colores[estado]}`;
+        document.getElementById('ctxt-' + estado).className = 'text-sm font-bold text-[#004cf0]';
+        document.getElementById('prevStatus').textContent = estado.toUpperCase();
+        actualizarPreview();
+    }
+
+    // ---- Tipo de Tarifa toggle ----
+    function setTipoTarifa(tipo) {
+        document.getElementById('tipoTarifa').value = tipo;
+        const btnHora = document.getElementById('btnPorHora');
+        const btnMes  = document.getElementById('btnPorMes');
+        const campoHoras = document.getElementById('campoHoras');
+        const label = document.getElementById('labelTarifa');
+
+        if (tipo === 'hora') {
+            btnHora.className = 'px-5 py-2.5 rounded-xl text-[11px] font-black tracking-widest uppercase bg-white text-[#004cf0] shadow-sm transition-all';
+            btnMes.className  = 'px-5 py-2.5 rounded-xl text-[11px] font-black tracking-widest uppercase text-slate-400 hover:text-slate-600 transition-all';
+            campoHoras.classList.remove('hidden');
+            label.textContent = 'Tarifa por Hora';
+            document.getElementById('tarifaHora').placeholder = '45.00';
+        } else {
+            btnMes.className  = 'px-5 py-2.5 rounded-xl text-[11px] font-black tracking-widest uppercase bg-white text-[#004cf0] shadow-sm transition-all';
+            btnHora.className = 'px-5 py-2.5 rounded-xl text-[11px] font-black tracking-widest uppercase text-slate-400 hover:text-slate-600 transition-all';
+            campoHoras.classList.add('hidden');
+            label.textContent = 'Tarifa por Mes';
+            document.getElementById('tarifaHora').placeholder = '1500.00';
+        }
+        actualizarPreview();
+    }
+
+    // ---- Live preview ----
+    function actualizarPreview() {
+        const tarifa = document.getElementById('tarifaHora').value;
+        const moneda = document.getElementById('moneda').value;
+        const horas = document.getElementById('horasSemana').value;
+        const jornada = document.getElementById('jornada').value;
+        const fechaVenc = document.getElementById('fechaVenc').value;
+        const trainerName = document.getElementById('trainerNameDisplay').textContent;
+        const ref = document.getElementById('contratoRef').textContent;
+
+        document.getElementById('prevTrainerName').textContent = trainerName;
+        document.getElementById('prevRef').textContent = ref;
+        document.getElementById('prevVenc').textContent = fechaVenc ? new Date(fechaVenc + 'T00:00:00').toLocaleDateString('es-ES', { day:'2-digit', month:'short', year:'numeric' }) : '—';
+        const tipoT = document.getElementById('tipoTarifa').value;
+        const unidad = tipoT === 'mes' ? '/mes' : '/hr';
+        document.getElementById('prevTarifa').textContent = tarifa ? `$${parseFloat(tarifa).toFixed(2)} ${moneda} ${unidad}` : '$—';
+        document.getElementById('prevHoras').textContent = horas ? `${horas} hrs` : '—';
+        document.getElementById('prevJornada').textContent = jornada || '—';
+    }
+
+    ['tarifaHora','moneda','horasSemana','jornada','fechaVenc'].forEach(id => {
+        document.getElementById(id).addEventListener('input', actualizarPreview);
+    });
+
+    // ---- Generate reference ----
+    function generarReferencia(nombre) {
+        const partes = nombre.trim().toUpperCase().split(' ');
+        const initials = partes.map(p => p[0]).join('').slice(0, 3);
+        const year = new Date().getFullYear();
+        const rand = Math.floor(Math.random() * 900 + 100);
+        return `CTR-${initials}-${year}-${rand}`;
+    }
+
+    // ---- Load trainer + contract data ----
+    window.addEventListener('DOMContentLoaded', async () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        let nombre = urlParams.get('nombre') || localStorage.getItem('trainerToEdit');
+        const esRenovacion = urlParams.get('renovar') === 'true' || localStorage.getItem('renovarContrato') === 'true';
+
+        if (!nombre) { volverAlHistorial(); return; }
+
+        // Clear renovation flag after reading
+        localStorage.removeItem('renovarContrato');
+
+        if (esRenovacion) {
+            // Visual indicator for renewal mode
+            document.querySelector('h2').textContent = 'Renovar Contrato';
+            document.getElementById('headerSubtitle').textContent = 'Se generará un nuevo contrato con una referencia diferente';
+            document.getElementById('btnGuardar').innerHTML = '<span class="material-symbols-outlined text-[16px]">autorenew</span> Confirmar Renovación';
+        }
+
+        try {
+            const res = await fetch('/api/users?t=' + Date.now(), { cache: 'no-store' });
+            if (!res.ok) throw new Error('Error al conectar con el servidor');
+            const users = await res.json();
+
+            const trainer = users.find(u => u.name && u.name.toLowerCase() === nombre.toLowerCase())
+                || users.find(u => u.name && u.name.toLowerCase().includes(nombre.toLowerCase()));
+
+            if (!trainer) {
+                showToast('No se encontró el entrenador.', 'Error', true);
+                setTimeout(volverAlHistorial, 2000);
+                return;
+            }
+
+            trainerOriginalId = trainer.id || null;
+            trainerOriginalEmail = trainer.email || null;
+
+            // Update UI
+            document.getElementById('trainerNameDisplay').textContent = trainer.name;
+            if (!esRenovacion) document.getElementById('headerSubtitle').textContent = 'Contrato de: ' + trainer.name;
+            document.getElementById('prevTrainerName').textContent = trainer.name;
+            document.getElementById('trainerInitials').textContent = trainer.name.charAt(0).toUpperCase();
+            if (trainer.photo) {
+                document.getElementById('trainerImg').src = trainer.photo;
+                document.getElementById('trainerImg').classList.remove('hidden');
+                document.getElementById('trainerInitials').classList.add('hidden');
+            }
+
+            // Load existing contract data
+            const c = trainer.contrato || {};
+
+            if (esRenovacion) {
+                // RENOVACIÓN: new reference, reset dates, keep economic terms
+                const newRef = generarReferencia(trainer.name);
+                document.getElementById('contratoRef').textContent = newRef;
+                document.getElementById('prevRef').textContent = newRef;
+                // Keep economic terms from previous contract
+                if (c.tarifaHora) document.getElementById('tarifaHora').value = c.tarifaHora;
+                if (c.moneda) document.getElementById('moneda').value = c.moneda;
+                if (c.horasSemana) document.getElementById('horasSemana').value = c.horasSemana;
+                if (c.jornada) document.getElementById('jornada').value = c.jornada;
+                if (c.tipo) document.getElementById('tipoContrato').value = c.tipo;
+                if (c.tipoTarifa) setTipoTarifa(c.tipoTarifa);
+                if (c.clausulas) document.getElementById('clausulas').value = c.clausulas;
+                // Dates: leave blank so user fills new ones
+                document.getElementById('fechaInicio').value = '';
+                document.getElementById('fechaVenc').value = '';
+                setEstadoContrato('Activo');
+                showToast('Se generó una nueva referencia. Ingresa las fechas de vigencia y confirma la renovación.', 'Nueva Renovación', false);
+            } else {
+                // EDIT: load everything as-is
+                const ref = c.referencia || generarReferencia(trainer.name);
+                document.getElementById('contratoRef').textContent = ref;
+                document.getElementById('prevRef').textContent = ref;
+                if (c.tipo) document.getElementById('tipoContrato').value = c.tipo;
+                if (c.tipoTarifa) setTipoTarifa(c.tipoTarifa);
+                if (c.fechaInicio) document.getElementById('fechaInicio').value = c.fechaInicio;
+                if (c.fechaVenc) document.getElementById('fechaVenc').value = c.fechaVenc;
+                if (c.tarifaHora) document.getElementById('tarifaHora').value = c.tarifaHora;
+                if (c.moneda) document.getElementById('moneda').value = c.moneda;
+                if (c.horasSemana) document.getElementById('horasSemana').value = c.horasSemana;
+                if (c.jornada) document.getElementById('jornada').value = c.jornada;
+                if (c.clausulas) document.getElementById('clausulas').value = c.clausulas;
+                if (c.notas) document.getElementById('notas').value = c.notas;
+                if (c.estado) setEstadoContrato(c.estado);
+                else setEstadoContrato('Activo');
+            }
+
+            actualizarPreview();
+
+        } catch (err) {
+            showToast('Error: ' + err.message, 'Error de Conexión', true);
+        }
+    });
+
+    // ---- Save contract to DB (stored inside trainer's record) ----
+    async function guardarContrato() {
+        const identifier = trainerOriginalId || trainerOriginalEmail;
+        if (!identifier) {
+            showToast('No se pudo identificar al entrenador.', 'Error', true);
+            return;
+        }
+
+        const contrato = {
+            referencia: document.getElementById('contratoRef').textContent,
+            tipo: document.getElementById('tipoContrato').value,
+            tipoTarifa: document.getElementById('tipoTarifa').value,
+            fechaInicio: document.getElementById('fechaInicio').value,
+            fechaVenc: document.getElementById('fechaVenc').value,
+            tarifaHora: document.getElementById('tarifaHora').value,
+            moneda: document.getElementById('moneda').value,
+            horasSemana: document.getElementById('horasSemana').value,
+            jornada: document.getElementById('jornada').value,
+            clausulas: document.getElementById('clausulas').value,
+            notas: document.getElementById('notas').value,
+            estado: currentEstadoContrato,
+            ultimaActualizacion: new Date().toISOString()
+        };
+
+        try {
+            // 1. Fetch current trainer data to get existing historialContratos
+            const resGet = await fetch('/api/users?t=' + Date.now(), { cache: 'no-store' });
+            const users = await resGet.json();
+            const trainer = users.find(u =>
+                (trainerOriginalId && String(u.id) === String(trainerOriginalId)) ||
+                (trainerOriginalEmail && u.email === trainerOriginalEmail)
+            );
+
+            // 2. Build historial array: keep old entries + add new snapshot
+            let historialContratos = (trainer && trainer.historialContratos) ? [...trainer.historialContratos] : [];
+
+            // Avoid exact duplicate: only push if referencia changed or it's a new save
+            const lastEntry = historialContratos[historialContratos.length - 1];
+            const isNew = !lastEntry || lastEntry.referencia !== contrato.referencia;
+            if (isNew || lastEntry.ultimaActualizacion !== contrato.ultimaActualizacion) {
+                historialContratos.push({ ...contrato });
+            }
+
+            // 3. Save both contrato (current) and historialContratos to DB
+            const res = await fetch('/api/users/' + identifier, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ contrato, historialContratos })
+            });
+            if (!res.ok) throw new Error('Respuesta del servidor: ' + res.status);
+
+            showToast('Contrato guardado y añadido al historial.', '¡Guardado!', false);
+
+            // Redirect to historial with contratos tab open
+            const nombre = document.getElementById('trainerNameDisplay').textContent.trim();
+            setTimeout(() => {
+                window.location.href = 'historial.html?nombre=' + encodeURIComponent(nombre) + '&tab=contratos';
+            }, 1600);
+
+        } catch (err) {
+            showToast('Error al guardar: ' + err.message, 'Error de Conexión', true);
+        }
+    }
+
+    // ---- Print / PDF ----
+    function imprimirContrato() {
+        window.print();
+    }
+
+    // ---- Toast ----
+    function showToast(msg, title = '¡Listo!', isError = false) {
+        const toast = document.getElementById('toast');
+        document.getElementById('toastTitle').textContent = title;
+        document.getElementById('toastMsg').textContent = msg;
+        const icon = document.getElementById('toastIcon');
+        icon.className = `w-8 h-8 rounded-xl flex items-center justify-center text-white shrink-0 ${isError ? 'bg-red-500' : 'bg-emerald-500'}`;
+        icon.querySelector('span').textContent = isError ? 'error' : 'check_circle';
+        toast.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
+        toast.classList.add('show');
+        setTimeout(() => {
+            toast.classList.remove('show');
+            toast.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
+        }, 3500);
+    }
+</script>
+<script src="cerrar-sesion.js"></script>
+
+<script src="powerhaus-chat.js"></script>
+</body>
+</html>
+
+

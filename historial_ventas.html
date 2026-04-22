@@ -1,0 +1,396 @@
+﻿<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Historial de Ventas | PowerHaus</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f7f9fc; }
+        h1, h2, h3, h4, h5, .font-headline { font-family: 'Manrope', sans-serif; }
+        .card-shadow { box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
+        .left-accent { border-left: 4px solid #004cf0; }
+        .pill-blue { background-color: #edf2ff; color: #004cf0; }
+        .pill-red { background-color: #fee2e2; color: #ef4444; }
+    </style>
+</head>
+<body class="text-slate-800 min-h-screen flex flex-col relative overflow-x-hidden">
+
+    <!-- Top nav -->
+    <header class="w-full flex justify-between px-8 py-6 sticky top-0 z-50 items-center">
+        <a href="punto de venta.html" class="flex items-center gap-2 text-slate-500 hover:text-[#004cf0] transition-colors font-bold text-sm">
+            <span class="material-symbols-outlined text-[20px]" translate="no">arrow_back</span>
+            Volver al Catálogo
+        </a>
+        <div class="relative max-w-sm w-full hidden sm:block">
+            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-lg" translate="no">search</span>
+            <input class="w-full bg-slate-200/50 border-none rounded-full pl-11 pr-4 py-2.5 text-sm focus:ring-2 focus:ring-[#004cf0] focus:bg-white transition-all font-medium placeholder:text-slate-500" placeholder="Buscar..." type="text"/>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-[1400px] mx-auto w-full px-8 flex flex-col pb-16">
+        
+        <!-- Header text -->
+        <div class="mb-8">
+            <h1 class="text-[32px] font-black tracking-tight text-slate-900 font-headline">
+                Historial de Ventas
+            </h1>
+        </div>
+
+        <!-- Metric Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <!-- Ventas Totales Hoy -->
+            <div class="bg-white rounded-[24px] p-6 card-shadow left-accent flex items-center justify-between relative overflow-hidden group">
+                <div class="relative z-10">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Ventas Totales Hoy</p>
+                    <div class="flex items-end gap-3">
+                        <h3 id="metric-ventas" class="text-3xl font-black text-slate-800 tracking-tight font-headline">$0.00</h3>
+                        <span class="font-bold text-[12px] text-[#004cf0] mb-1.5">+12%</span>
+                    </div>
+                </div>
+                <div class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 opacity-[0.03] group-hover:opacity-[0.05] transition-opacity">
+                    <span class="material-symbols-outlined text-[100px]" translate="no" style="font-variation-settings: 'FILL' 1;">payments</span>
+                </div>
+            </div>
+
+            <!-- Ticket Promedio -->
+            <div class="bg-white rounded-[24px] p-6 card-shadow left-accent flex items-center justify-between relative overflow-hidden group">
+                <div class="relative z-10">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Ticket Promedio</p>
+                    <div class="flex items-end gap-2">
+                        <h3 id="metric-ticket" class="text-3xl font-black text-slate-800 tracking-tight font-headline">$0.00</h3>
+                        <span class="font-bold text-[11px] text-slate-400 mb-1.5">USD</span>
+                    </div>
+                </div>
+                <div class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 opacity-[0.03] group-hover:opacity-[0.05] transition-opacity">
+                    <span class="material-symbols-outlined text-[100px]" translate="no" style="font-variation-settings: 'FILL' 1;">receipt_long</span>
+                </div>
+            </div>
+
+            <!-- Método Más Usado -->
+            <div class="bg-white rounded-[24px] p-6 card-shadow left-accent flex items-center justify-between relative overflow-hidden group">
+                <div class="relative z-10 flex flex-col justify-center h-full">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Método más usado</p>
+                    <div class="flex items-center gap-3">
+                        <span class="material-symbols-outlined text-[#004cf0] text-[24px]" translate="no" style="font-variation-settings: 'FILL' 1;">credit_card</span>
+                        <h3 class="text-[26px] font-black text-slate-800 tracking-tight font-headline h-8 leading-none">Tarjeta</h3>
+                    </div>
+                </div>
+                <div class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 opacity-[0.03] group-hover:opacity-[0.05] transition-opacity">
+                    <span class="material-symbols-outlined text-[100px]" translate="no" style="font-variation-settings: 'FILL' 1;">style</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Control Bar -->
+        <div class="bg-white/50 backdrop-blur-md rounded-[20px] p-2 flex flex-col lg:flex-row items-center justify-between gap-4 mb-4 border border-slate-100">
+            <div class="relative w-full lg:max-w-md">
+                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]" translate="no">search</span>
+                <input class="w-full bg-white border border-slate-100 shadow-sm rounded-xl py-3 pl-11 pr-4 text-[13px] font-medium focus:ring-2 focus:ring-[#004cf0] focus:border-transparent outline-none transition-all placeholder:text-slate-400" placeholder="Buscar por producto o cliente..." type="text"/>
+            </div>
+
+            <div class="flex items-center gap-4 w-full lg:w-auto overflow-x-auto pb-2 lg:pb-0 hide-scrollbar">
+                <!-- Time toggle -->
+                <div class="flex items-center bg-white border border-slate-100 rounded-xl shadow-sm p-1 shrink-0" id="time-filters">
+                    <button onclick="setFilter('Hoy')" class="filter-btn px-5 py-1.5 rounded-lg bg-[#004cf0] text-white text-[11px] font-bold shadow-sm transition-colors" data-filter="Hoy">Hoy</button>
+                    <button onclick="setFilter('Semana')" class="filter-btn px-5 py-1.5 rounded-lg text-slate-500 hover:text-slate-800 text-[11px] font-bold transition-colors" data-filter="Semana">Semana</button>
+                    <button onclick="setFilter('Mes')" class="filter-btn px-5 py-1.5 rounded-lg text-slate-500 hover:text-slate-800 text-[11px] font-bold transition-colors mr-2" data-filter="Mes">Mes</button>
+                    <label class="relative cursor-pointer flex items-center justify-center pr-2">
+                        <input type="date" id="customDateInput" onchange="setFilter('Custom')" class="absolute opacity-0 w-full h-full cursor-pointer z-10" title="Seleccionar día exacto" />
+                        <span id="calIconBtn" class="material-symbols-outlined text-[16px] text-slate-400 hover:text-[#004cf0] transition-colors relative z-0">calendar_month</span>
+                    </label>
+                </div>
+                
+                <button class="bg-white border border-slate-100 shadow-sm px-5 py-2.5 rounded-xl text-[12px] font-bold text-slate-700 flex items-center gap-2 hover:bg-slate-50 transition-colors shrink-0">
+                    Método de Pago <span class="material-symbols-outlined text-[16px]">expand_more</span>
+                </button>
+                <button class="bg-[#eef2fe] border border-blue-100 text-[#004cf0] px-5 py-2.5 rounded-xl text-[12px] font-bold flex items-center gap-2 hover:bg-[#e0e8ff] transition-colors shrink-0">
+                    <span class="material-symbols-outlined text-[16px]" translate="no">filter_list</span>
+                    Filtros Avanzados
+                </button>
+            </div>
+        </div>
+
+        <!-- Data Table -->
+        <div class="bg-white rounded-[24px] shadow-sm border border-slate-100 overflow-hidden flex flex-col">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse min-w-[900px]">
+                    <thead>
+                        <tr class="bg-slate-50/50">
+                            <th class="py-5 px-8 text-[10px] font-black uppercase tracking-[0.1em] text-slate-400 w-40">Fecha/Hora</th>
+                            <th class="py-5 px-4 text-[10px] font-black uppercase tracking-[0.1em] text-slate-400">Cliente</th>
+                            <th class="py-5 px-4 text-[10px] font-black uppercase tracking-[0.1em] text-slate-400">Productos</th>
+                            <th class="py-5 px-4 text-[10px] font-black uppercase tracking-[0.1em] text-slate-400">Total</th>
+                            <th class="py-5 px-4 text-[10px] font-black uppercase tracking-[0.1em] text-slate-400">Método</th>
+                            <th class="py-5 px-4 text-[10px] font-black uppercase tracking-[0.1em] text-slate-400">Estado</th>
+                            <th class="py-5 px-8 text-[10px] font-black uppercase tracking-[0.1em] text-slate-400 text-right">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historialTableBody" class="divide-y divide-slate-100 text-sm">
+                        <!-- Dynamic data injected here -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Pagination Footer -->
+            <div class="bg-slate-50/50 border-t border-slate-100 p-4 px-8 flex items-center justify-between text-[11px] font-medium text-slate-500">
+                <span id="transCount">Mostrando 0 de 0 transacciones</span>
+                <div class="flex items-center gap-2">
+                    <button class="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center hover:bg-slate-50 disabled:opacity-50" disabled>
+                        <span class="material-symbols-outlined text-[16px]">chevron_left</span>
+                    </button>
+                    <button class="w-8 h-8 rounded-lg bg-white border border-slate-200 font-bold text-slate-800 shadow-sm">1</button>
+                    <button class="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center hover:bg-slate-50">
+                        <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer border -->
+    <footer class="mt-auto py-6 flex flex-col md:flex-row items-center justify-between px-16 relative w-full text-[9px] font-black text-slate-300 uppercase tracking-[0.2em] bg-white border-t border-slate-100">
+        <div></div>
+        <div class="flex gap-8 mt-4 md:mt-0">
+            <a href="#" class="hover:text-slate-500 transition-colors">Terms</a>
+            <a href="#" class="hover:text-slate-500 transition-colors">Privacy</a>
+            <a href="#" class="hover:text-slate-500 transition-colors">Support</a>
+        </div>
+    </footer>
+
+
+    <script>
+    let currentFilter = 'Hoy';
+    let currentCustomDate = null;
+
+    function setFilter(filter) {
+        currentFilter = filter;
+        if (filter === 'Custom') {
+            const dp = document.getElementById('customDateInput');
+            if (dp && dp.value) {
+                currentCustomDate = dp.value;
+            } else {
+                currentFilter = 'Hoy';
+            }
+        }
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            if (btn.getAttribute('data-filter') === currentFilter) {
+                btn.className = 'filter-btn px-5 py-1.5 rounded-lg bg-[#004cf0] text-white text-[11px] font-bold shadow-sm transition-colors' + (currentFilter === 'Mes' || currentFilter === 'Custom' ? ' mr-2' : '');
+            } else {
+                btn.className = 'filter-btn px-5 py-1.5 rounded-lg text-slate-500 hover:text-slate-800 text-[11px] font-bold transition-colors' + (btn.getAttribute('data-filter') === 'Mes' ? ' mr-2' : '');
+            }
+        });
+        
+        const calIconBtn = document.getElementById('calIconBtn');
+        if (calIconBtn) {
+            if (currentFilter === 'Custom') calIconBtn.classList.replace('text-slate-400', 'text-[#004cf0]');
+            else calIconBtn.classList.replace('text-[#004cf0]', 'text-slate-400');
+        }
+        
+        renderHistorial();
+    }
+
+    function renderHistorial() {
+        const tbody = document.getElementById('historialTableBody');
+        let records = JSON.parse(localStorage.getItem('transaccionesVentas')) || [];
+        
+        const now = new Date();
+        const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
+        const startOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay()).getTime();
+
+        records = records.filter(r => {
+            const rTimeObj = new Date(r.fecha);
+            const rTime = rTimeObj.getTime();
+            if (currentFilter === 'Hoy') {
+                return rTime >= startOfToday;
+            } else if (currentFilter === 'Semana') {
+                return rTime >= startOfWeek;
+            } else if (currentFilter === 'Mes') {
+                return rTime >= startOfMonth;
+            } else if (currentFilter === 'Custom' && currentCustomDate) {
+                const cDate = new Date(currentCustomDate + 'T00:00:00');
+                if (isNaN(cDate.getTime())) return true;
+                return rTimeObj.getFullYear() === cDate.getFullYear() && 
+                       rTimeObj.getMonth() === cDate.getMonth() && 
+                       rTimeObj.getDate() === cDate.getDate();
+            }
+            return true;
+        });
+
+        // Convert real dynamically processed records to visual model
+        records = records.map((r, i) => {
+            return {
+                id: r.id,
+                fecha: r.fecha,
+                tipo: r.tipo,
+                desc: r.desc,
+                monto: r.monto,
+                cliente: 'Cliente Mostrador',
+                abrev: 'CM',
+                ref: 'Invitado',
+                chips: [r.desc], // Fallback
+                estado: 'Completado',
+                metodo: 'Tarjeta'
+            };
+        }).reverse(); // newest first
+
+        let html = '';
+        let todayTotal = 0;
+
+        if (records.length === 0) {
+            html = `
+                <tr>
+                    <td colspan="7" class="py-12 text-center text-slate-400 font-medium">
+                        <span class="material-symbols-outlined text-[40px] mb-2 opacity-50 block">receipt_long</span>
+                        No hay transacciones registradas el día de hoy
+                    </td>
+                </tr>
+            `;
+        } else {
+
+        records.forEach(r => {
+            const dateObj = new Date(r.fecha);
+            const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+            const formatDate = `${dateObj.getDate()} ${months[dateObj.getMonth()]}, ${dateObj.getFullYear()}`;
+            const formatTime = dateObj.toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit'});
+            
+            const state = r.estado || 'Completado';
+            const stateClass = state === 'Cancelado' ? 'pill-red' : 'pill-blue';
+            const method = r.metodo || 'Tarjeta';
+            const methodIcon = method === 'Efectivo' ? 'payments' : (method === 'Transferencia' ? 'account_balance' : 'credit_card');
+
+            if(state !== 'Cancelado') todayTotal += r.monto;
+
+            let chipsHtml = (r.chips || []).map(c => `<span class="inline-flex px-3 py-1 bg-[#eef2fe] text-[#004cf0] rounded-full text-[10px] font-bold tracking-wide border border-blue-100">${c}</span>`).join(' ');
+
+            html += `
+                <tr class="hover:bg-slate-50/50 transition-colors group cursor-pointer">
+                    <td class="py-5 px-8">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-slate-800 text-[12px]">${formatDate}</span>
+                            <span class="text-[10px] text-slate-400 font-medium">${formatTime}</span>
+                        </div>
+                    </td>
+                    <td class="py-5 px-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-[#efedfc] text-[#4f3cd7] text-[10px] font-black flex items-center justify-center shrink-0">
+                                ${(r.abrev || r.cliente.substring(0, 2)).toUpperCase()}
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="font-bold text-slate-800 text-[13px] leading-tight">${r.cliente}</span>
+                                <span class="text-[9px] text-slate-400">${r.ref}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="py-5 px-4">
+                        <div class="flex flex-wrap gap-1.5 items-center">
+                            ${chipsHtml}
+                        </div>
+                    </td>
+                    <td class="py-5 px-4">
+                        <span class="font-black text-[#004cf0] tracking-tight">${'$' + r.monto.toFixed(2)}</span>
+                    </td>
+                    <td class="py-5 px-4">
+                        <div class="flex items-center gap-1.5 text-slate-600 font-medium text-[12px]">
+                            <span class="material-symbols-outlined text-[16px] text-slate-400">${methodIcon}</span>
+                            ${method}
+                        </div>
+                    </td>
+                    <td class="py-5 px-4">
+                        <span class="inline-flex px-2.5 py-1 ${stateClass} uppercase text-[9px] tracking-widest font-black rounded-sm">${state}</span>
+                    </td>
+                    <td class="py-5 px-8 text-right">
+                        <button onclick="event.stopPropagation(); deleteTransaction(${r.id})" class="opacity-0 group-hover:opacity-100 transition-opacity p-2 hover:bg-red-50 hover:text-red-500 rounded-full text-slate-400">
+                            <span class="material-symbols-outlined text-[18px]">delete</span>
+                        </button>
+                    </td>
+                </tr>
+            `;
+        });
+        } // close the else branch
+
+        tbody.innerHTML = html;
+        document.getElementById('transCount').innerText = `Mostrando 1-${records.length} de ${records.length} transacciones`;
+        
+        // Update top metrics
+        document.getElementById('metric-ventas').innerText = '$' + todayTotal.toFixed(2);
+        const avg = records.length > 0 ? (todayTotal / records.length) : 0;
+        document.getElementById('metric-ticket').innerText = '$' + avg.toFixed(2);
+    }
+
+    function deleteTransaction(id) {
+        Swal.fire({
+            title: '¿Eliminar Venta?',
+            text: 'Esta acción borrará el registro contable permanentemente.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#ef4444',
+            cancelButtonColor: '#cbd5e1',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar',
+            customClass: {
+                popup: 'rounded-[24px]',
+                title: 'font-headline font-black text-slate-800 tracking-tight',
+                confirmButton: 'font-bold uppercase tracking-wider text-[11px] px-6 py-2.5 rounded-xl transition-all',
+                cancelButton: 'font-bold uppercase tracking-wider text-[11px] px-6 py-2.5 rounded-xl text-slate-600 transition-all'
+            }
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                let records = JSON.parse(localStorage.getItem('transaccionesVentas')) || [];
+                const targetTx = records.find(r => r.id === id);
+                
+                records = records.filter(r => r.id !== id);
+                localStorage.setItem('transaccionesVentas', JSON.stringify(records));
+                renderHistorial();
+                
+                // User Consumo synchronization
+                if (targetTx && targetTx.userId) {
+                    try {
+                        const response = await fetch(`/api/users?t=${Date.now()}`);
+                        if (response.ok) {
+                            const allUsers = await response.json();
+                            let userRecord = allUsers.find(u => String(u.id) === String(targetTx.userId) || u.email === targetTx.userId);
+                            
+                            if (userRecord && userRecord.consumos) {
+                                userRecord.consumos = userRecord.consumos.filter(c => c.id !== id);
+                                await fetch(`/api/users/${encodeURIComponent(userRecord.id || userRecord.email)}`, {
+                                    method: 'PUT',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify(userRecord)
+                                });
+                            }
+                        }
+                    } catch (e) {
+                        console.error("Error sincronizando eliminación de venta con perfil de usuario consumos:", e);
+                    }
+                }
+
+                // Small toast notification
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Transacción eliminada',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true
+                });
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        renderHistorial();
+    });
+    </script>
+
+<script src="powerhaus-chat.js"></script>
+</body>
+</html>
+
+

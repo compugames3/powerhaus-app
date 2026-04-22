@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Carnet de Miembro</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Inter:wght@400;500;600&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#131b2e",
+                        "secondary-container": "#d5e3fc",
+                        "outline-variant": "#c3c5d9",
+                        "tertiary-fixed": "#ffdbd2",
+                        "inverse-on-surface": "#eef0ff",
+                        "primary-container": "#0052ff",
+                        "on-error-container": "#93000a",
+                        "surface-container-highest": "#dae2fd",
+                        "surface-container-high": "#e2e7ff",
+                        "tertiary-container": "#bf3003",
+                        "on-error": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb4a1",
+                        "surface-bright": "#faf8ff",
+                        "primary-fixed": "#dde1ff",
+                        "on-secondary-fixed": "#0d1c2e",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed-variant": "#0038b6",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#eaedff",
+                        "surface-tint": "#004ced",
+                        "on-primary-container": "#dfe3ff",
+                        "surface": "#faf8ff",
+                        "outline": "#737688",
+                        "on-tertiary-fixed": "#3c0800",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#dae2fd",
+                        "secondary-fixed": "#d5e3fc",
+                        "primary-fixed-dim": "#b7c4ff",
+                        "on-secondary-fixed-variant": "#3a485b",
+                        "on-background": "#131b2e",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed-dim": "#b9c7df",
+                        "on-secondary-container": "#57657a",
+                        "surface-container-low": "#f2f3ff",
+                        "background": "#faf8ff",
+                        "secondary": "#515f74",
+                        "surface-dim": "#d2d9f4",
+                        "on-surface-variant": "#434656",
+                        "on-tertiary-fixed-variant": "#891e00",
+                        "on-tertiary": "#ffffff",
+                        "inverse-surface": "#283044",
+                        "on-tertiary-container": "#ffddd5",
+                        "inverse-primary": "#b7c4ff",
+                        "on-primary-fixed": "#001452",
+                        "primary": "#003ec7",
+                        "tertiary": "#952200"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-manrope { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .card-bg-pattern {
+            background-color: #0f172a;
+            background-image: linear-gradient(135deg, #1e293b 25%, transparent 25%),
+                              linear-gradient(225deg, #1e293b 25%, transparent 25%),
+                              linear-gradient(45deg, #1e293b 25%, transparent 25%),
+                              linear-gradient(315deg, #1e293b 25%, #0f172a 25%);
+            background-position: 10px 0, 10px 0, 0 0, 0 0;
+            background-size: 20px 20px;
+            background-repeat: repeat;
+        }
+        .angle-bottom-strip {
+            clip-path: polygon(0 20%, 100% 0%, 100% 100%, 0% 100%);
+        }
+        /* Color Picker Modal */
+        #colorPickerOverlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+        #colorPickerOverlay.active {
+            display: flex;
+        }
+        #colorPickerBox {
+            background: #fff;
+            border-radius: 1.5rem;
+            padding: 2rem;
+            width: 340px;
+            max-width: 90vw;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+            text-align: center;
+            animation: popIn 0.2s ease;
+        }
+        @keyframes popIn {
+            from { transform: scale(0.85); opacity: 0; }
+            to   { transform: scale(1);    opacity: 1; }
+        }
+        .color-swatch {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 3px solid #f1f5f9;
+            cursor: pointer;
+            transition: transform 0.15s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .color-swatch:hover { transform: scale(1.15); }
+    </style>
+</head>
+<body class="bg-background text-on-background selection:bg-primary-container selection:text-on-primary-container">
+<!-- Color Picker Modal -->
+<div id="colorPickerOverlay" onclick="if(event.target===this) cerrarColorPicker()">
+  <div id="colorPickerBox">
+    <h2 style="font-family:Manrope,sans-serif;font-weight:800;font-size:1.25rem;color:#131b2e;margin-bottom:1rem;">🎨 Estilo del Carnet</h2>
+    <p style="font-size:0.75rem;color:#737688;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1rem;">Elige un color predefinido</p>
+    <div style="display:flex;gap:12px;justify-content:center;margin-bottom:1.5rem;">
+      <button class="color-swatch" style="background:#facc15;" onclick="setCardColor('#facc15')" title="Dorado"></button>
+      <button class="color-swatch" style="background:#f43f5e;" onclick="setCardColor('#f43f5e')" title="Rojo"></button>
+      <button class="color-swatch" style="background:#3b82f6;" onclick="setCardColor('#3b82f6')" title="Azul"></button>
+      <button class="color-swatch" style="background:#10b981;" onclick="setCardColor('#10b981')" title="Verde"></button>
+      <button class="color-swatch" style="background:#8b5cf6;" onclick="setCardColor('#8b5cf6')" title="Morado"></button>
+    </div>
+    <p style="font-size:0.75rem;color:#737688;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">O elige un color personalizado</p>
+    <input type="color" id="customColorInput" value="#facc15" style="width:100%;height:52px;border:none;border-radius:0.75rem;cursor:pointer;background:#f1f5f9;padding:4px;" onchange="setCardColor(this.value)">
+    <button onclick="cerrarColorPicker()" style="margin-top:1.25rem;width:100%;padding:0.75rem;background:#0f172a;color:#fff;border:none;border-radius:0.75rem;font-weight:700;font-size:0.875rem;cursor:pointer;letter-spacing:0.05em;">Aplicar y Cerrar</button>
+  </div>
+</div>
+<header class="bg-white dark:bg-slate-950 fixed w-full px-8 h-16 flex justify-between items-center z-40">
+<div class="flex items-center gap-4">
+<span id="brandHeaderTitle" class="text-2xl font-black tracking-tighter text-slate-900 dark:text-slate-50">PowerHaus</span>
+</div>
+<div class="flex items-center space-x-6">
+<div class="flex items-center border-l border-slate-200 dark:border-slate-800 pl-6"><button onclick="window.location.href = 'carnet_trasero.html' + window.location.search;" class="flex items-center gap-2 bg-primary text-white px-5 py-2 rounded-full font-bold text-sm hover:bg-primary/90 transition-colors shadow-sm">
+<span class="material-symbols-outlined text-xl">chevron_left</span>
+<span>Parte trasera</span>
+</button></div>
+</div>
+</header>
+<div class="flex pt-16">
+<main class="flex-1 p-8 bg-surface">
+<div class="max-w-6xl mx-auto">
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-12 items-start">
+<div class="xl:col-span-6 flex justify-center items-center order-1 xl:order-2">
+<div id="carnetScreenshotBox" class="p-8 pb-12 bg-[#F6F8FD] rounded-3xl">
+<div id="carnetArea" class="relative w-[400px] h-[600px] rounded-[2.5rem] overflow-hidden shadow-2xl shadow-slate-900/40 card-bg-pattern border-8 border-slate-800">
+<div class="pt-10 px-8 flex justify-between items-start relative z-10">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 bg-yellow-400 bg-dyn flex items-center justify-center rounded-sm">
+<span class="material-symbols-outlined text-slate-900 text-xl" style='font-variation-settings: "FILL" 1;'>fitness_center</span>
+</div>
+<span id="cardBrandTitle" class="text-white font-black tracking-tighter text-xl">POWERHAUS</span>
+</div>
+<p id="cardBrandSubtitle" class="text-[9px] font-bold tracking-[0.18em] text-slate-300 mt-1 ml-10 uppercase">ELITE PERFORMANCE</p>
+</div>
+<div class="bg-white/10 p-2 rounded-lg backdrop-blur-md">
+<span class="material-symbols-outlined text-yellow-400 text-dyn text-4xl">badge</span>
+</div>
+</div>
+<div class="mt-12 flex flex-col items-center relative z-10">
+<div class="relative">
+<div class="w-48 h-48 rounded-full border-[6px] border-yellow-400 border-dyn p-1 overflow-hidden bg-slate-800">
+<img alt="Foto del miembro" class="w-full h-full object-cover rounded-full" id="cardPhoto" src=""/>
+<div class="w-full h-full flex items-center justify-center rounded-full text-7xl font-black text-white bg-slate-600" id="cardPhotoFallback">M</div>
+</div>
+</div>
+<div class="mt-8 text-center px-6 w-full flex flex-col items-center">
+<h2 class="text-white text-3xl font-black tracking-tight font-manrope uppercase w-full" id="cardName">MIEMBRO</h2>
+<p class="text-yellow-400 text-dyn font-bold tracking-[0.2em] text-sm mt-2 w-full" id="cardRole">MIEMBRO ACTIVO</p>
+</div>
+</div>
+<div class="px-12 space-y-4 mt-4 relative z-10">
+<div class="flex justify-between items-center border-b border-white/10 pb-2">
+<span class="text-slate-400 text-xs font-bold tracking-widest uppercase">Member ID</span>
+<span class="text-white font-mono font-bold" id="cardId">PH-0000</span>
+</div>
+<div class="flex justify-between items-center border-b border-white/10 pb-2">
+<span class="text-slate-400 text-xs font-bold tracking-widest uppercase">Membresía</span>
+<span class="text-white font-mono font-bold" id="cardPlan">PLAN</span>
+</div>
+</div>
+<div class="absolute bottom-0 left-0 w-full h-20 bg-yellow-400 bg-dyn angle-bottom-strip z-0"></div>
+<div class="absolute bottom-0 left-0 w-full h-20 flex items-start justify-center pt-6 z-10 pointer-events-none">
+<div class="flex gap-4">
+<div class="w-3 h-3 rounded-full bg-slate-900/20"></div>
+<div class="w-3 h-3 rounded-full bg-slate-900/20"></div>
+<div class="w-3 h-3 rounded-full bg-slate-900/20"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="xl:col-span-6 space-y-6 order-2 xl:order-1">
+<header class="mb-12 text-left">
+<h1 class="font-manrope text-4xl font-extrabold text-on-surface tracking-tight mb-2">Management</h1>
+<p class="text-on-surface-variant text-lg">carnets digitales de personal activo.</p>
+</header>
+<div class="bg-surface-container-lowest p-8 rounded-3xl shadow-sm space-y-8 max-w-lg mx-auto xl:mx-0">
+<div>
+<h3 class="font-manrope font-extrabold text-xl text-on-surface mb-6">Acciones de Carnet</h3>
+<div class="grid grid-cols-2 gap-4">
+<button onclick="descargarCarnetJPG('carnetScreenshotBox', 'Carnet_Frontal')" class="flex flex-col items-center justify-center p-6 bg-surface-container rounded-2xl hover:bg-primary-container hover:text-white transition-all group">
+<span class="material-symbols-outlined text-3xl mb-2 group-hover:scale-110 transition-transform">download</span>
+<span class="text-sm font-bold">Descargar JPG</span>
+</button>
+<button onclick="abrirEditorColor()" class="flex flex-col items-center justify-center p-6 bg-[#004cf0] text-white rounded-2xl hover:bg-blue-700 transition-all group shadow-md shadow-blue-500/20">
+<span class="material-symbols-outlined text-3xl mb-2 group-hover:scale-110 transition-transform">palette</span>
+<span class="text-sm font-bold">Editar Info</span>
+</button>
+<button onclick="compartirPorWhatsApp()" class="flex flex-col items-center justify-center p-6 bg-surface-container rounded-2xl hover:bg-[#25D366] hover:text-white transition-all group">
+<svg class="w-8 h-8 mb-2 fill-current group-hover:scale-110 transition-transform" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+<span class="text-sm font-bold">WhatsApp</span>
+</button>
+<button onclick="compartirPorGmail()" class="flex flex-col items-center justify-center p-6 bg-surface-container rounded-2xl hover:bg-[#ea4335] hover:text-white transition-all group">
+<svg class="w-8 h-8 mb-2 fill-current group-hover:scale-110 transition-transform" viewBox="0 0 24 24"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/></svg>
+<span class="text-sm font-bold">Gmail</span>
+</button>
+<button onclick="cerrarCarnet()" class="col-span-2 flex items-center justify-center gap-3 py-4 bg-surface-container rounded-2xl hover:bg-error-container hover:text-on-error-container transition-all group">
+<span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform">close</span>
+<span class="text-sm font-bold">Cerrar Carnet</span>
+</button>
+</div>
+</div>
+<div class="space-y-4">
+<label class="block">
+<span class="text-xs font-bold uppercase tracking-widest text-slate-500 mb-2 block">Estado del Carnet</span>
+<div class="flex items-center gap-3 p-4 bg-primary/5 rounded-2xl border border-primary/10">
+<div class="w-3 h-3 rounded-full bg-primary animate-pulse"></div>
+<span class="text-primary font-bold" id="cardStatus">Digitalmente Activo</span>
+</div>
+<div class="p-4 bg-slate-50/50 rounded-2xl border border-slate-100 mt-4">
+<p class="text-[10px] sm:text-xs text-slate-500 leading-relaxed font-medium">Este carnet es un documento oficial de Titan Fitness. Cualquier uso no autorizado será reportado a la administración central.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer class="flex justify-end mt-20">
+<p class="text-slate-400 text-xs font-medium tracking-wider">© 2026 COMPUGAMES2026</p>
+</footer>
+</div>
+</main>
+</div>
+<script>
+let currentMemberPhone = '';
+let currentMemberEmail = '';
+
+function normalizeText(v) {
+    return String(v || '').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+function formatDate(dateInput) {
+    const d = new Date(dateInput);
+    if (isNaN(d.getTime())) return '--/--/----';
+    return d.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
+function addMonths(dateInput, months) {
+    const d = new Date(dateInput);
+    if (isNaN(d.getTime())) return null;
+    d.setMonth(d.getMonth() + months);
+    return d;
+}
+
+function getJoinDate(user) {
+    if (user?.createdAt) return new Date(user.createdAt);
+    if (user?.id) {
+        const byId = new Date(user.id);
+        if (!isNaN(byId.getTime())) return byId;
+    }
+    return new Date();
+}
+
+async function loadMemberCarnet() {
+    const params = new URLSearchParams(window.location.search);
+    const nombre = (params.get('nombre') || '').trim();
+    const id = (params.get('id') || '').trim();
+    const email = (params.get('email') || '').trim();
+
+    let users = [];
+    try {
+        const req = await fetch('/api/users?t=' + Date.now(), { cache: 'no-store' });
+        if (req.ok) {
+            users = await req.json();
+        }
+    } catch(e) {
+        console.warn("API no disponible, usando fallback local", e);
+    }
+
+    let user = null;
+    if (users && users.length > 0) {
+        user = users.find(u => normalizeText(u.name) === normalizeText(nombre));
+        if (!user && id) user = users.find(u => String(u.id || '') === id);
+        if (!user && email) user = users.find(u => normalizeText(u.email) === normalizeText(email));
+    }
+
+    if (!user) {
+        user = {
+            name: nombre || 'Miembro VIP',
+            id: id || '0000',
+            email: email || 'usuario@powerhaus.com',
+            phone: '+00 00000000',
+            plan: 'Membresía Activa',
+            barcode: 'PHVIP001'
+        };
+    }
+
+    const savedColor = localStorage.getItem('carnet_preset_color');
+    if (savedColor) {
+        setCardColor(savedColor);
+    }
+
+    const memberName = String(user.name || nombre || 'Miembro');
+    const memberPlan = String(user.plan || (user.role && user.role !== 'Member' ? 'Acceso VIP' : 'Membresía Activa'));
+    const memberId = String(user.id || user.email || 'PH-0000').replace(/[^0-9A-Za-z.-]/g, '').slice(0, 16);
+    const memberEmail = String(user.email || 'Sin correo');
+    const memberPhone = String(user.phone || user.telefono || user.cel || user.celular || 'Sin teléfono');
+    
+    currentMemberPhone = String(user.phone || user.telefono || user.cel || user.celular || '').replace(/[^0-9\+]/g, '');
+    currentMemberEmail = memberEmail;
+
+    const joinDate = getJoinDate(user);
+    const expireDate = addMonths(joinDate, 1);
+    const isActive = String(user.state || 'Active').toLowerCase() !== 'inactive';
+
+    let roleBase = 'MIEMBRO';
+    let rawRole = String(user.role || '').toLowerCase();
+    if (rawRole === 'admin') roleBase = 'ADMINISTRADOR';
+    else if (rawRole === 'staff') roleBase = 'STAFF';
+    else if (rawRole === 'trainer' || rawRole === 'entrenador') roleBase = 'ENTRENADOR';
+
+    document.getElementById('cardName').textContent = memberName;
+    document.getElementById('cardRole').textContent = roleBase + (isActive ? ' ACTIVO' : ' INACTIVO');
+    document.getElementById('cardId').textContent = memberId;
+    document.getElementById('cardPlan').textContent = memberPlan.toUpperCase();
+    document.getElementById('cardStatus').textContent = isActive ? 'Digitalmente Activo' : 'Digitalmente Inactivo';
+
+    const photo = document.getElementById('cardPhoto');
+    const fallback = document.getElementById('cardPhotoFallback');
+    fallback.textContent = memberName.charAt(0).toUpperCase();
+
+    if (user.photo) {
+        photo.src = user.photo;
+        photo.classList.remove('hidden');
+        fallback.classList.add('hidden');
+    } else {
+        photo.classList.add('hidden');
+        fallback.classList.remove('hidden');
+    }
+
+    const barcodeEl = document.getElementById('cardBarcode');
+    if (barcodeEl) {
+        const barcodeSource = String(user.barcode || user.phone || (user.email ? user.email.split('@')[0] : 'PH001')).substring(0, 15);
+        JsBarcode('#cardBarcode', barcodeSource, {
+            format: 'CODE128',
+            width: 2,
+            height: 60,
+            displayValue: true,
+            fontSize: 12,
+            margin: 0,
+            background: '#ffffff',
+            lineColor: '#000000'
+        });
+    }
+}
+
+function compartirPorWhatsApp() {
+    const savedTitle = (localStorage.getItem('powerhaus_brand_title') || 'PowerHaus').trim();
+    const currentUrl = window.location.href;
+    const textStr = `¡Hola! Bienvenidos a ${savedTitle}.`;
+    const text = encodeURIComponent(textStr);
+    
+    let url = 'https://web.whatsapp.com/send?text=' + text;
+    if (currentMemberPhone && currentMemberPhone.length >= 8) {
+        url = 'https://web.whatsapp.com/send?phone=' + currentMemberPhone + '&text=' + text;
+    }
+    
+    window.open(url, '_blank');
+}
+
+function compartirPorGmail() {
+    const savedTitle = (localStorage.getItem('powerhaus_brand_title') || 'PowerHaus').trim();
+    const currentUrl = window.location.href;
+    const subject = encodeURIComponent(`Carnet de Miembro - ${savedTitle}`);
+    const bodyStr = `¡Hola! Bienvenidos a ${savedTitle}.`;
+    const body = encodeURIComponent(bodyStr);
+    
+    let url = `https://mail.google.com/mail/?view=cm&fs=1&su=${subject}&body=${body}`;
+    if (currentMemberEmail && currentMemberEmail !== 'Sin correo') {
+        url += `&to=${encodeURIComponent(currentMemberEmail)}`;
+    }
+    window.open(url, '_blank');
+}
+
+function cerrarCarnet() {
+    window.location.href = 'gestion de miembros.html';
+}
+
+function abrirEditorColor() {
+    const saved = localStorage.getItem('carnet_preset_color') || '#facc15';
+    const pickerEl = document.getElementById('customColorInput');
+    if (pickerEl) pickerEl.value = saved;
+    document.getElementById('colorPickerOverlay').classList.add('active');
+}
+
+function cerrarColorPicker() {
+    document.getElementById('colorPickerOverlay').classList.remove('active');
+}
+
+function setCardColor(hexColor) {
+    document.querySelectorAll('.bg-dyn').forEach(el => el.style.backgroundColor = hexColor);
+    document.querySelectorAll('.text-dyn').forEach(el => el.style.color = hexColor);
+    document.querySelectorAll('.border-dyn').forEach(el => el.style.borderColor = hexColor);
+    localStorage.setItem('carnet_preset_color', hexColor);
+    const pickerEl = document.getElementById('customColorInput');
+    if (pickerEl) pickerEl.value = hexColor;
+}
+
+async function descargarCarnetJPG(elementId, filenamePrefix) {
+    const targetId = elementId === 'carnetScreenshotBox' ? 'carnetArea' : elementId;
+    const element = document.getElementById(targetId);
+    if (!element) return;
+
+    element.scrollIntoView({ behavior: 'instant', block: 'center' });
+    await new Promise(r => setTimeout(r, 150));
+
+    try {
+        const canvas = await html2canvas(element, {
+            scale: 3,
+            backgroundColor: '#0f172a',
+            useCORS: true,
+            allowTaint: true,
+            logging: false,
+            ignoreElements: el => el.id === 'colorPickerOverlay'
+        });
+
+        const nameEl = document.getElementById('cardName');
+        const memberName = nameEl
+            ? nameEl.textContent.trim().replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_\-]/g, '')
+            : 'Miembro';
+
+        const filename = `${filenamePrefix}_${memberName || 'Miembro'}.jpg`;
+
+        canvas.toBlob((blob) => {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }, 'image/jpeg', 0.95);
+    } catch (error) {
+        console.error('Error al generar JPG:', error);
+        alert('No se pudo descargar el carnet como imagen.');
+    }
+}
+
+function applyBrandIdentityCarnet() {
+    const savedTitle = (localStorage.getItem('powerhaus_brand_title') || 'PowerHaus').trim();
+    const savedSubtitle = (localStorage.getItem('powerhaus_brand_subtitle') || 'ELITE PERFORMANCE').trim();
+
+    const headerTitle = document.getElementById('brandHeaderTitle');
+    const cardTitle = document.getElementById('cardBrandTitle');
+    const cardSubtitle = document.getElementById('cardBrandSubtitle');
+
+    if (headerTitle) headerTitle.textContent = savedTitle;
+    if (cardTitle) cardTitle.textContent = savedTitle.toUpperCase();
+    if (cardSubtitle) cardSubtitle.textContent = savedSubtitle.toUpperCase();
+
+    document.title = `Carnet de Miembro | ${savedTitle}`;
+}
+
+applyBrandIdentityCarnet();
+window.addEventListener('DOMContentLoaded', loadMemberCarnet);
+</script>
+</body>
+</html>
