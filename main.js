@@ -472,6 +472,24 @@ async function createWindow() {
     // START EXPRESS SERVER FROM server.cjs LOGIC
     // ---------------------------------------------
     const serverApp = express();
+
+// --- ESTADO DE ACTUALIZACIONES ---
+let isUpdateAvailable = false;
+let downloadedUpdateVersion = null;
+
+autoUpdater.on('update-available', (info) => {
+    isUpdateAvailable = true;
+});
+
+autoUpdater.on('update-downloaded', (info) => {
+    isUpdateAvailable = true;
+    downloadedUpdateVersion = info.version;
+});
+
+serverApp.get('/api/update-status', (req, res) => {
+    res.json({ available: isUpdateAvailable, version: downloadedUpdateVersion });
+});
+
     const PORT = await getAvailablePort(3000);
     const STATIC_ROOT = getStaticRoot();
     

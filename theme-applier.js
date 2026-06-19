@@ -302,3 +302,50 @@
     });
 
 })();
+
+
+// --- UPDATE NOTIFICATION LOGIC ---
+async function checkUpdateBadge() {
+    try {
+        const res = await fetch('/api/update-status');
+        const data = await res.json();
+        
+        if (data.available) {
+            document.querySelectorAll('span.material-symbols-outlined').forEach(span => {
+                if (span.textContent.trim() === 'notifications' || span.getAttribute('data-icon') === 'notifications') {
+                    const btn = span.closest('button') || span.parentElement;
+                    if (btn && !btn.querySelector('#update-badge-indicator')) {
+                        btn.style.position = 'relative';
+                        const badge = document.createElement('span');
+                        badge.id = 'update-badge-indicator';
+                        badge.className = 'absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white shadow-sm z-50 animate-pulse';
+                        btn.appendChild(badge);
+                        
+                        btn.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            if (typeof Swal !== 'undefined') {
+                                Swal.fire({
+                                    icon: 'info',
+                                    title: 'Actualización Disponible',
+                                    text: data.version ? `La versión ${data.version} está descargada. Se instalará automáticamente al cerrar el programa.` : 'Se está descargando una nueva actualización en segundo plano.',
+                                    confirmButtonColor: '#3b82f6',
+                                    confirmButtonText: 'Entendido'
+                                });
+                            } else {
+                                alert(data.version ? `La versión ${data.version} está lista para instalar.` : 'Actualización en progreso...');
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    } catch (e) {
+        // Ignorar si falla la conexión local
+    }
+}
+
+// Ejecutar al cargar y cada 2 minutos
+document.addEventListener('DOMContentLoaded', () => {
+    checkUpdateBadge();
+    setInterval(checkUpdateBadge, 120000);
+});
