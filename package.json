@@ -8,7 +8,7 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "electron-builder",
         "publish": "npm run clean && electron-builder --publish always",
-        "clean": "rimraf dist"
+        "clean": "node clean.js"
     },
     "keywords": [],
     "author": "",
