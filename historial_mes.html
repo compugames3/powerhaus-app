@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html class="light" lang="es">
 <head>
 <meta charset="utf-8"/>
@@ -54,8 +54,8 @@
 <span class="material-symbols-outlined group-hover:scale-125 transition-all duration-300 notranslate" translate="no">dashboard</span>
 <span class="tracking-wider uppercase text-xs font-bold">Panel Principal</span>
 </a>
-<div class="relative group rounded-l-[1.5rem] ml-4 transition-all duration-300 flex flex-col shadow-sm bg-white dark:bg-slate-800">
-<button onclick="document.getElementById('submenu-miembros').classList.toggle('hidden'); document.getElementById('icon-miembros').classList.toggle('rotate-180')" class="w-full flex justify-between items-center text-emerald-600 dark:text-emerald-400 pl-4 py-3 transition-transform duration-300 hover:translate-x-1 focus:outline-none cursor-pointer select-none">
+<div class="relative group hover:bg-emerald-50 dark:hover:bg-emerald-900/30 rounded-l-[1.5rem] ml-4 transition-all duration-300 flex flex-col">
+<button onclick="document.getElementById('submenu-miembros').classList.toggle('hidden'); document.getElementById('icon-miembros').classList.toggle('rotate-180')" class="w-full flex justify-between items-center text-slate-500 dark:text-slate-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 pl-4 py-3 transition-transform duration-300 hover:translate-x-1 focus:outline-none cursor-pointer select-none">
 <div class="flex items-center gap-3">
 <span class="material-symbols-outlined notranslate" translate="no">group</span>
 <span class="tracking-wider uppercase text-xs font-bold">Miembros</span>
@@ -82,12 +82,17 @@
 <span class="material-symbols-outlined group-hover:scale-110 transition-all duration-300 notranslate" translate="no" style="font-variation-settings:'FILL' 1">nights_stay</span>
 <span class="tracking-wider uppercase text-xs font-bold">Cierre del Día</span>
 </a>
+<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-slate-200 group bg-white dark:bg-slate-800 shadow-sm text-slate-800 dark:text-slate-800" href="cierre_mes.html">
+<span class="material-symbols-outlined group-hover:scale-110 transition-all duration-300 notranslate" translate="no" style="font-variation-settings:'FILL' 1">calendar_month</span>
+<span class="tracking-wider uppercase text-xs font-bold">Cierre del Mes</span>
+</a>
+
 
 </nav>
 <div class="px-6 mt-auto flex flex-col gap-4">
 
 <div class="flex flex-col gap-1">
-<a class="flex items-center gap-3 text-slate-500 text-xs font-bold tracking-wider uppercase py-2 hover:text-blue-600" href="soporte.html" target="_blank">
+<a class="flex items-center gap-3 text-slate-500 text-xs font-bold tracking-wider uppercase py-2 hover:text-blue-600" href="soporte.html">
 <span class="material-symbols-outlined text-sm notranslate" translate="no">help</span>
                     SOPORTE
                 </a>
@@ -158,9 +163,11 @@ CERRAR SESIÓN</a>
               <div class="w-full lg:w-48">
                  <label class="block text-[9px] font-black text-slate-500 uppercase tracking-widest mb-2">Filtrar por Año</label>
                  <div class="relative">
-                    <select class="w-full appearance-none bg-white border border-slate-200 text-slate-700 text-sm font-bold rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 cursor-pointer shadow-sm">
-                       <option>2024</option>
-                       <option>2023</option>
+                    <select id="filterYear" class="w-full appearance-none bg-white border border-slate-200 text-slate-700 text-sm font-bold rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 cursor-pointer shadow-sm">
+                       <option value="Todos">Todos los Años</option>
+                       <option value="2026" selected>2026</option>
+                       <option value="2025">2025</option>
+                       <option value="2024">2024</option>
                     </select>
                     <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-lg">expand_more</span>
                  </div>
@@ -168,16 +175,16 @@ CERRAR SESIÓN</a>
               <div class="w-full lg:w-56">
                  <label class="block text-[9px] font-black text-slate-500 uppercase tracking-widest mb-2">Estado de Cierre</label>
                  <div class="relative">
-                    <select class="w-full appearance-none bg-white border border-slate-200 text-slate-700 text-sm font-bold rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 cursor-pointer shadow-sm">
-                       <option>Todos los estados</option>
-                       <option>Completado</option>
-                       <option>Pendiente</option>
+                    <select id="filterState" class="w-full appearance-none bg-white border border-slate-200 text-slate-700 text-sm font-bold rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 cursor-pointer shadow-sm">
+                       <option value="Todos los estados">Todos los estados</option>
+                       <option value="Completado">Completado</option>
+                       <option value="Pendiente">Pendiente</option>
                     </select>
                     <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-lg">expand_more</span>
                  </div>
               </div>
               <div class="w-full sm:w-auto">
-                 <button class="w-full bg-slate-800 hover:bg-slate-900 border border-slate-700 text-white font-bold rounded-xl px-6 py-3 shadow-md flex items-center justify-center gap-2 text-sm transition-all focus:ring-4 focus:ring-slate-200 active:scale-95">
+                 <button onclick="aplicarFiltros()" class="w-full bg-slate-800 hover:bg-slate-900 border border-slate-700 text-white font-bold rounded-xl px-6 py-3 shadow-md flex items-center justify-center gap-2 text-sm transition-all focus:ring-4 focus:ring-slate-200 active:scale-95">
                      <span class="material-symbols-outlined text-[16px]">filter_list</span> Aplicar Filtros
                  </button>
               </div>
@@ -266,15 +273,23 @@ CERRAR SESIÓN</a>
         renderizarTabla();
     }
 
+    function aplicarFiltros() {
+        renderizarTabla();
+    }
+
     function renderizarTabla() {
         const tbody = document.getElementById('historialCierresTabla');
-        let rawClosures = JSON.parse(localStorage.getItem('historialCierres') || '[]');
         
-        // EXCLUDE the Daily closures (which carry c.fecha) from this Monthly history!
-        let closures = rawClosures.filter(c => !c.fecha && c.mesFull);
+        // Read from the correct storage key
+        let closures = JSON.parse(localStorage.getItem('historialCierresMes') || '[]');
 
         const searchInput = document.getElementById('searchInput');
         let term = searchInput ? searchInput.value.toLowerCase() : '';
+        const filterYear = document.getElementById('filterYear');
+        const filterState = document.getElementById('filterState');
+
+        let yearVal = filterYear ? filterYear.value : 'Todos';
+        let stateVal = filterState ? filterState.value : 'Todos los estados';
         
         if (term) {
             closures = closures.filter(c => 
@@ -282,6 +297,14 @@ CERRAR SESIÓN</a>
                 (c.ano && c.ano.toString().includes(term)) ||
                 (c.responsable && c.responsable.toLowerCase().includes(term))
             );
+        }
+        
+        if (yearVal !== 'Todos') {
+            closures = closures.filter(c => c.ano && c.ano.toString() === yearVal);
+        }
+        
+        if (stateVal !== 'Todos los estados') {
+            closures = closures.filter(c => c.estado === stateVal);
         }
         
         if (currentVista === 'anual') {
@@ -318,6 +341,9 @@ CERRAR SESIÓN</a>
             return;
         }
 
+        const sessionData = JSON.parse(localStorage.getItem('usuario_activo') || '{}');
+        const isEmpleado = sessionData.rol === 'Empleados';
+
         let html = '';
         closures.forEach((c, idx) => {
             const numIngresos = Number(c.ingresos) || 0;
@@ -350,7 +376,7 @@ CERRAR SESIÓN</a>
                <td class="py-4 px-6 xl:px-8 align-middle whitespace-nowrap text-center">
                   <div class="flex items-center justify-center gap-2">
                      <button title="Ver Detalle" class="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"><span class="material-symbols-outlined text-[18px]">visibility</span></button>
-                     <button onclick="eliminarCierreMes(${idx})" title="Eliminar Registro" class="opacity-0 group-hover:opacity-100 w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-red-600 hover:bg-red-50 transition-all"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+                     ${!isEmpleado ? `<button onclick="eliminarCierreMes(${idx})" title="Eliminar Registro" class="opacity-0 group-hover:opacity-100 w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-red-600 hover:bg-red-50 transition-all"><span class="material-symbols-outlined text-[18px]">delete</span></button>` : ''}
                   </div>
                </td>
             </tr>`;
@@ -408,9 +434,9 @@ CERRAR SESIÓN</a>
 
     document.getElementById('confirmDeleteBtn').addEventListener('click', () => {
         if (currentDeleteIdx !== null) {
-            let cols = JSON.parse(localStorage.getItem('historialCierres') || '[]');
+            let cols = JSON.parse(localStorage.getItem('historialCierresMes') || '[]');
             cols.splice(currentDeleteIdx, 1);
-            localStorage.setItem('historialCierres', JSON.stringify(cols));
+            localStorage.setItem('historialCierresMes', JSON.stringify(cols));
             renderizarTabla();
         }
         closeDeleteModal();
@@ -422,5 +448,6 @@ CERRAR SESIÓN</a>
 <script src="powerhaus-chat.js"></script>
 </body>
 </html>
+
 
 

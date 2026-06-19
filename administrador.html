@@ -297,63 +297,49 @@
         <!-- Content Canvas -->
         <div class="p-6 md:p-8 flex flex-col gap-8 max-w-7xl mx-auto w-full">
             <!-- Hero Metrics Bento Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- Total Miembros -->
                 <div class="bg-surface-container-lowest rounded-xxl p-6 relative overflow-hidden group">
                     <div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>
                     <div class="flex justify-between items-start mb-4">
                         <p class="tracking-wider uppercase text-xs font-bold text-slate-500">Total Miembros</p>
-                        <span class="material-symbols-outlined text-primary bg-primary-fixed p-2 rounded-lg notranslate"
-                            translate="no">group</span>
+                        <span class="material-symbols-outlined text-primary bg-primary-fixed p-2 rounded-lg notranslate" translate="no">group</span>
                     </div>
-                    <h3 class="text-5xl font-extrabold text-on-background tracking-tighter mb-1"
-                        id="dash-total-miembros">0</h3>
+                    <h3 class="text-5xl font-extrabold text-on-background tracking-tighter mb-1" id="dash-total-miembros">0</h3>
                     <p class="text-sm text-primary font-semibold flex items-center gap-1">
                         <span class="material-symbols-outlined text-xs notranslate" translate="no">trending_up</span>
-                        +12% desde el último mes
+                        Usuarios Registrados
                     </p>
                 </div>
-                <!-- Ingresos del Día -->
+                <!-- Total Entrenadores -->
                 <div class="bg-surface-container-lowest rounded-xxl p-6 relative overflow-hidden group">
+                    <div class="absolute top-0 left-0 w-1 h-full bg-emerald-600"></div>
                     <div class="flex justify-between items-start mb-4">
-                        <p class="tracking-wider uppercase text-xs font-bold text-slate-500">Ingresos del Día</p>
-                        <span class="material-symbols-outlined text-amber-600 bg-amber-100 p-2 rounded-lg notranslate"
-                            translate="no">point_of_sale</span>
+                        <p class="tracking-wider uppercase text-xs font-bold text-slate-500">Total Entrenadores</p>
+                        <span class="material-symbols-outlined text-emerald-600 bg-emerald-100 p-2 rounded-lg notranslate" translate="no">sports</span>
                     </div>
-                    <h3 class="text-4xl lg:text-5xl font-extrabold text-on-background tracking-tighter mb-1"
-                        id="dash-ingresos-dia">$0.00</h3>
-                    <p class="text-sm text-on-secondary-container font-medium text-slate-400">Cierre actual</p>
+                    <h3 class="text-5xl font-extrabold text-on-background tracking-tighter mb-1" id="dash-total-entrenadores">0</h3>
+                    <p class="text-sm text-emerald-600 font-semibold flex items-center gap-1">
+                        <span class="material-symbols-outlined text-xs notranslate" translate="no">fitness_center</span>
+                        Staff y Coaches
+                    </p>
                 </div>
-                <!-- Mensual Revenue -->
+                <!-- License / Conexion Status -->
                 <div class="bg-surface-container-lowest rounded-xxl p-6 relative overflow-hidden group">
+                    <div class="absolute top-0 left-0 w-1 h-full bg-amber-500"></div>
                     <div class="flex justify-between items-start mb-4">
-                        <p class="tracking-wider uppercase text-xs font-bold text-slate-500">Ingresos Mensuales</p>
-                        <span
-                            class="material-symbols-outlined text-tertiary bg-tertiary-fixed p-2 rounded-lg notranslate"
-                            translate="no">payments</span>
+                        <p class="tracking-wider uppercase text-xs font-bold text-slate-500">Última Conexión</p>
+                        <span class="material-symbols-outlined text-amber-600 bg-amber-100 p-2 rounded-lg notranslate" translate="no">cloud_sync</span>
                     </div>
-                    <h3 class="text-5xl font-extrabold text-on-background tracking-tighter mb-1" id="dash-ingresos">
-                        $0.00</h3>
-                    <p class="text-sm text-on-secondary-container font-medium">Objetivo: $18,000</p>
-                </div>
-                <!-- Active Subscriptions Performance Gauge -->
-                <div
-                    class="bg-surface-container-lowest rounded-xxl p-6 flex flex-col items-center justify-center relative">
-                    <p class="tracking-wider uppercase text-xs font-bold text-slate-500 self-start mb-2">Tasa de
-                        Retención</p>
-                    <div class="relative w-32 h-32 flex items-center justify-center">
-                        <svg class="w-full h-full transform -rotate-90" viewBox="0 0 128 128">
-                            <circle class="text-surface-container-high" cx="64" cy="64" fill="transparent" r="58"
-                                stroke="currentColor" stroke-width="12"></circle>
-                            <circle id="dash-rete-circle" class="text-primary" cx="64" cy="64" fill="transparent" r="58"
-                                stroke="currentColor" stroke-dasharray="364.4" stroke-dashoffset="364.4"
-                                stroke-width="12" style="transition: stroke-dashoffset 1.5s ease;"></circle>
-                        </svg>
-                        <div class="absolute inset-0 flex flex-col items-center justify-center">
-                            <span class="text-2xl font-black text-on-background" id="dash-rete-text">0%</span>
-                        </div>
+                    <h3 class="text-2xl font-extrabold text-on-background tracking-tighter mb-1 truncate" id="dash-license-status">Cargando...</h3>
+                    <p class="text-sm text-slate-500 font-semibold flex items-center gap-1 truncate" id="dash-license-app">
+                        <span class="material-symbols-outlined text-xs notranslate" translate="no">computer</span>
+                        <span id="dash-license-machine">Desconocido</span>
+                    </p>
+                    <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between">
+                        <span class="text-xs font-bold text-slate-400">PROGRAMAS</span>
+                        <span class="text-xs font-bold px-2 py-1 bg-slate-100 text-slate-600 rounded-md" id="dash-license-program">No asignado</span>
                     </div>
-                    <p class="text-[10px] mt-2 font-bold text-primary uppercase tracking-widest">Estado Activo</p>
                 </div>
             </div>
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -393,7 +379,7 @@
                     <div class="flex flex-col gap-6 items-center justify-center py-6 text-slate-400 min-h-[140px]"
                         id="dash-proximas-clases">
                         <span class="material-symbols-outlined text-4xl mb-2" translate="no">event_busy</span>
-                        <p class="text-sm font-bold text-center px-4 leading-relaxed">Actualmente, no hay clases programadas en PowerHaus. Si necesitas ayuda para planificar tu entrenamiento o tienes alguna otra consulta, no dudes en preguntar.</p>
+                        <p class="text-sm font-bold text-center px-4 leading-relaxed">Actualmente, no hay clases programadas en <span class="brand-name-text">PowerHaus</span>. Si necesitas ayuda para planificar tu entrenamiento o tienes alguna otra consulta, no dudes en preguntar.</p>
                     </div>
                     <button
                         class="w-full mt-8 border-2 border-primary/10 hover:border-primary/30 text-primary font-bold py-3 rounded-xl transition-all text-sm active:scale-95"
@@ -545,14 +531,7 @@
                     const users = await res.json();
 
                     let totalMiembros = 0;
-                    let activos = 0;
-                    let ingreMensual = 0;
-                    let ingreDia = 0;
-
-                    const now = new Date();
-                    const currentMonth = now.getMonth();
-                    const currentYear = now.getFullYear();
-                    const hoyStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+                    let totalEntrenadores = 0;
 
                     users.forEach(u => {
                         const role = (u.role || '').toLowerCase();
@@ -562,107 +541,13 @@
 
                         if (!isTrainer && !isAdmin) {
                             totalMiembros++;
-                            if (u.state === 'Active') {
-                                activos++;
-                            }
-
-                            let hasAddedPayments = false;
-
-                            const pagos = u.pagos || [];
-                            pagos.forEach(p => {
-                                if (p.estado === 'Pagado' || p.estado === 'PAGADO' || p.status === 'ÉXITO') {
-                                    let pDateStr = p.fecha || p.date || '';
-                                    if (p.registrado && typeof p.registrado === 'string' && p.registrado.includes('T')) pDateStr = p.registrado.split('T')[0];
-
-                                    const pAmount = parseFloat(p.monto || p.amount || 0);
-                                    if (pDateStr.startsWith(`${currentYear}-${String(currentMonth + 1).padStart(2, '0')}`)) {
-                                        ingreMensual += pAmount;
-                                        hasAddedPayments = true;
-                                    }
-                                    if (pDateStr === hoyStr) {
-                                        ingreDia += pAmount;
-                                    }
-                                }
-                            });
-
-                            const payments = u.payments || [];
-                            payments.forEach(p => {
-                                if (p.status === 'ÉXITO' || p.estado === 'Pagado' || p.status === 'PAGADO') {
-                                    let pDateStr = p.fecha || p.date || p.timestamp || '';
-                                    if (typeof pDateStr === 'number' || (typeof pDateStr === 'string' && !isNaN(pDateStr) && pDateStr.length > 10)) {
-                                        const d = new Date(parseInt(pDateStr));
-                                        pDateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-                                    } else if (typeof pDateStr === 'string') {
-                                        if (pDateStr.includes('T')) pDateStr = pDateStr.split('T')[0];
-                                        else if (pDateStr.includes(' ')) pDateStr = pDateStr.split(' ')[0];
-                                    }
-
-                                    const pAmount = parseFloat(p.monto || p.amount || 0);
-                                    if (pDateStr.startsWith(`${currentYear}-${String(currentMonth + 1).padStart(2, '0')}`)) {
-                                        ingreMensual += pAmount;
-                                        hasAddedPayments = true;
-                                    }
-                                    if (pDateStr === hoyStr) {
-                                        ingreDia += pAmount;
-                                    }
-                                }
-                            });
-
-                            // Fallback members created today
-                            if (!hasAddedPayments && u.id) {
-                                const dateObj = new Date(parseInt(u.id));
-                                if (!isNaN(dateObj.getTime())) {
-                                    const uDateStr = `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, '0')}-${String(dateObj.getDate()).padStart(2, '0')}`;
-                                    let uPlanPrice = parseFloat(u.planPrice);
-                                    if (uPlanPrice) {
-                                        // if created this month
-                                        if (uDateStr.startsWith(`${currentYear}-${String(currentMonth + 1).padStart(2, '0')}`)) {
-                                            ingreMensual += uPlanPrice;
-                                        }
-                                        // if created today
-                                        if (uDateStr === hoyStr) {
-                                            ingreDia += uPlanPrice;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    });
-
-                    // Añadir Ventas POS
-                    const transVentas = JSON.parse(localStorage.getItem('transaccionesVentas') || '[]');
-                    const allPOS = [...transVentas];
-
-                    allPOS.forEach(v => {
-                        if (!v.fecha) return;
-                        
-                        let dObj = new Date(v.fecha);
-                        if(isNaN(dObj.getTime())) return;
-                        
-                        let vDateLocal = `${dObj.getFullYear()}-${String(dObj.getMonth() + 1).padStart(2, '0')}-${String(dObj.getDate()).padStart(2, '0')}`;
-                        
-                        const m = parseFloat(v.monto || v.total || v.amount || 0);
-                        if (vDateLocal.startsWith(`${currentYear}-${String(currentMonth + 1).padStart(2, '0')}`)) {
-                            ingreMensual += m;
-                        }
-                        if (vDateLocal === hoyStr) {
-                            ingreDia += m;
+                        } else if (isTrainer) {
+                            totalEntrenadores++;
                         }
                     });
 
                     document.getElementById('dash-total-miembros').innerText = totalMiembros;
-                    document.getElementById('dash-ingresos').innerText = '$' + ingreMensual.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-                    const elDia = document.getElementById('dash-ingresos-dia');
-                    if (elDia) elDia.innerText = '$' + ingreDia.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-                    let retencion = totalMiembros > 0 ? Math.round((activos / totalMiembros) * 100) : 0;
-                    document.getElementById('dash-rete-text').innerText = retencion + '%';
-
-                    setTimeout(() => {
-                        let offset = 364.4 - (364.4 * (retencion / 100));
-                        document.getElementById('dash-rete-circle').setAttribute('stroke-dashoffset', offset);
-                    }, 100);
+                    document.getElementById('dash-total-entrenadores').innerText = totalEntrenadores;
 
                     dashUsers = users;
                     renderGrowthChart('mensual'); // Render initial chart in mensual mode
@@ -706,6 +591,30 @@
                 }
             } catch (ec) {
                 console.warn('Error cargando clases:', ec);
+            }
+            // Fetch License Info
+            try {
+                const licRes = await fetch('/api/license/session');
+                if (licRes.ok) {
+                    const licData = await licRes.json();
+                    if (licData.ok) {
+                        document.getElementById('dash-license-status').innerText = 'Registrado';
+                        document.getElementById('dash-license-status').classList.remove('text-amber-500');
+                        document.getElementById('dash-license-status').classList.add('text-emerald-500');
+                        
+                        document.getElementById('dash-license-machine').innerText = licData.machineInfo?.computerName || 'Conocido';
+                        document.getElementById('dash-license-program').innerText = 'PowerHaus (Activado)';
+                        document.getElementById('dash-license-program').classList.remove('bg-slate-100', 'text-slate-600');
+                        document.getElementById('dash-license-program').classList.add('bg-emerald-100', 'text-emerald-700');
+                    } else {
+                        document.getElementById('dash-license-status').innerText = 'Sin registrar';
+                        document.getElementById('dash-license-machine').innerText = 'Desconocido';
+                        document.getElementById('dash-license-program').innerText = 'PowerHaus (No asignado)';
+                    }
+                }
+            } catch (ec) {
+                console.warn('Error fetching license status:', ec);
+                document.getElementById('dash-license-status').innerText = 'Desconectado';
             }
         }
 

@@ -144,12 +144,17 @@ body { top: 0 !important; }
 <span class="material-symbols-outlined group-hover:scale-110 transition-all duration-300 notranslate" translate="no" style="font-variation-settings:'FILL' 1">nights_stay</span>
 <span class="tracking-wider uppercase text-xs font-bold">Cierre del Día</span>
 </a>
+<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-slate-200 group text-slate-500 dark:text-slate-400" href="cierre_mes.html">
+<span class="material-symbols-outlined group-hover:scale-110 transition-all duration-300 notranslate" translate="no" style="font-variation-settings:'FILL' 1">calendar_month</span>
+<span class="tracking-wider uppercase text-xs font-bold">Cierre del Mes</span>
+</a>
+
 
 </nav>
 <div class="px-6 mt-auto flex flex-col gap-4">
 
 <div class="flex flex-col gap-1">
-<a class="flex items-center gap-3 text-slate-500 text-xs font-bold tracking-wider uppercase py-2 hover:text-blue-600" href="soporte.html" target="_blank">
+<a class="flex items-center gap-3 text-slate-500 text-xs font-bold tracking-wider uppercase py-2 hover:text-blue-600" href="soporte.html">
 <span class="material-symbols-outlined text-sm notranslate" translate="no">help</span>
                     SOPORTE
                 </a>
@@ -196,13 +201,55 @@ CERRAR SESIÓN</a>
         </a>
 
         <!-- Respaldos Card -->
-        <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 flex flex-col items-start gap-4 opacity-60">
-            <div class="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400 flex-shrink-0 animate-pulse">
-                <span class="material-symbols-outlined" translate="no">cloud_upload</span>
+        <button onclick="openBackupModal()" class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 hover:shadow-lg hover:border-emerald-200 hover:-translate-y-1 transition-all duration-300 group cursor-pointer flex flex-col items-start gap-4 text-left w-full">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white shadow-inner flex-shrink-0">
+                <span class="material-symbols-outlined group-hover:-translate-y-1 transition-transform" translate="no">cloud_download</span>
             </div>
             <div>
-                <h3 class="font-bold text-slate-800 text-lg mb-1">Respaldos</h3>
-                <p class="text-xs text-slate-500 leading-relaxed font-medium">Exportación automática de base de datos y configuraciones globales.</p>
+                <h3 class="font-bold text-slate-800 text-lg mb-1 group-hover:text-emerald-600 transition-colors">Copia de Seguridad</h3>
+                <p class="text-xs text-slate-500 leading-relaxed font-medium">Descarga una copia completa en formato encriptado a tu equipo local.</p>
+            </div>
+        </button>
+
+        <!-- Restaurar Respaldo Card -->
+        <input type="file" id="restoreFileInput" accept=".phbak" style="display: none;" onchange="handleRestoreFile(event)" />
+        <button onclick="document.getElementById('restoreFileInput').click()" class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 hover:shadow-lg hover:border-amber-200 hover:-translate-y-1 transition-all duration-300 group cursor-pointer flex flex-col items-start gap-4 text-left w-full">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center text-white shadow-inner flex-shrink-0">
+                <span class="material-symbols-outlined group-hover:-translate-y-1 transition-transform" translate="no">settings_backup_restore</span>
+            </div>
+            <div>
+                <h3 class="font-bold text-slate-800 text-lg mb-1 group-hover:text-amber-600 transition-colors">Restaurar Copia</h3>
+                <p class="text-xs text-slate-500 leading-relaxed font-medium">Sube tu archivo .phbak para restaurar. La sesión se cerrará para aplicar los cambios.</p>
+            </div>
+        </button>
+    </div>
+
+    <!-- Equipos Registrados Section -->
+    <div class="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-200 mb-8">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+            <div>
+                <h2 class="text-2xl font-black text-slate-900 tracking-tight flex items-center gap-3">
+                    <span class="material-symbols-outlined text-[#004cf0] text-3xl">computer</span>
+                    Equipos Registrados (1)
+                </h2>
+                <p class="text-sm text-slate-500 font-medium mt-1" id="ajustes-license-key">Licencia Activa: Cargando...</p>
+            </div>
+        </div>
+
+        <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="w-16 h-16 bg-white rounded-2xl shadow-sm border border-slate-200 flex items-center justify-center text-slate-400">
+                    <span class="material-symbols-outlined text-4xl">desktop_windows</span>
+                </div>
+                <div>
+                    <h4 class="font-bold text-slate-800 text-lg" id="ajustes-machine-name">Computadora Local</h4>
+                    <p class="text-sm text-slate-500" id="ajustes-machine-os">OS: Desconocido</p>
+                    <p class="text-xs text-slate-400 mt-1 font-mono bg-slate-200 px-2 py-0.5 rounded inline-block" id="ajustes-machine-id">ID: Cargando...</p>
+                </div>
+            </div>
+            <div class="text-right">
+                <span class="text-xs font-bold px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full inline-block mb-2">Este Equipo</span>
+                <p class="text-xs text-slate-400 font-bold" id="ajustes-machine-date">Instalado: Recientemente</p>
             </div>
         </div>
     </div>
@@ -238,6 +285,20 @@ CERRAR SESIÓN</a>
                     <!-- Users injected here -->
                 </tbody>
             </table>
+        </div>
+    </div>
+
+    <!-- Restore Success Modal -->
+    <div id="restoreModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[9999] hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl transform transition-all duration-300 flex flex-col items-center text-center">
+            <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-500 flex items-center justify-center mb-6">
+                <span class="material-symbols-outlined text-3xl" translate="no">check_circle</span>
+            </div>
+            <h2 class="text-2xl font-bold text-slate-800 mb-2">Â¡Restauración Exitosa!</h2>
+            <p class="text-slate-500 mb-8 leading-relaxed">Tu base de datos ha sido restaurada correctamente. Por seguridad, la sesión se cerrará para aplicar los cambios.</p>
+            <button onclick="cerrarSesionRestore()" class="w-full bg-slate-800 hover:bg-slate-900 text-white rounded-2xl py-3.5 font-bold transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5">
+                Aceptar e Iniciar Sesión
+            </button>
         </div>
     </div>
 </main>
@@ -350,6 +411,51 @@ document.addEventListener('click', function(event) {
     }
 });
 
+async function descargarRespaldo() {
+    try {
+        showToast('Generando respaldo encriptado...');
+        const a = document.createElement('a');
+        a.href = '/api/backup/download';
+        const dateStr = new Date().toISOString().split('T')[0];
+        a.download = `powerhaus_secure_backup_${dateStr}.phbak`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        showToast('âœ… Copia de seguridad encriptada descargada');
+    } catch (e) {
+        alert('Error al generar el respaldo: ' + e);
+    }
+}
+
+async function handleRestoreFile(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    try {
+        showToast('Restaurando copia encriptada...');
+        const text = await file.text();
+        const res = await fetch('/api/backup/restore', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ payload: text })
+        });
+        const data = await res.json();
+        if (data.success) {
+            document.getElementById('restoreModal').classList.remove('hidden');
+            document.getElementById('restoreModal').classList.add('flex');
+        } else {
+            showToast('Error: ' + (data.error || 'Archivo inválido o corrupto.'));
+        }
+    } catch(e) {
+        showToast('Error al intentar restaurar: El archivo no es compatible.');
+    }
+    event.target.value = '';
+}
+
+function cerrarSesionRestore() {
+    localStorage.removeItem('user_token');
+    window.location.href = 'login_licencia.html';
+}
 </script>
 <script src="cerrar-sesion.js"></script>
 <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
@@ -365,7 +471,7 @@ document.addEventListener('click', function(event) {
             </div>
             <div>
                 <h3 class="font-bold text-xl text-slate-900 mb-1">Eliminar cuenta</h3>
-                <p class="text-sm text-slate-500 leading-relaxed tracking-wide">¿Estás completamente seguro de eliminar a este usuario? Esta acción es drástica y <strong>perderá el acceso de inmediato</strong> a sus funcionalidades.</p>
+                <p class="text-sm text-slate-500 leading-relaxed tracking-wide">Â¿Estás completamente seguro de eliminar a este usuario? Esta acción es drástica y <strong>perderá el acceso de inmediato</strong> a sus funcionalidades.</p>
             </div>
         </div>
         <div class="flex items-center justify-end gap-3 mt-8">
@@ -417,16 +523,23 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     let rows = '';
     // Filtrar para que los 'Miembros' y 'Entrenadores' no se mezclen con los Usuarios reales del sistema (Admin/Staff)
-    const systemUsers = db.filter(u => u.role === 'Admin' || u.role === 'Staff');
+    const systemUsers = db.filter(u => u.role === 'Admin' || u.role === 'Staff' || u.role === 'Empleados');
     
     if(systemUsers.length === 0) {
         tbody.innerHTML = '<tr class=""><td colspan="5" class="py-8 text-center text-slate-400">No hay administradores registrados aún.</td></tr>';
         return;
     }
 
+    const sessionData = JSON.parse(localStorage.getItem('usuario_activo') || '{}');
+    const isEmpleado = sessionData.rol === 'Empleados' || sessionData.role === 'Empleados';
+    const btnAddUser = document.querySelector('a[href="crear_usuario.html"]');
+    if (btnAddUser && isEmpleado) {
+        btnAddUser.style.display = 'none';
+    }
+
     systemUsers.forEach(user => {
         let roleColorClass = 'bg-primary/10 text-primary';
-        if (user.role === 'Staff') roleColorClass = 'bg-tertiary/10 text-tertiary';
+        if (user.role === 'Staff' || user.role === 'Empleados') roleColorClass = 'bg-tertiary/10 text-tertiary';
         if (user.role === 'Trainer') roleColorClass = 'bg-surface-container-highest text-on-surface-variant';
         
         let permsHtml = '';
@@ -467,9 +580,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             </td>
             <td class="py-6 px-4 text-right rounded-r-2xl">
                 <div class="flex items-center justify-end gap-2">
+                    ${!isEmpleado ? `
                     <button class="p-2 text-slate-400 hover:text-primary transition-colors" onclick="editUser('${user.email}')"><span class="material-symbols-outlined notranslate" translate="no" data-icon="edit">edit</span></button>
                     ${user.name === 'admin' || user.role === 'Admin' ? '<button class="p-2 text-slate-400 opacity-30 cursor-not-allowed" title="No puedes eliminar al administrador maestro"><span class="material-symbols-outlined notranslate" translate="no" data-icon="delete">delete</span></button>' : '<button class="p-2 text-slate-400 hover:text-error transition-colors" onclick="deleteUser(\'' + user.email + '\')"><span class="material-symbols-outlined notranslate" translate="no" data-icon="delete">delete</span></button>'}
                     <button class="p-2 text-slate-400 hover:text-tertiary transition-colors"><span class="material-symbols-outlined notranslate" translate="no" data-icon="lock_open">lock_open</span></button>
+                    ` : ''}
                 </div>
             </td>
         </tr>
@@ -542,6 +657,32 @@ function editUser(email) {
     localStorage.setItem('userToEdit', email);
     window.location.href = 'editar_usuario.html';
 }
+
+async function loadEquiposRegistrados() {
+    try {
+        const licRes = await fetch('/api/license/session');
+        if (licRes.ok) {
+            const licData = await licRes.json();
+            if (licData.ok && licData.licenseKey) {
+                document.getElementById('ajustes-license-key').innerText = `Licencia Activa: ${licData.licenseKey}`;
+            } else {
+                document.getElementById('ajustes-license-key').innerText = `Sin registrar`;
+            }
+
+            if (licData.machineInfo) {
+                document.getElementById('ajustes-machine-name').innerText = licData.machineInfo.computerName || 'Desconocido';
+                document.getElementById('ajustes-machine-os').innerText = `OS: ${licData.machineInfo.osVersion} (${licData.machineInfo.platform})`;
+                document.getElementById('ajustes-machine-id').innerText = `ID: ${licData.machineInfo.hardwareId || 'Desconocido'}`;
+            }
+        }
+    } catch (e) {
+        console.error("Error loading equipos registrados", e);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadEquiposRegistrados();
+});
 </script>
 
 
@@ -594,4 +735,148 @@ function editUser(email) {
 </script>
 
 <script src="powerhaus-chat.js"></script>
+
+<!-- Backup Modal -->
+<div id="backupModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[99] hidden flex items-center justify-center opacity-0 transition-opacity duration-300">
+    <div class="bg-white dark:bg-slate-900 rounded-3xl p-8 max-w-md w-full mx-4 shadow-2xl transform scale-95 transition-transform duration-300" id="backupModalContent">
+        <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-2">Guardar Copia de Seguridad</h3>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Elige dónde quieres guardar el archivo encriptado .phbak con todos los datos de tu gimnasio.</p>
+        
+        <div class="flex flex-col gap-3">
+            <button onclick="executeBackup('local')" class="w-full flex items-center gap-4 p-4 rounded-2xl border-2 border-slate-200 dark:border-slate-700 hover:border-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-all text-left group">
+                <div class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 group-hover:bg-emerald-100 group-hover:text-emerald-600 transition-colors">
+                    <span class="material-symbols-outlined">computer</span>
+                </div>
+                <div>
+                    <h4 class="font-bold text-slate-800 dark:text-white text-sm">Modo Local</h4>
+                    <p class="text-xs text-slate-500">Guardar en tu PC (Descargas, Documentos...)</p>
+                </div>
+            </button>
+            
+            <button onclick="executeBackup('drive')" class="w-full flex items-center gap-4 p-4 rounded-2xl border-2 border-slate-200 dark:border-slate-700 hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all text-left group">
+                <div class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 group-hover:bg-blue-100 group-hover:text-blue-600 transition-colors">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/1/12/Google_Drive_icon_%282020%29.svg" class="w-5 h-5 opacity-80 group-hover:opacity-100 transition-opacity" alt="Drive">
+                </div>
+                <div>
+                    <h4 class="font-bold text-slate-800 dark:text-white text-sm">Google Drive</h4>
+                    <p class="text-xs text-slate-500">Inicia sesión con tu cuenta de Gmail de forma segura</p>
+                </div>
+            </button>
+        </div>
+        
+        <button onclick="closeBackupModal()" class="mt-6 w-full py-3 rounded-xl font-bold text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">Cancelar</button>
+    </div>
+</div>
+
+<!-- Restore Modal -->
+<div id="restoreModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[99] hidden flex items-center justify-center opacity-0 transition-opacity duration-300">
+    <div class="bg-white dark:bg-slate-900 rounded-3xl p-8 max-w-md w-full mx-4 shadow-2xl transform scale-95 transition-transform duration-300" id="restoreModalContent">
+        <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-2">Restaurar Copia de Seguridad</h3>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Selecciona de dónde quieres cargar el archivo .phbak. La sesión se cerrará tras restaurar.</p>
+        
+        <div class="flex flex-col gap-3">
+            <button onclick="executeRestore('local')" class="w-full flex items-center gap-4 p-4 rounded-2xl border-2 border-slate-200 dark:border-slate-700 hover:border-orange-500 hover:bg-orange-50 dark:hover:bg-orange-900/20 transition-all text-left group">
+                <div class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 group-hover:bg-orange-100 group-hover:text-orange-600 transition-colors">
+                    <span class="material-symbols-outlined">folder_open</span>
+                </div>
+                <div>
+                    <h4 class="font-bold text-slate-800 dark:text-white text-sm">Modo Local</h4>
+                    <p class="text-xs text-slate-500">Buscar en tu disco duro local</p>
+                </div>
+            </button>
+            
+            <button onclick="executeRestore('drive')" class="w-full flex items-center gap-4 p-4 rounded-2xl border-2 border-slate-200 dark:border-slate-700 hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all text-left group">
+                <div class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 group-hover:bg-blue-100 group-hover:text-blue-600 transition-colors">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/1/12/Google_Drive_icon_%282020%29.svg" class="w-5 h-5 opacity-80 group-hover:opacity-100 transition-opacity" alt="Drive">
+                </div>
+                <div>
+                    <h4 class="font-bold text-slate-800 dark:text-white text-sm">Google Drive</h4>
+                    <p class="text-xs text-slate-500">Descargar de tu cuenta de Google Drive asociada</p>
+                </div>
+            </button>
+        </div>
+        
+        <button onclick="closeRestoreModal()" class="mt-6 w-full py-3 rounded-xl font-bold text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">Cancelar</button>
+    </div>
+</div>
+
+
+<script>
+function openBackupModal() {
+    const m = document.getElementById('backupModal');
+    const c = document.getElementById('backupModalContent');
+    m.classList.remove('hidden');
+    setTimeout(() => {
+        m.classList.remove('opacity-0');
+        c.classList.remove('scale-95');
+    }, 10);
+}
+
+function closeBackupModal() {
+    const m = document.getElementById('backupModal');
+    const c = document.getElementById('backupModalContent');
+    m.classList.add('opacity-0');
+    c.classList.add('scale-95');
+    setTimeout(() => { m.classList.add('hidden'); }, 300);
+}
+
+function openRestoreModal() {
+    const m = document.getElementById('restoreModal');
+    const c = document.getElementById('restoreModalContent');
+    m.classList.remove('hidden');
+    setTimeout(() => {
+        m.classList.remove('opacity-0');
+        c.classList.remove('scale-95');
+    }, 10);
+}
+
+function closeRestoreModal() {
+    const m = document.getElementById('restoreModal');
+    const c = document.getElementById('restoreModalContent');
+    m.classList.add('opacity-0');
+    c.classList.add('scale-95');
+    setTimeout(() => { m.classList.add('hidden'); }, 300);
+}
+
+async function executeBackup(mode) {
+    closeBackupModal();
+    showToast('Abriendo explorador...');
+    try {
+        const res = await fetch('/api/backup/save-dialog?mode=' + mode);
+        const data = await res.json();
+        if (data.success) {
+            showToast('✅ Copia de seguridad guardada exitosamente');
+        } else if (data.canceled) {
+            showToast('Operación cancelada');
+        } else {
+            showToast('❌ Error: ' + (data.error || 'Desconocido'));
+        }
+    } catch(e) {
+        alert('Error conectando con el sistema local: ' + e);
+    }
+}
+
+async function executeRestore(mode) {
+    closeRestoreModal();
+    showToast('Abriendo explorador...');
+    try {
+        const res = await fetch('/api/backup/open-dialog?mode=' + mode);
+        const data = await res.json();
+        if (data.success) {
+            showToast('✅ Copia restaurada correctamente. Reiniciando...');
+            setTimeout(() => {
+                window.parent.location.href = 'login-software.html';
+            }, 1500);
+        } else if (data.canceled) {
+            showToast('Operación cancelada');
+        } else {
+            showToast('❌ Error: ' + (data.error || 'Desconocido'));
+        }
+    } catch(e) {
+        alert('Error conectando con el sistema local: ' + e);
+    }
+}
+</script>
+
 </body></html>
+

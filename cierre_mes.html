@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html class="light" lang="es">
 <head>
 <meta charset="utf-8"/>
@@ -82,16 +82,21 @@
 <span class="material-symbols-outlined group-hover:-translate-y-1 group-hover:scale-110 transition-all duration-300 notranslate" translate="no">badge</span>
 <span class="tracking-wider uppercase text-xs font-bold">Personal</span>
 </a>
-<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-slate-200 group bg-white dark:bg-slate-800 shadow-sm text-slate-800 dark:text-slate-800" href="cierre.html">
+<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-slate-200 group text-slate-500 dark:text-slate-400" href="cierre.html">
 <span class="material-symbols-outlined group-hover:scale-110 transition-all duration-300 notranslate" translate="no" style="font-variation-settings:'FILL' 1">nights_stay</span>
 <span class="tracking-wider uppercase text-xs font-bold">Cierre del Día</span>
 </a>
+<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-slate-200 group bg-white dark:bg-slate-800 shadow-sm text-slate-800 dark:text-slate-800" href="cierre_mes.html">
+<span class="material-symbols-outlined group-hover:scale-110 transition-all duration-300 notranslate" translate="no" style="font-variation-settings:'FILL' 1">calendar_month</span>
+<span class="tracking-wider uppercase text-xs font-bold">Cierre del Mes</span>
+</a>
+
 
 </nav>
 <div class="px-6 mt-auto flex flex-col gap-4">
 
 <div class="flex flex-col gap-1">
-<a class="flex items-center gap-3 text-slate-500 text-xs font-bold tracking-wider uppercase py-2 hover:text-blue-600" href="soporte.html" target="_blank">
+<a class="flex items-center gap-3 text-slate-500 text-xs font-bold tracking-wider uppercase py-2 hover:text-blue-600" href="soporte.html">
 <span class="material-symbols-outlined text-sm notranslate" translate="no">help</span>
                     SOPORTE
                 </a>
@@ -109,7 +114,7 @@ CERRAR SESIÓN</a>
   <header class="bg-transparent border-b border-transparent flex justify-between items-center px-10 py-6">
     <div class="flex items-center gap-3">
         <span class="material-symbols-outlined text-slate-400 text-[18px]">calendar_today</span>
-        <h3 class="text-sm font-extrabold text-slate-600 uppercase tracking-widest">Cierre Mensual - Octubre 2026</h3>
+        <h3 id="header_mes_actual" class="text-sm font-extrabold text-slate-600 uppercase tracking-widest">Cierre Mensual</h3>
     </div>
     <div class="flex items-center gap-4">
         <div class="w-10 h-10 rounded-full border border-slate-200 bg-slate-200 overflow-hidden shadow-sm">
@@ -233,7 +238,7 @@ CERRAR SESIÓN</a>
              <h4 class="text-[15px] font-black text-slate-800 mb-6">Sección de Gastos</h4>
              
              <div class="bg-slate-50 rounded-xl p-4 flex items-center justify-between mb-3 border border-slate-100">
-                <span class="text-[13px] font-bold text-slate-500">Nómina Staff</span>
+                <span class="text-[13px] font-bold text-slate-500">Nómina Empleados</span>
                 <span id="c_nomina_staff" class="text-[14px] font-black text-[#d0463c]">-$0.00</span>
              </div>
              <div class="bg-slate-50 rounded-xl p-4 flex items-center justify-between mb-3 border border-slate-100">
@@ -283,6 +288,22 @@ CERRAR SESIÓN</a>
 <script src="cerrar-sesion.js"></script>
 
 <script>
+  // Protección de sesión y permisos
+  const userActivoJson = localStorage.getItem('usuario_activo');
+  if (!userActivoJson) {
+    window.location.href = 'index.html';
+  } else {
+    try {
+      const activeUser = JSON.parse(userActivoJson);
+      const isAdmin = activeUser.rol === 'Admin';
+      const hasPerm = activeUser.perms && activeUser.perms.includes('Cierre del Mes');
+      if (!isAdmin && !hasPerm) {
+         alert('Acceso Denegado: No tienes el permiso "Cierre del Mes".');
+         window.location.href = 'administrador.html';
+      }
+    } catch(e){}
+  }
+
   async function cargarBaseDeDatos() {
       try {
           const resUsers = await fetch('/api/users');
@@ -294,6 +315,12 @@ CERRAR SESIÓN</a>
           // Filtro del mes actual
           const currentMonth = new Date().getMonth();
           const currentYear = new Date().getFullYear();
+          const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+          
+          let headerEl = document.getElementById('header_mes_actual');
+          if(headerEl) {
+              headerEl.innerText = `Cierre Mensual - ${meses[currentMonth]} ${currentYear}`;
+          }
 
           // 1. Membresias (solo pagos reales emitidos este mismo mes)
           let membresias = 0;
@@ -302,18 +329,30 @@ CERRAR SESIÓN</a>
           users.forEach(u => {
               if(u.role === 'Miembro') {
                   miembrosVigentes++;
-                  if(u.payments && u.payments.length > 0) {
-                      u.payments.forEach(p => {
+                  let hasAddedPayments = false;
+                  let pagosList = u.payments || u.pagos || [];
+                  if(pagosList.length > 0) {
+                      pagosList.forEach(p => {
                           let pDateStr = p.fecha || p.date || p.timestamp;
                           if (pDateStr) {
                               let d = new Date(pDateStr);
                               if (d.getMonth() === currentMonth && d.getFullYear() === currentYear) {
-                                  if (p.status === 'ÉXITO' || p.estado === 'Pagado' || p.status === 'PAGADO') {
-                                      membresias += parseFloat(p.amount || p.monto || 0);
+                                  if (p.status === 'ÉXITO' || p.estado === 'Pagado' || p.status === 'PAGADO' || p.status === 'Pagado') {
+                                      membresias += parseFloat(p.amount || p.monto || p.total || 0);
+                                      hasAddedPayments = true;
                                   }
                               }
                           }
                       });
+                  }
+                  
+                  if (!hasAddedPayments && u.id) {
+                      const dateObj = new Date(parseInt(u.id));
+                      if (!isNaN(dateObj.getTime())) {
+                          if (dateObj.getMonth() === currentMonth && dateObj.getFullYear() === currentYear && u.planPrice) {
+                              membresias += parseFloat(u.planPrice);
+                          }
+                      }
                   }
               }
           });
@@ -321,7 +360,7 @@ CERRAR SESIÓN</a>
           // 2. Nomina Staff (leyendo estrictamente del REGISTRO DE PAGOS (u.pagos), no cálculos teóricos)
           let nominaStaff = 0;
           users.forEach(u => {
-              if(u.role === 'Entrenador' || u.role === 'Staff' || u.role === 'trainer') {
+              if(u.role === 'Entrenador' || u.role === 'Staff' || u.role === 'trainer' || u.role === 'Empleados') {
                   if (u.pagos && u.pagos.length > 0) {
                       u.pagos.forEach(p => {
                           let pDateStr = p.fecha || p.date;
@@ -338,9 +377,25 @@ CERRAR SESIÓN</a>
               }
           });
 
+          // 3. Ventas POS (leyendo del historial de POS del mes)
+          let ventasPos = 0;
+          try {
+              const posHist = JSON.parse(localStorage.getItem('historialPOS') || '[]');
+              const transVentas = JSON.parse(localStorage.getItem('transaccionesVentas') || '[]');
+              const allPOS = [...posHist, ...transVentas];
+              allPOS.forEach(v => {
+                  if(!v.fecha) return;
+                  let dObj = new Date(v.fecha);
+                  if(!isNaN(dObj.getTime())) {
+                      if (dObj.getMonth() === currentMonth && dObj.getFullYear() === currentYear) {
+                          ventasPos += parseFloat(v.monto || v.total || v.amount || 0);
+                      }
+                  }
+              });
+          } catch(e) { console.error(e); }
+
           let mantenimientos = 0;
           let renta = 0;
-          let ventasPos = 0;
           let serviciosExtra = 0;
 
           // Calculos Finales
@@ -366,7 +421,7 @@ CERRAR SESIÓN</a>
           document.getElementById('c_nomina_staff').innerText = '-$' + nominaStaff.toLocaleString('en-US', {minimumFractionDigits: 2});
           document.getElementById('c_mantenimiento').innerText = '-$' + mantenimientos.toLocaleString('en-US', {minimumFractionDigits: 2});
           document.getElementById('c_servicios_renta').innerText = '-$' + renta.toLocaleString('en-US', {minimumFractionDigits: 2});
-          document.getElementById('c_total_egresos').innerText = '$' + egresosTotales.toLocaleString('en-US', {minimumFractionDigits: 2});
+          document.getElementById('c_total_egresos').innerText = '-$' + egresosTotales.toLocaleString('en-US', {minimumFractionDigits: 2});
 
           document.getElementById('c_utilidad_neta').innerText = '$' + utilidad.toLocaleString('en-US', {minimumFractionDigits: 2});
           document.getElementById('c_margen').innerHTML = 'Margen operativo del<br/>' + margen + '%';
@@ -375,7 +430,7 @@ CERRAR SESIÓN</a>
           document.getElementById('c_tasa_retencion').innerText = '100%';
           
 
-          document.getElementById('c_observaciones').value = "Reporte automático derivado de la API: Se encontraron " + miembrosVigentes + " miembros activos y " + classes.length + " clases programadas. La nómina mensual refleja " + (nominaStaff>0 ? '$'+nominaStaff : 'cero gastos operativos') + ".";
+          document.getElementById('c_observaciones').value = "";
 
       } catch(e) {
           document.getElementById('c_observaciones').value = "Error cargando la base de datos.";
@@ -413,11 +468,14 @@ CERRAR SESIÓN</a>
           estado: 'Completado'
       };
 
-      // 3. Save to localStorage
-      let closures = JSON.parse(localStorage.getItem('historialCierres') || '[]');
-      // Optional: Prevent saving duplicate months just update it, but here we just prepend it according to request.
+      // 3. Save to localStorage using the correct key
+      let closures = JSON.parse(localStorage.getItem('historialCierresMes') || '[]');
+      
+      // Prevent duplicates: remove if one for the same month/year already exists
+      closures = closures.filter(c => !(c.mesFull === nuevoCierre.mesFull && c.ano === nuevoCierre.ano));
+      
       closures.unshift(nuevoCierre);
-      localStorage.setItem('historialCierres', JSON.stringify(closures));
+      localStorage.setItem('historialCierresMes', JSON.stringify(closures));
 
       // 4. Redirect
       window.location.href = 'historial_mes.html';
@@ -427,5 +485,6 @@ CERRAR SESIÓN</a>
 <script src="powerhaus-chat.js"></script>
 </body>
 </html>
+
 
 

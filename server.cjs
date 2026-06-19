@@ -2,11 +2,39 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const cors = require('cors');
+const crypto = require('crypto');
 
 const app = express();
 const PORT = 3000;
-const DB_FILE = path.join(__dirname, 'db.json');
-const CLASSES_FILE = path.join(__dirname, 'classes.json');
+const DB_FILE = path.join(__dirname, 'db.phdata');
+const CLASSES_FILE = path.join(__dirname, 'classes.phdata');
+
+const ENCRYPTION_KEY = crypto.createHash('sha256').update('PowerHaus_Secure_AntiHack_2026').digest();
+const IV_LENGTH = 16;
+
+function encrypt(text) {
+    if (!text) return text;
+    let iv = crypto.randomBytes(IV_LENGTH);
+    let cipher = crypto.createCipheriv('aes-256-cbc', ENCRYPTION_KEY, iv);
+    let encrypted = cipher.update(text, 'utf8', 'hex');
+    encrypted += cipher.final('hex');
+    return iv.toString('hex') + ':' + encrypted;
+}
+
+function decrypt(text) {
+    if (!text || !text.includes(':')) return text;
+    try {
+        let textParts = text.split(':');
+        let iv = Buffer.from(textParts.shift(), 'hex');
+        let encryptedText = textParts.join(':');
+        let decipher = crypto.createDecipheriv('aes-256-cbc', ENCRYPTION_KEY, iv);
+        let decrypted = decipher.update(encryptedText, 'hex', 'utf8');
+        decrypted += decipher.final('utf8');
+        return decrypted;
+    } catch(e) {
+        return null;
+    }
+}
 
 app.use(cors());
 app.use(express.json());
@@ -89,24 +117,16 @@ const DEFAULT_ADMIN = {
     initials: 'AD'
 };
 
-// Read
-function safeReadFile(filePath) {
-    if (!fs.existsSync(filePath)) return null;
-    let buf = fs.readFileSync(filePath);
-    if (buf[0] === 0xff && buf[1] === 0xfe) return buf.toString('utf16le');
-    if (buf[0] === 0xef && buf[1] === 0xbb && buf[2] === 0xbf) return buf.toString('utf8').substring(1);
-    if (buf[0] === 0xfe && buf[1] === 0xff) return buf.toString('utf16be');
-    return buf.toString('utf8');
-}
-
 function readDB() {
     try {
         if (!fs.existsSync(DB_FILE)) {
-            fs.writeFileSync(DB_FILE, JSON.stringify([DEFAULT_ADMIN], null, 2));
+            fs.writeFileSync(DB_FILE, encrypt(JSON.stringify([DEFAULT_ADMIN], null, 2)));
         }
-        return JSON.parse(safeReadFile(DB_FILE));
+        let raw = fs.readFileSync(DB_FILE, 'utf8');
+        let dec = decrypt(raw);
+        return dec ? JSON.parse(dec) : [{ ...DEFAULT_ADMIN }];
     } catch(err) {
-        return [DEFAULT_ADMIN];
+        return [{ ...DEFAULT_ADMIN }];
     }
 }
 
@@ -125,7 +145,7 @@ function writeDB(data) {
             data[adminIdx].name = DEFAULT_ADMIN.name;
         }
     }
-    fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2));
+    fs.writeFileSync(DB_FILE, encrypt(JSON.stringify(data, null, 2)));
 }
 
 // Seed: verifica que exista el admin al arrancar
@@ -152,9 +172,11 @@ function seedAdmin() {
 function readClasses() {
     try {
         if (!fs.existsSync(CLASSES_FILE)) {
-            fs.writeFileSync(CLASSES_FILE, '[]');
+            fs.writeFileSync(CLASSES_FILE, encrypt('[]'));
         }
-        return JSON.parse(safeReadFile(CLASSES_FILE));
+        let raw = fs.readFileSync(CLASSES_FILE, 'utf8');
+        let dec = decrypt(raw);
+        return dec ? JSON.parse(dec) : [];
     } catch(err) {
         return [];
     }
@@ -162,7 +184,7 @@ function readClasses() {
 
 // Write Classes
 function writeClasses(data) {
-    fs.writeFileSync(CLASSES_FILE, JSON.stringify(data, null, 2));
+    fs.writeFileSync(CLASSES_FILE, encrypt(JSON.stringify(data, null, 2)));
 }
 
 let isDormant = false;
@@ -181,6 +203,36 @@ app.use('/api', (req, res, next) => {
 // GET all users
 app.get('/api/users', (req, res) => {
     res.json(readDB());
+});
+
+app.get('/api/backup/download', (req, res) => {
+    try {
+        const payload = JSON.stringify({
+            timestamp: new Date().toISOString(),
+            users: readDB(),
+            classes: readClasses()
+        });
+        res.setHeader('Content-disposition', 'attachment; filename=powerhaus_secure_backup.phbak');
+        res.setHeader('Content-type', 'application/octet-stream');
+        res.send(encrypt(payload));
+    } catch(e) {
+        res.status(500).send('Error');
+    }
+});
+
+app.post('/api/backup/restore', (req, res) => {
+    try {
+        const encryptedPayload = req.body.payload;
+        if (!encryptedPayload) throw new Error('No payload');
+        const decrypted = decrypt(encryptedPayload);
+        if (!decrypted) throw new Error('Invalid encryption or corrupted file');
+        const data = JSON.parse(decrypted);
+        if (data.users) writeDB(data.users);
+        if (data.classes) writeClasses(data.classes);
+        res.json({ success: true });
+    } catch(e) {
+        res.status(500).json({ error: 'Error al restaurar: archivo inválido o corrupto.' });
+    }
 });
 
 // POST new user

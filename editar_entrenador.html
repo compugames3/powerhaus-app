@@ -89,12 +89,17 @@
 <span class="material-symbols-outlined group-hover:scale-110 transition-all duration-300 notranslate" translate="no" style="font-variation-settings:'FILL' 1">nights_stay</span>
 <span class="tracking-wider uppercase text-xs font-bold">Cierre del Día</span>
 </a>
+<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-slate-200 group text-slate-500 dark:text-slate-400" href="cierre_mes.html">
+<span class="material-symbols-outlined group-hover:scale-110 transition-all duration-300 notranslate" translate="no" style="font-variation-settings:'FILL' 1">calendar_month</span>
+<span class="tracking-wider uppercase text-xs font-bold">Cierre del Mes</span>
+</a>
+
 
 </nav>
 <div class="px-6 mt-auto flex flex-col gap-4">
 
 <div class="flex flex-col gap-1">
-<a class="flex items-center gap-3 text-slate-500 text-xs font-bold tracking-wider uppercase py-2 hover:text-blue-600" href="soporte.html" target="_blank">
+<a class="flex items-center gap-3 text-slate-500 text-xs font-bold tracking-wider uppercase py-2 hover:text-blue-600" href="soporte.html">
 <span class="material-symbols-outlined text-sm notranslate" translate="no">help</span>
                     SOPORTE
                 </a>
@@ -212,26 +217,26 @@ CERRAR SESIÓN</a>
                             <label class="block text-xs font-bold text-slate-600 mb-2">Teléfono</label>
                             <div class="flex">
                             <select id="country-code-editar" class="bg-[#f1f4fb] border border-slate-200 border-r-0 rounded-l-xl px-2 py-3.5 text-sm text-slate-800 font-medium outline-none hover:bg-slate-50 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 cursor-pointer">
-                                <option value="+52">🇲🇽 +52</option>
-                                <option value="+54">🇦🇷 +54</option>
-                                <option value="+591">🇧🇴 +591</option>
-                                <option value="+55">🇧🇷 +55</option>
-                                <option value="+56">🇨🇱 +56</option>
-                                <option value="+57">🇨🇴 +57</option>
-                                <option value="+506">🇨🇷 +506</option>
-                                <option value="+53">🇨🇺 +53</option>
-                                <option value="+593">🇪🇨 +593</option>
-                                <option value="+503">🇸🇻 +503</option>
-                                <option value="+502">🇬🇹 +502</option>
-                                <option value="+504">🇭🇳 +504</option>
-                                <option value="+505">🇳🇮 +505</option>
-                                <option value="+507">🇵🇦 +507</option>
-                                <option value="+595">🇵🇾 +595</option>
-                                <option value="+51">🇵🇪 +51</option>
-                                <option value="+1">🇵🇷 +1</option>
-                                <option value="+1">🇩🇴 +1</option>
-                                <option value="+598">🇺🇾 +598</option>
-                                <option value="+58">🇻🇪 +58</option>
+                                <option value="+52">+52</option>
+                                <option value="+54">+54</option>
+                                <option value="+591">+591</option>
+                                <option value="+55">+55</option>
+                                <option value="+56">+56</option>
+                                <option value="+57">+57</option>
+                                <option value="+506">+506</option>
+                                <option value="+53">+53</option>
+                                <option value="+593">+593</option>
+                                <option value="+503">+503</option>
+                                <option value="+502">+502</option>
+                                <option value="+504">+504</option>
+                                <option value="+505">+505</option>
+                                <option value="+507">+507</option>
+                                <option value="+595">+595</option>
+                                <option value="+51">+51</option>
+                                <option value="+1">+1</option>
+                                <option value="+1">+1</option>
+                                <option value="+598">+598</option>
+                                <option value="+58">+58</option>
                                 <option value="">Otro</option>
                             </select>
                             <input id="trainerPhone" type="tel" placeholder="55 1234 5678"
@@ -322,7 +327,7 @@ CERRAR SESIÓN</a>
         <span class="material-symbols-outlined text-[18px]" style="font-variation-settings:'FILL' 1">check_circle</span>
     </div>
     <div>
-        <p id="toastTitle" class="text-sm font-extrabold text-slate-800">¡Guardado!</p>
+        <p id="toastTitle" class="text-sm font-extrabold text-slate-800">Â¡Guardado!</p>
         <p id="toastMsg" class="text-xs text-slate-500 font-medium">Los cambios se guardaron correctamente.</p>
     </div>
 </div>
@@ -377,7 +382,7 @@ CERRAR SESIÓN</a>
 
             const trainer = users.find(u =>
                 u.name && u.name.toLowerCase() === nombreToEdit.toLowerCase()
-                && (u.role === 'Entrenador' || u.role === 'Trainer' || u.role === 'Staff')
+                && (u.role === 'Entrenador' || u.role === 'Trainer' || u.role === 'Staff' || u.role === 'Empleados' || u.role === 'Empleados')
             ) || users.find(u => u.name && u.name.toLowerCase() === nombreToEdit.toLowerCase());
 
             if (!trainer) {
@@ -394,6 +399,7 @@ CERRAR SESIÓN</a>
             document.getElementById('trainerEmail').value = trainer.email || '';
             const splitPhone = (fullPhone, telId, codeId) => {
                 if (!fullPhone) return;
+                fullPhone = fullPhone.replace(/[^\d+\s]/g, '').trim();
                 const telInput = document.getElementById(telId);
                 const codeSelector = document.getElementById(codeId);
                 if (!telInput || !codeSelector) return;
@@ -566,7 +572,7 @@ CERRAR SESIÓN</a>
             // Update localStorage trainerToEdit with new name
             localStorage.setItem('trainerToEdit', nombre);
 
-            showToast('Datos del entrenador actualizados correctamente.', '¡Guardado!', false);
+            showToast('Datos del entrenador actualizados correctamente.', 'Â¡Guardado!', false);
             setTimeout(() => {
                 window.location.href = 'historial.html?nombre=' + encodeURIComponent(nombre);
             }, 1800);
@@ -577,7 +583,7 @@ CERRAR SESIÓN</a>
     }
 
     // ---- Toast ----
-    function showToast(msg, title = '¡Listo!', isError = false) {
+    function showToast(msg, title = 'Â¡Listo!', isError = false) {
         const toast = document.getElementById('toast');
         const icon = document.getElementById('toastIcon');
         const toastTitle = document.getElementById('toastTitle');
@@ -602,6 +608,7 @@ CERRAR SESIÓN</a>
 <script src="powerhaus-chat.js"></script>
 </body>
 </html>
+
 
 
 

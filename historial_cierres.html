@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html class="light" lang="es">
 <head>
 <meta charset="utf-8"/>
@@ -58,8 +58,8 @@
 <span class="material-symbols-outlined group-hover:scale-125 transition-all duration-300 notranslate" translate="no">dashboard</span>
 <span class="tracking-wider uppercase text-xs font-bold">Panel Principal</span>
 </a>
-<div class="relative group rounded-l-[1.5rem] ml-4 transition-all duration-300 flex flex-col shadow-sm bg-white dark:bg-slate-800">
-<button onclick="document.getElementById('submenu-miembros').classList.toggle('hidden'); document.getElementById('icon-miembros').classList.toggle('rotate-180')" class="w-full flex justify-between items-center text-emerald-600 dark:text-emerald-400 pl-4 py-3 transition-transform duration-300 hover:translate-x-1 focus:outline-none cursor-pointer select-none">
+<div class="relative group hover:bg-emerald-50 dark:hover:bg-emerald-900/30 rounded-l-[1.5rem] ml-4 transition-all duration-300 flex flex-col">
+<button onclick="document.getElementById('submenu-miembros').classList.toggle('hidden'); document.getElementById('icon-miembros').classList.toggle('rotate-180')" class="w-full flex justify-between items-center text-slate-500 dark:text-slate-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 pl-4 py-3 transition-transform duration-300 hover:translate-x-1 focus:outline-none cursor-pointer select-none">
 <div class="flex items-center gap-3">
 <span class="material-symbols-outlined notranslate" translate="no">group</span>
 <span class="tracking-wider uppercase text-xs font-bold">Miembros</span>
@@ -82,16 +82,21 @@
 <span class="material-symbols-outlined group-hover:-translate-y-1 group-hover:scale-110 transition-all duration-300 notranslate" translate="no">badge</span>
 <span class="tracking-wider uppercase text-xs font-bold">Personal</span>
 </a>
-<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-slate-200 group text-slate-500 dark:text-slate-400" href="cierre.html">
+<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-slate-200 group bg-white dark:bg-slate-800 shadow-sm text-slate-800 dark:text-slate-800" href="cierre.html">
 <span class="material-symbols-outlined group-hover:scale-110 transition-all duration-300 notranslate" translate="no" style="font-variation-settings:'FILL' 1">nights_stay</span>
 <span class="tracking-wider uppercase text-xs font-bold">Cierre del Día</span>
 </a>
+<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-slate-200 group text-slate-500 dark:text-slate-400" href="cierre_mes.html">
+<span class="material-symbols-outlined group-hover:scale-110 transition-all duration-300 notranslate" translate="no" style="font-variation-settings:'FILL' 1">calendar_month</span>
+<span class="tracking-wider uppercase text-xs font-bold">Cierre del Mes</span>
+</a>
+
 
 </nav>
 <div class="px-6 mt-auto flex flex-col gap-4">
 
 <div class="flex flex-col gap-1">
-<a class="flex items-center gap-3 text-slate-500 text-xs font-bold tracking-wider uppercase py-2 hover:text-blue-600" href="soporte.html" target="_blank">
+<a class="flex items-center gap-3 text-slate-500 text-xs font-bold tracking-wider uppercase py-2 hover:text-blue-600" href="soporte.html">
 <span class="material-symbols-outlined text-sm notranslate" translate="no">help</span>
                     SOPORTE
                 </a>
@@ -298,6 +303,9 @@ CERRAR SESIÓN</a>
             return;
         }
 
+        const sessionData = JSON.parse(localStorage.getItem('usuario_activo') || '{}');
+        const isEmpleado = sessionData.rol === 'Empleados';
+
         listEl.innerHTML = hCierres.map(c => {
             let d = new Date(c.fecha);
             // Fallback for invalid dates
@@ -330,8 +338,8 @@ CERRAR SESIÓN</a>
                </td>
                <td class="py-5 px-6 border-b border-slate-100 align-middle">
                   <div class="flex items-center gap-3">
-                     <div class="w-7 h-7 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-[10px] font-black shrink-0 border border-blue-200/40">AD</div>
-                     <span class="text-xs font-bold text-slate-600">Admin User</span>
+                     <div class="w-7 h-7 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-[10px] font-black shrink-0 border border-blue-200/40">${(c.responsable || 'A').substring(0, 2).toUpperCase()}</div>
+                     <span class="text-xs font-bold text-slate-600">${c.responsable || 'Admin User'}</span>
                   </div>
                </td>
                <td class="py-5 px-6 border-b border-slate-100 align-middle">
@@ -340,9 +348,11 @@ CERRAR SESIÓN</a>
                <td class="py-5 px-8 border-b border-slate-100 align-middle">
                   <div class="flex items-center justify-between gap-4">
                      ${statusTag}
+                     ${!isEmpleado ? `
                      <button onclick="eliminarCierre('${c.fecha}')" class="opacity-0 group-hover:opacity-100 transition-opacity w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:bg-red-50 hover:text-red-500" title="Eliminar este cierre">
                         <span class="material-symbols-outlined text-[18px]">delete</span>
                      </button>
+                     ` : ''}
                   </div>
                </td>
             </tr>
@@ -402,5 +412,6 @@ CERRAR SESIÓN</a>
 <script src="powerhaus-chat.js"></script>
 </body>
 </html>
+
 
 

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html class="light" lang="en"><head>
 <meta charset="utf-8"/>
@@ -139,12 +139,17 @@
 <span class="material-symbols-outlined group-hover:scale-110 transition-all duration-300 notranslate" translate="no" style="font-variation-settings:'FILL' 1">nights_stay</span>
 <span class="tracking-wider uppercase text-xs font-bold">Cierre del Día</span>
 </a>
+<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-slate-200 group text-slate-500 dark:text-slate-400" href="cierre_mes.html">
+<span class="material-symbols-outlined group-hover:scale-110 transition-all duration-300 notranslate" translate="no" style="font-variation-settings:'FILL' 1">calendar_month</span>
+<span class="tracking-wider uppercase text-xs font-bold">Cierre del Mes</span>
+</a>
+
 
 </nav>
 <div class="px-6 mt-auto flex flex-col gap-4">
 
 <div class="flex flex-col gap-1">
-<a class="flex items-center gap-3 text-slate-500 text-xs font-bold tracking-wider uppercase py-2 hover:text-blue-600" href="soporte.html" target="_blank">
+<a class="flex items-center gap-3 text-slate-500 text-xs font-bold tracking-wider uppercase py-2 hover:text-blue-600" href="soporte.html">
 <span class="material-symbols-outlined text-sm notranslate" translate="no">help</span>
                     SOPORTE
                 </a>
@@ -158,15 +163,7 @@ CERRAR SESIÓN</a>
 <!-- TopNavBar (Authority: JSON) -->
 <header class="bg-slate-50/70 dark:bg-slate-950/70 backdrop-blur-xl docked full-width top-0 sticky z-50 shadow-sm flex justify-between items-center w-full px-8 py-4">
 <div class="flex items-center gap-6 flex-1">
-<div class="flex items-center gap-2.5">
-            <div class="w-8 h-8 bg-[#0d4cf0] rounded-full flex items-center justify-center text-white shadow-sm">
-                <span class="material-symbols-outlined -rotate-45 notranslate" translate="no" style="font-variation-settings: 'FILL' 1; font-size: 18px;">fitness_center</span>
-            </div>
-            <div>
-                <h1 class="text-base font-black text-slate-800 dark:text-slate-50 tracking-tight leading-none mb-0.5">PowerHaus</h1>
-                <p class="text-[7.5px] tracking-[0.08em] uppercase font-bold text-slate-500 leading-none">ELITE PERFORMANCE</p>
-            </div>
-        </div>
+
 <div class="relative max-w-md w-full">
 <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xl notranslate" translate="no" data-icon="search">search</span>
 <input class="w-full bg-surface-container-high border-none rounded-full pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all" placeholder="Buscar un miembro o plan..." type="text"/>
@@ -610,7 +607,13 @@ function traductor(lang) {
             const avatarContent = m.photo ? `<img src="${m.photo}" class="w-full h-full object-cover" />` : `<div class="w-full h-full bg-slate-300 flex items-center justify-center font-bold text-white text-lg">${m.name.charAt(0).toUpperCase()}</div>`;
             const planIcon = m.plan === 'Oro Élite' ? '<span class="material-symbols-outlined text-yellow-500 text-lg" translate="no" style="font-variation-settings: \'FILL\' 1;">star</span>' : '<span class="material-symbols-outlined text-slate-300 text-lg" translate="no" style="font-variation-settings: \'FILL\' 1;">shield</span>';
             const statePill = m.state === 'Active' ? '<span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-blue-50 text-primary border border-blue-100">ACTIVO</span>' : '<span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-slate-100 text-slate-400 border border-slate-200">INACTIVO</span>';
-            const extraSubtitle = m.role === 'Entrenador' ? '<span class="px-2 py-0.5 rounded text-[9px] bg-blue-600 text-white ml-2 font-bold uppercase">Staff</span>' : '';
+            const extraSubtitle = m.role === 'Entrenador' || m.role === 'Empleados' ? '<span class="px-2 py-0.5 rounded text-[9px] bg-blue-600 text-white ml-2 font-bold uppercase">Empleado</span>' : '';
+            
+            const sessionData = JSON.parse(localStorage.getItem('usuario_activo') || '{}');
+            const isEmpleado = sessionData.rol === 'Empleados';
+            const isAdmin = sessionData.rol === 'Admin';
+            const hasDeletePerm = sessionData.perms && sessionData.perms.includes('Eliminar Miembros/Entrenadores');
+            const canDelete = isAdmin || (isEmpleado && hasDeletePerm) || (!isEmpleado);
            
             const tr = document.createElement('tr');
             tr.className = "group hover:bg-slate-50 transition-colors border-b border-slate-100 last:border-0 cursor-pointer";
@@ -653,9 +656,11 @@ function traductor(lang) {
                     </div>
                 </td>
                                 <td class="py-5 pr-8 text-right">
+                    ${canDelete ? `
                     <button class="p-2 text-slate-400 hover:text-red-500 transition-colors" onclick="event.stopPropagation(); deleteMember('${m.id || m.email}', '${m.name}')">
                         <span class="material-symbols-outlined" translate="no" style="font-size: 18px;">delete</span>
                     </button>
+                    ` : ''}
                 </td>
             `;
             tbody.appendChild(tr);
@@ -816,4 +821,5 @@ function traductor(lang) {
 
 <script src="powerhaus-chat.js"></script>
 </body></html>
+
 

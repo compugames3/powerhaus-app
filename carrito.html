@@ -8,6 +8,27 @@
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+              "primary": "#003ec7",
+              "background": "#faf8ff",
+              "surface": "#faf8ff",
+              "error": "#ba1a1a"
+            },
+            "fontFamily": {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            }
+          }
+        }
+      }
+    </script>
+    <script src="theme-applier.js"></script>
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f6f8fb; }
         h1, h2, h3, h4, h5, .font-headline { font-family: 'Manrope', sans-serif; }
@@ -69,7 +90,7 @@
 
             <!-- Right: Order Summary -->
             <div id="summaryBlock" class="w-full lg:w-[380px] shrink-0 transition-opacity duration-300">
-                <div class="bg-[#f8fafc] rounded-[32px] p-8 pb-10 border border-slate-200/60 shadow-sm sticky top-24">
+                <div class="bg-white dark:bg-slate-900 rounded-[32px] p-8 pb-10 border border-slate-200/60 dark:border-slate-800 shadow-sm sticky top-24">
                     <h2 class="font-headline text-[22px] font-black text-slate-800 mb-8 tracking-tighter">Resumen de Orden</h2>
                     
                     <div class="space-y-4 mb-8 text-sm font-semibold text-slate-500">
@@ -93,7 +114,7 @@
                             
                             <div class="relative w-full">
                                 <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[#004cf0] text-[20px]" translate="no">search</span>
-                                <input type="text" id="userSearchDisplay" onfocus="openUserSearch()" oninput="filterUserSearch(this.value)" placeholder="Buscar un miembro o plan..." class="w-full h-12 bg-white border-2 border-[#004cf0] rounded-full pl-12 pr-10 text-[13px] font-medium text-slate-700 outline-none focus:ring-4 focus:ring-[#004cf0]/20 transition-all placeholder:text-slate-400 shadow-sm">
+                                <input type="text" id="userSearchDisplay" onfocus="openUserSearch()" oninput="filterUserSearch(this.value)" placeholder="Buscar un miembro o plan..." class="w-full h-12 bg-white dark:bg-slate-800 border-2 border-[#004cf0] rounded-full pl-12 pr-10 text-[13px] font-medium text-slate-700 dark:text-white outline-none focus:ring-4 focus:ring-[#004cf0]/20 transition-all placeholder:text-slate-400 shadow-sm">
                                 
                                 <button id="clearUserBtn" onclick="clearUserSelection()" class="hidden absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-rose-500 transition-colors">
                                     <span class="material-symbols-outlined text-[18px]">close</span>
@@ -101,7 +122,7 @@
                             </div>
                             
                             <!-- Custom Dropdown -->
-                            <div id="userSearchDropdown" class="hidden absolute top-[74px] left-0 w-full bg-white rounded-2xl shadow-[0_16px_40px_rgba(0,0,0,0.15)] border border-slate-100 max-h-[260px] overflow-y-auto z-[60] py-2">
+                            <div id="userSearchDropdown" class="hidden absolute top-[74px] left-0 w-full bg-white dark:bg-slate-800 rounded-2xl shadow-[0_16px_40px_rgba(0,0,0,0.15)] dark:shadow-none border border-slate-100 dark:border-slate-700 max-h-[260px] overflow-y-auto z-[60] py-2">
                                 <!-- Options will be injected here -->
                             </div>
 
@@ -124,7 +145,7 @@
                         <span class="material-symbols-outlined ml-2 scale-[1.15]" translate="no">payments</span>
                     </button>
                     
-                    <div class="mt-8 bg-blue-50/50 rounded-[16px] p-5 flex gap-4 items-start border border-blue-100/50">
+                    <div class="mt-8 bg-blue-50/50 dark:bg-slate-800/50 rounded-[16px] p-5 flex gap-4 items-start border border-blue-100/50 dark:border-slate-700/50">
                         <div class="shrink-0">
                             <span class="material-symbols-outlined text-[#004cf0] text-[20px]" style="font-variation-settings: 'FILL' 1" translate="no">verifiedUser</span>
                         </div>
@@ -282,15 +303,23 @@
         const startIndex = (currentCartPage - 1) * CART_ITEMS_PER_PAGE;
         const paginatedItems = cart.slice(startIndex, startIndex + CART_ITEMS_PER_PAGE);
 
+        const sessionData = JSON.parse(localStorage.getItem('usuario_activo') || '{}');
+        const isEmpleado = sessionData.rol === 'Empleados';
+        const isAdmin = sessionData.rol === 'Admin';
+        const hasDeletePerm = sessionData.perms && sessionData.perms.includes('Eliminar del Carrito');
+        const canDelete = isAdmin || (isEmpleado && hasDeletePerm) || (!isEmpleado);
+
         paginatedItems.forEach((item, innerIndex) => {
             const index = startIndex + innerIndex;
             const itemSubtotal = item.price * item.quantity;
             
             html += `
                 <div class="bg-white rounded-[24px] p-6 pr-8 shadow-sm border border-slate-100 flex flex-col sm:flex-row items-center gap-6 relative group hover:shadow-xl transition-all duration-300 mb-6">
+                    ${canDelete ? `
                     <button onclick="removeItem(${index})" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-slate-300 hover:bg-rose-50 hover:text-rose-500 rounded-full transition-colors opacity-0 group-hover:opacity-100">
                         <span class="material-symbols-outlined text-[18px]">close</span>
                     </button>
+                    ` : ''}
                     
                     <div class="w-24 h-24 sm:w-32 sm:h-32 bg-slate-100 rounded-[18px] shrink-0 overflow-hidden flex items-center justify-center relative">
                         <img class="w-full h-full object-cover rounded-xl mix-blend-multiply" src="${item.img}" />
@@ -307,7 +336,7 @@
                             <span class="font-black text-slate-800 text-lg">${item.price.toFixed(2)}</span>
                         </div>
 
-                        <div class="flex items-center bg-[#eef2fe] rounded-full px-1 py-1 shadow-inner border border-blue-100">
+                        <div class="flex items-center bg-[#eef2fe] dark:bg-slate-800 rounded-full px-1 py-1 shadow-inner dark:shadow-none border border-blue-100 dark:border-slate-700">
                             <button onclick="updateQty(${index}, -1)" class="w-8 h-8 rounded-full flex items-center justify-center text-blue-600 hover:bg-white hover:shadow-sm transition-all text-lg font-medium">-</button>
                             <span class="w-8 text-center font-black text-sm text-[#004cf0]">${item.quantity}</span>
                             <button onclick="updateQty(${index}, 1)" class="w-8 h-8 rounded-full flex items-center justify-center text-blue-600 hover:bg-white hover:shadow-sm transition-all text-lg font-medium">+</button>

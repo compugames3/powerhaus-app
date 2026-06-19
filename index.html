@@ -450,7 +450,7 @@
         }
 
         // ── Buscar en BD (otros usuarios Staff o Admin con pass guardada) ──
-        const ROLES_PERMITIDOS = ['Admin', 'Staff'];
+        const ROLES_PERMITIDOS = ['Admin', 'Staff', 'Empleados'];
         const userFound = usuarios.find(u => {
             const nameMatch = u.name && u.name.trim().toLowerCase() === userValue.trim().toLowerCase();
             const emailMatch = u.email && u.email.trim().toLowerCase() === userValue.trim().toLowerCase();

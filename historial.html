@@ -91,6 +91,11 @@
 <span class="material-symbols-outlined group-hover:scale-110 transition-all duration-300 notranslate" translate="no" style="font-variation-settings:'FILL' 1">nights_stay</span>
 <span class="tracking-wider uppercase text-xs font-bold">Cierre del Día</span>
 </a>
+<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-slate-200 group text-slate-500 dark:text-slate-400" href="cierre_mes.html">
+<span class="material-symbols-outlined group-hover:scale-110 transition-all duration-300 notranslate" translate="no" style="font-variation-settings:'FILL' 1">calendar_month</span>
+<span class="tracking-wider uppercase text-xs font-bold">Cierre del Mes</span>
+</a>
+
 
 </nav>
 <div class="px-6 mt-auto flex flex-col gap-4">
@@ -149,7 +154,8 @@ Cerrar Sesión</a>
                 <div class="flex flex-col sm:flex-row justify-between items-start gap-4 mb-6">
                     <div>
                         <h2 class="text-3xl font-extrabold text-slate-800 tracking-tight" id="trainerName">Marc Evans</h2>
-                        <h3 id="trainerRole" class="text-[11px] font-black tracking-widest text-[#004cf0] uppercase mt-1">STAFF / ENTRENADOR</h3>\n                        <a href="#" target="_blank" class="text-xs font-black text-emerald-600 hover:text-emerald-700 hover:underline transition-colors mt-1 flex items-center gap-1" id="trainerPhoneBanner" style="display:none;"><span class="material-symbols-outlined text-[14px]">phone_iphone</span><span id="trainerPhoneBannerText">...</span></a>
+                        <h3 id="trainerRole" class="text-[11px] font-black tracking-widest text-[#004cf0] uppercase mt-1">STAFF / ENTRENADOR</h3>
+                        <a href="#" target="_blank" class="text-xs font-black text-emerald-600 hover:text-emerald-700 hover:underline transition-colors mt-1 flex items-center gap-1" id="trainerPhoneBanner" style="display:none;"><span class="material-symbols-outlined text-[14px]">phone_iphone</span><span id="trainerPhoneBannerText">...</span></a>
                     </div>
                     
                     <div class="flex flex-col items-end gap-3">
@@ -163,7 +169,7 @@ Cerrar Sesión</a>
                             <span class="text-xl font-bold text-slate-800 ml-2 font-headline">4.8</span>
                         </div>
                         <div class="flex items-center gap-2 flex-wrap justify-end">
-                            <button onclick="window.location.href = 'carnet_miembro.html?nombre=' + encodeURIComponent(document.getElementById('trainerName').innerText) + '&email=' + encodeURIComponent(document.getElementById('trainerEmail').innerText)" class="flex items-center gap-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 px-5 py-2.5 rounded-xl text-[11px] font-black tracking-widest uppercase shadow-sm active:scale-95 transition-all">
+                            <button onclick="window.open('carnet_miembro.html?nombre=' + encodeURIComponent(document.getElementById('trainerName').innerText) + '&email=' + encodeURIComponent(document.getElementById('trainerEmail').innerText), '_blank')" class="flex items-center gap-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 px-5 py-2.5 rounded-xl text-[11px] font-black tracking-widest uppercase shadow-sm active:scale-95 transition-all">
                                 <span class="material-symbols-outlined text-[16px]">badge</span>
                                 Carnet
                             </button>
@@ -188,7 +194,7 @@ Cerrar Sesión</a>
                     </div>
                     <div>
                         <span class="block text-[10px] font-bold text-slate-400 tracking-widest uppercase mb-1">TELÉFONO</span>
-                        <span id="trainerPhone" class="font-extrabold text-slate-700">�</span>
+                        <span id="trainerPhone" class="font-extrabold text-slate-700">—</span>
                     </div>
                     <div>
                         <span class="block text-[10px] font-bold text-slate-400 tracking-widest uppercase mb-1">NACIMIENTO</span>
@@ -247,7 +253,7 @@ Cerrar Sesión</a>
                 Historial de Asistencia
             </button>
             <button id="btnTabMetricas" onclick="switchTab('metricas')" class="bg-transparent text-slate-500 px-6 py-3 rounded-[14px] text-[12px] font-semibold hover:bg-white/50 transition-colors border border-transparent">
-                Desempe�o y M�tricas
+                Desempe�o y Métricas
             </button>
             <button id="btnTabContratos" onclick="switchTab('contratos')" class="bg-transparent text-slate-500 px-6 py-3 rounded-[14px] text-[12px] font-semibold hover:bg-white/50 transition-colors border border-transparent flex items-center gap-2">
                 <span class="material-symbols-outlined text-[15px]">description</span>
@@ -406,7 +412,7 @@ Cerrar Sesión</a>
                 <!-- VIEW: METRICAS -->
                 <div id="viewMetricas" class="animate-fade-in hidden">
                     <div class="flex justify-between items-end mb-6">
-                        <h3 class="text-lg font-extrabold text-slate-800 tracking-tight uppercase">DESEMPE�O Y M�TRICAS AVANZADAS</h3>
+                        <h3 class="text-lg font-extrabold text-slate-800 tracking-tight uppercase">DESEMPEÑO Y MÉTRICAS AVANZADAS</h3>
                     </div>
                     <div class="bg-white rounded-3xl shadow-sm border border-slate-100 p-12 flex items-center justify-center text-center">
                         <div>
@@ -1056,7 +1062,7 @@ Cerrar Sesión</a>
                 if (dbUsers) {
                     dbUsers.forEach(u => {
                         const r = (u.role || '').toLowerCase();
-                        const isTrainer = r.includes('entrenador') || r.includes('trainer') || r.includes('staff');
+                        const isTrainer = r.includes('entrenador') || r.includes('trainer') || r.includes('staff') || r.includes('empleados') || r.includes('empleado');
                         const isAdm = r.includes('admin') || (u.name || '').toLowerCase().includes('admin');
                         if (!isTrainer && !isAdm && samePerson(u.entrenadorAsignado, nombreEntrenador)) {
                             if (!studentsMap[u.name]) {
@@ -1174,7 +1180,7 @@ Cerrar Sesión</a>
                     // Tambi�n mostrar entradas/salidas de los miembros asignados al entrenador
                     (dbUsers || []).forEach(u => {
                         const roleNorm = (u.role || '').toLowerCase();
-                        const isTrainerOrAdmin = roleNorm.includes('entrenador') || roleNorm.includes('trainer') || roleNorm.includes('staff') || roleNorm.includes('admin') || (u.name || '').toLowerCase().includes('admin');
+                        const isTrainerOrAdmin = roleNorm.includes('entrenador') || roleNorm.includes('trainer') || roleNorm.includes('staff') || roleNorm.includes('empleados') || roleNorm.includes('empleado') || roleNorm.includes('admin') || (u.name || '').toLowerCase().includes('admin');
                         if (isTrainerOrAdmin) return;
 
                         const assignedToTrainer = samePerson(u.entrenadorAsignado, nombreEntrenador);
@@ -1220,7 +1226,7 @@ Cerrar Sesión</a>
                 const totalAlumosLabel = document.getElementById('totalAlumnosLabel');
                 if(totalAlumosLabel) totalAlumosLabel.innerText = `${studentNames.length} TOTAL`;
 
-                // Update Top Dashboard Metric Cards dynamically
+                // Update Top Díashboard Metric Cards dynamically
                 // Sesiones Totales = classes that have at least 1 valid inscribed member
                 const clasesConMiembros = entrenClasses.filter(c =>
                     c.inscritos && c.inscritos.some(n => Array.from(validMemberNames).some(vn => samePerson(vn, n)))
@@ -1747,7 +1753,7 @@ function descargarBarcodeJPG(svgId, username) {
         ctx.textAlign = 'center';
         ctx.fillText('PowerHaus Gym', finalCanvas.width/2, 30);
         
-        let dataUrl = finalCanvas.toDataURL('image/jpeg', 1.0);
+        let dataUrl = finalCanvas.toDíataURL('image/jpeg', 1.0);
         
         // Show visual confirmation AND download
         Swal.fire({

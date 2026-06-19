@@ -1,4 +1,4 @@
-�<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html class="light" lang="es"><head>
 <meta charset="utf-8"/>
@@ -143,12 +143,17 @@ body { top: 0 !important; }
 <span class="material-symbols-outlined group-hover:scale-110 transition-all duration-300 notranslate" translate="no" style="font-variation-settings:'FILL' 1">nights_stay</span>
 <span class="tracking-wider uppercase text-xs font-bold">Cierre del Día</span>
 </a>
+<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-slate-200 group text-slate-500 dark:text-slate-400" href="cierre_mes.html">
+<span class="material-symbols-outlined group-hover:scale-110 transition-all duration-300 notranslate" translate="no" style="font-variation-settings:'FILL' 1">calendar_month</span>
+<span class="tracking-wider uppercase text-xs font-bold">Cierre del Mes</span>
+</a>
+
 
 </nav>
 <div class="px-6 mt-auto flex flex-col gap-4">
 
 <div class="flex flex-col gap-1">
-<a class="flex items-center gap-3 text-slate-500 text-xs font-bold tracking-wider uppercase py-2 hover:text-blue-600" href="soporte.html" target="_blank">
+<a class="flex items-center gap-3 text-slate-500 text-xs font-bold tracking-wider uppercase py-2 hover:text-blue-600" href="soporte.html">
 <span class="material-symbols-outlined text-sm notranslate" translate="no">help</span>
                     SOPORTE
                 </a>
@@ -268,18 +273,14 @@ CERRAR SESIÓN</a>
                     </h3>
                     
                     <!-- Role Cards -->
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
                         <div id="role-Admin" onclick="setRole('Admin')" class="role-card bg-[#f8f9fc] border border-transparent rounded-xl p-4 cursor-pointer hover:bg-[#f1f4fb] transition-colors">
                             <h4 class="font-bold text-sm text-slate-800 mb-1">Admin</h4>
                             <p class="text-[10px] text-slate-500 leading-tight">Acceso total al sistema y ajustes</p>
                         </div>
-                        <div id="role-Staff" onclick="setRole('Staff')" class="role-card bg-[#edf2fc] border border-[#a2bcf5] rounded-xl p-4 cursor-pointer transition-colors active-role">
-                            <h4 class="font-bold text-sm text-[#003ec7] mb-1">Staff</h4>
-                            <p class="text-[10px] text-slate-600 leading-tight">Gestión de miembros y clases</p>
-                        </div>
-                        <div id="role-Trainer" onclick="setRole('Trainer')" class="role-card bg-[#f8f9fc] border border-transparent rounded-xl p-4 cursor-pointer hover:bg-[#f1f4fb] transition-colors">
-                            <h4 class="font-bold text-sm text-slate-800 mb-1">Trainer</h4>
-                            <p class="text-[10px] text-slate-500 leading-tight">Registros de entrenamiento y horarios</p>
+                        <div id="role-Empleados" onclick="setRole('Empleados')" class="role-card bg-[#edf2fc] border border-[#a2bcf5] rounded-xl p-4 cursor-pointer transition-colors active-role">
+                            <h4 class="font-bold text-sm text-[#003ec7] mb-1">Empleados</h4>
+                            <p class="text-[10px] text-slate-600 leading-tight">Gestión general y registros</p>
                         </div>
                     </div>
 
@@ -307,13 +308,46 @@ CERRAR SESIÓN</a>
                                 </div>
                                 <span class="text-[11px] font-bold text-slate-800">Reserva de Clases</span>
                             </label>
+                            <label id="perm-CierreDia" onclick="togglePerm('perm-CierreDia')" class="perm-option flex items-center gap-3 cursor-pointer opacity-50">
+                                <div class="w-4 h-4 rounded border-2 border-slate-300 bg-transparent flex items-center justify-center"></div>
+                                <span class="text-[11px] font-bold text-slate-600">Cierre de Día</span>
+                            </label>
+                            <label id="perm-CierreMes" onclick="togglePerm('perm-CierreMes')" class="perm-option flex items-center gap-3 cursor-pointer opacity-50">
+                                <div class="w-4 h-4 rounded border-2 border-slate-300 bg-transparent flex items-center justify-center"></div>
+                                <span class="text-[11px] font-bold text-slate-600">Cierre del Mes</span>
+                            </label>
+                            <label id="perm-EliminarMiembros" onclick="togglePerm('perm-EliminarMiembros')" class="perm-option flex items-center gap-3 cursor-pointer opacity-50">
+                                <div class="w-4 h-4 rounded border-2 border-slate-300 bg-transparent flex items-center justify-center"></div>
+                                <span class="text-[11px] font-bold text-slate-600">Eliminar Miembros/Entrenadores</span>
+                            </label>
+                            <label id="perm-EditarMiembros" onclick="togglePerm('perm-EditarMiembros')" class="perm-option flex items-center gap-3 cursor-pointer opacity-50">
+                                <div class="w-4 h-4 rounded border-2 border-slate-300 bg-transparent flex items-center justify-center"></div>
+                                <span class="text-[11px] font-bold text-slate-600">Editar Miembros/Entrenadores</span>
+                            </label>
+                            <label id="perm-EditarInventario" onclick="togglePerm('perm-EditarInventario')" class="perm-option flex items-center gap-3 cursor-pointer opacity-50">
+                                <div class="w-4 h-4 rounded border-2 border-slate-300 bg-transparent flex items-center justify-center"></div>
+                                <span class="text-[11px] font-bold text-slate-600">Editar Inventario</span>
+                            </label>
+                            <label id="perm-EliminarInventario" onclick="togglePerm('perm-EliminarInventario')" class="perm-option flex items-center gap-3 cursor-pointer opacity-50">
+                                <div class="w-4 h-4 rounded border-2 border-slate-300 bg-transparent flex items-center justify-center"></div>
+                                <span class="text-[11px] font-bold text-slate-600">Eliminar Inventario</span>
+                            </label>
+                            <label id="perm-EliminarCarrito" onclick="togglePerm('perm-EliminarCarrito')" class="perm-option flex items-center gap-3 cursor-pointer opacity-50">
+                                <div class="w-4 h-4 rounded border-2 border-slate-300 bg-transparent flex items-center justify-center"></div>
+                                <span class="text-[11px] font-bold text-slate-600">Eliminar del Carrito</span>
+                            </label>
+                            <label id="perm-EliminarClases" onclick="togglePerm('perm-EliminarClases')" class="perm-option flex items-center gap-3 cursor-pointer opacity-50">
+                                <div class="w-4 h-4 rounded border-2 border-slate-300 bg-transparent flex items-center justify-center"></div>
+                                <span class="text-[11px] font-bold text-slate-600">Eliminar Clases</span>
+                            </label>
+
                         </div>
                     </div>
                 </div>
 
                 <!-- Footer buttons -->
                 <div class="mt-auto pt-4 flex justify-end items-center gap-4">
-                    <button type="button" onclick="const n=document.getElementById('userName').value; const e=document.getElementById('userEmail').value; if(n) window.location.href='carnet_miembro.html?nombre='+encodeURIComponent(n)+'&email='+encodeURIComponent(e);" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-700 px-6 py-3.5 rounded-xl text-xs font-bold tracking-wide transition-all shadow-sm active:scale-95 flex items-center gap-2">
+                    <button type="button" onclick="const n=document.getElementById('userName').value; const e=document.getElementById('userEmail').value; if(n) window.open('carnet_miembro.html?nombre='+encodeURIComponent(n)+'&email='+encodeURIComponent(e), '_blank');" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-700 px-6 py-3.5 rounded-xl text-xs font-bold tracking-wide transition-all shadow-sm active:scale-95 flex items-center gap-2">
                         <span class="material-symbols-outlined text-[16px]">badge</span>
                         Ver Carnet
                     </button>
@@ -327,7 +361,7 @@ CERRAR SESIÓN</a>
 </main>
 
 <footer class="w-full px-8 pb-6 flex justify-between items-center z-10 relative">
-    <p class="text-[10px] font-bold text-slate-400 tracking-widest uppercase">� 2026 COMPUGAMES2026</p>
+    <p class="text-[10px] font-bold text-slate-400 tracking-widest uppercase">© 2026 COMPUGAMES2026</p>
     <div class="flex gap-6">
         <a href="#" class="text-[10px] font-bold text-slate-400 hover:text-slate-600 transition-colors">Privacy Policy</a>
         <a href="#" class="text-[10px] font-bold text-slate-400 hover:text-slate-600 transition-colors">Terms of Service</a>
@@ -449,7 +483,7 @@ function hideCustomAlert() {
     }, 200);
 }
 
-let currentRole = 'Staff';
+let currentRole = 'Empleados';
 
 function setRole(role) {
     currentRole = role;
@@ -467,18 +501,17 @@ function setRole(role) {
         if(h4) h4.className = "font-bold text-sm text-[#003ec7] mb-1";
     }
 
-    // Auto-assign permissions based on role
-    // Only auto-assign if the user clicks it (don't override during auto-fill in edit mode)
+    // Auto-assign permissions based on role (DISABLED)
+    // Omitted per user request so specific permissions are not erased when switching roles
+    /*
     if (!window.isAutoFilling) {
         const permsCheckboxes = document.querySelectorAll('.perm-option');
         
         let desiredPerms = [];
         if (role === 'Admin') {
             desiredPerms = ['Gestionar Miembros', 'Registros Financieros', 'Editar Horarios', 'Reserva de Clases'];
-        } else if (role === 'Staff') {
-            desiredPerms = ['Gestionar Miembros', 'Reserva de Clases'];
-        } else if (role === 'Trainer') {
-            desiredPerms = ['Editar Horarios', 'Reserva de Clases'];
+        } else if (role === 'Empleados') {
+            desiredPerms = ['Gestionar Miembros', 'Editar Horarios', 'Reserva de Clases'];
         }
 
         permsCheckboxes.forEach(el => {
@@ -490,6 +523,7 @@ function setRole(role) {
             if (!isPresent && isChecked) togglePerm(el.id);
         });
     }
+    */
 }
 
 function togglePerm(id) {
@@ -536,7 +570,15 @@ async function saveUser(e) {
         'perm-Miembros': 'Gestionar Miembros',
         'perm-Horarios': 'Editar Horarios',
         'perm-Finanzas': 'Registros Financieros',
-        'perm-Reservas': 'Reserva de Clases'
+        'perm-Reservas': 'Reserva de Clases',
+        'perm-CierreDia': 'Cierre de Día',
+        'perm-CierreMes': 'Cierre del Mes',
+        'perm-EliminarMiembros': 'Eliminar Miembros/Entrenadores',
+        'perm-EditarMiembros': 'Editar Miembros/Entrenadores',
+        'perm-EditarInventario': 'Editar Inventario',
+        'perm-EliminarInventario': 'Eliminar Inventario',
+        'perm-EliminarCarrito': 'Eliminar del Carrito',
+        'perm-EliminarClases': 'Eliminar Clases'
     };
     let permissions = [];
     document.querySelectorAll('.perm-option').forEach(el => {
@@ -655,5 +697,6 @@ window.onload = async function() {
 <script src="powerhaus-chat.js"></script>
 </body>
 </html>
+
 
 

@@ -22,7 +22,15 @@
         if (window.location.pathname.includes('index.html')) return;
         
         const stored = localStorage.getItem('titangym_theme');
-        if (!stored) return;
+        if (!stored) {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.style.fontSize = '14px';
+            let existing = document.getElementById('dynamic-theme-overrides');
+            if (existing) {
+                existing.innerHTML = '';
+            }
+            return;
+        }
         
         let theme;
         try { theme = JSON.parse(stored); } catch(e) { return; }
@@ -186,6 +194,12 @@
         // Login screen span
         const loginSpans = document.querySelectorAll('span.text-3xl.italic.font-headline');
         loginSpans.forEach(s => {
+            if (savedTitle) s.innerText = savedTitle;
+        });
+
+        // Any inline brand text
+        const brandSpans = document.querySelectorAll('.brand-name-text');
+        brandSpans.forEach(s => {
             if (savedTitle) s.innerText = savedTitle;
         });
     };

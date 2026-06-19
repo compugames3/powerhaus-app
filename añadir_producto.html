@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html class="light" lang="es">
 <head>
     <meta charset="utf-8"/>
@@ -71,12 +71,17 @@
 <span class="material-symbols-outlined group-hover:scale-110 transition-all duration-300 notranslate" translate="no" style="font-variation-settings:'FILL' 1">nights_stay</span>
 <span class="tracking-wider uppercase text-xs font-bold">Cierre del Día</span>
 </a>
+<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-slate-200 group text-slate-500 dark:text-slate-400" href="cierre_mes.html">
+<span class="material-symbols-outlined group-hover:scale-110 transition-all duration-300 notranslate" translate="no" style="font-variation-settings:'FILL' 1">calendar_month</span>
+<span class="tracking-wider uppercase text-xs font-bold">Cierre del Mes</span>
+</a>
+
 
 </nav>
 <div class="px-6 mt-auto flex flex-col gap-4">
 
 <div class="flex flex-col gap-1">
-<a class="flex items-center gap-3 text-slate-500 text-xs font-bold tracking-wider uppercase py-2 hover:text-blue-600" href="soporte.html" target="_blank">
+<a class="flex items-center gap-3 text-slate-500 text-xs font-bold tracking-wider uppercase py-2 hover:text-blue-600" href="soporte.html">
 <span class="material-symbols-outlined text-sm notranslate" translate="no">help</span>
                     SOPORTE
                 </a>
@@ -163,12 +168,13 @@ CERRAR SESIÓN</a>
                     <div>
                         <label class="block text-[9px] font-black uppercase tracking-widest text-slate-500 mb-3">CATEGORÍA</label>
                         <div class="relative">
-                            <select id="prodCategoria" class="w-full soft-input rounded-[14px] pl-5 pr-12 py-4 text-[13px] text-slate-800 font-bold appearance-none cursor-pointer">
-                                <option value="SUPPLEMENTS">Suplementos</option>
-                                <option value="EQUIPMENT">Equipamiento</option>
-                                <option value="APPAREL">Ropa</option>
-                                <option value="NUTRITIONAL">Nutricional</option>
-                            </select>
+                            <input type="text" id="prodCategoria" list="categoriasList" class="w-full soft-input rounded-[14px] pl-5 pr-12 py-4 text-[13px] text-slate-800 font-bold placeholder-slate-400" placeholder="Escribe o selecciona..." />
+                            <datalist id="categoriasList">
+                                <option value="Suplementos"></option>
+                                <option value="Equipamiento"></option>
+                                <option value="Ropa"></option>
+                                <option value="Nutricional"></option>
+                            </datalist>
                             <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">expand_more</span>
                         </div>
                     </div>
@@ -321,7 +327,7 @@ CERRAR SESIÓN</a>
         }, 300);
     }
 
-    function guardarProducto() {
+    async function guardarProducto() {
         const nombre = document.getElementById('prodNombre').value.trim();
         const categoria = document.getElementById('prodCategoria').value;
         const precio = parseFloat(document.getElementById('prodPrecio').value) || 0;
@@ -368,10 +374,23 @@ CERRAR SESIÓN</a>
             window.location.href = 'punto de venta.html';
         });
     }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        let inventario = JSON.parse(localStorage.getItem('inventarioProductos')) || [];
+        let cats = new Set(["Suplementos", "Equipamiento", "Ropa", "Nutricional"]);
+        inventario.forEach(p => {
+            if(p.categoria) cats.add(p.categoria);
+        });
+        const dl = document.getElementById('categoriasList');
+        if(dl) {
+            dl.innerHTML = Array.from(cats).map(c => `<option value="${c}"></option>`).join('');
+        }
+    });
 </script>
 
 <script src="powerhaus-chat.js"></script>
 </body>
 </html>
+
 
 

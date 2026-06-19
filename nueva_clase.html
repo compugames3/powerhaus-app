@@ -92,12 +92,17 @@
 <span class="material-symbols-outlined group-hover:scale-110 transition-all duration-300 notranslate" translate="no" style="font-variation-settings:'FILL' 1">nights_stay</span>
 <span class="tracking-wider uppercase text-xs font-bold">Cierre del Día</span>
 </a>
+<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-slate-200 group text-slate-500 dark:text-slate-400" href="cierre_mes.html">
+<span class="material-symbols-outlined group-hover:scale-110 transition-all duration-300 notranslate" translate="no" style="font-variation-settings:'FILL' 1">calendar_month</span>
+<span class="tracking-wider uppercase text-xs font-bold">Cierre del Mes</span>
+</a>
+
 
 </nav>
 <div class="px-6 mt-auto flex flex-col gap-4">
 
 <div class="flex flex-col gap-1">
-<a class="flex items-center gap-3 text-slate-500 text-xs font-bold tracking-wider uppercase py-2 hover:text-blue-600" href="soporte.html" target="_blank">
+<a class="flex items-center gap-3 text-slate-500 text-xs font-bold tracking-wider uppercase py-2 hover:text-blue-600" href="soporte.html">
 <span class="material-symbols-outlined text-sm notranslate" translate="no">help</span>
                     SOPORTE
                 </a>
@@ -392,7 +397,12 @@ CERRAR SESIÓN</a>
             }
             
             // Filtrar solo clientes (no entrenadores)
-            const matches = todosLosUsuarios.filter(u => u.role !== 'Entrenador' && u.name && u.name.toLowerCase().includes(val));
+            const matches = todosLosUsuarios.filter(u => {
+                if (u.role === 'Entrenador') return false;
+                const matchName = u.name && u.name.toLowerCase().includes(val);
+                const matchPhone = u.phone && String(u.phone).toLowerCase().includes(val);
+                return matchName || matchPhone;
+            });
             
             resultadosDiv.innerHTML = '';
             if(matches.length === 0) {
@@ -408,7 +418,7 @@ CERRAR SESIÓN</a>
                         </div>
                         <div class="flex-1">
                             <p class="text-xs font-bold text-slate-800">${m.name}</p>
-                            <p class="text-[9px] text-slate-500 uppercase tracking-widest">${m.plan || 'Plan Básico'}</p>
+                            <p class="text-[9px] text-slate-500 uppercase tracking-widest">${m.plan || 'Plan Básico'} • ${m.phone || 'Sin Teléfono'}</p>
                         </div>
                         <span class="material-symbols-outlined text-slate-300 text-sm" translate="no">add_circle</span>
                     `;
@@ -544,7 +554,7 @@ CERRAR SESIÓN</a>
                     </div>
                     <div>
                         <h4 class="font-bold text-xs">${m.name}</h4>
-                        <p class="text-[9px] text-slate-400 capitalize">${m.plan || 'Membresía Activa'}</p>
+                        <p class="text-[9px] text-slate-400 capitalize">${m.plan || 'Membresía Activa'} • ${m.phone || 'Sin Teléfono'}</p>
                     </div>
                 </div>
                 <button type="button" class="text-red-400 hover:bg-red-50 p-2 rounded-full transition-colors flex items-center justify-center" onclick="removerMiembro('${m.email}')">
@@ -665,5 +675,6 @@ function closeConflictAlert() {
 <script src="powerhaus-chat.js"></script>
 </body>
 </html>
+
 
 

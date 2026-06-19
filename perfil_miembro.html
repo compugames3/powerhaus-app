@@ -141,12 +141,17 @@
 <span class="material-symbols-outlined group-hover:scale-110 transition-all duration-300 notranslate" translate="no" style="font-variation-settings:'FILL' 1">nights_stay</span>
 <span class="tracking-wider uppercase text-xs font-bold">Cierre del Día</span>
 </a>
+<a class="flex items-center gap-3 rounded-l-full ml-4 pl-4 py-3 transition-all duration-300 hover:translate-x-2 hover:bg-slate-200 group text-slate-500 dark:text-slate-400" href="cierre_mes.html">
+<span class="material-symbols-outlined group-hover:scale-110 transition-all duration-300 notranslate" translate="no" style="font-variation-settings:'FILL' 1">calendar_month</span>
+<span class="tracking-wider uppercase text-xs font-bold">Cierre del Mes</span>
+</a>
+
 
 </nav>
 <div class="px-6 mt-auto flex flex-col gap-4">
 
 <div class="flex flex-col gap-1">
-<a class="flex items-center gap-3 text-slate-500 text-xs font-bold tracking-wider uppercase py-2 hover:text-blue-600" href="soporte.html" target="_blank">
+<a class="flex items-center gap-3 text-slate-500 text-xs font-bold tracking-wider uppercase py-2 hover:text-blue-600" href="soporte.html">
 <span class="material-symbols-outlined text-sm notranslate" translate="no">help</span>
                     SOPORTE
                 </a>
@@ -160,15 +165,7 @@ CERRAR SESIÓN</a>
 <!-- TopNavBar (Authority: JSON) -->
 <header class="bg-slate-50/70 dark:bg-slate-950/70 backdrop-blur-xl docked full-width top-0 sticky z-50 shadow-sm flex justify-between items-center w-full px-8 py-4">
 <div class="flex items-center gap-6 flex-1">
-<div class="flex items-center gap-2.5">
-            <div class="w-8 h-8 bg-[#0d4cf0] rounded-full flex items-center justify-center text-white shadow-sm">
-                <span class="material-symbols-outlined -rotate-45 notranslate" translate="no" style="font-variation-settings: 'FILL' 1; font-size: 18px;">fitness_center</span>
-            </div>
-            <div>
-                <h1 class="text-base font-black text-slate-800 dark:text-slate-50 tracking-tight leading-none mb-0.5">PowerHaus</h1>
-                <p class="text-[7.5px] tracking-[0.08em] uppercase font-bold text-slate-500 leading-none">ELITE PERFORMANCE</p>
-            </div>
-        </div>
+
 <div class="relative max-w-md w-full">
 <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xl notranslate" translate="no" data-icon="search">search</span>
 <input class="w-full bg-surface-container-high border-none rounded-full pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all" placeholder="Buscar un miembro o plan..." type="text"/>
@@ -216,7 +213,7 @@ CERRAR SESIÓN</a>
     <div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 pt-24 pb-12">
         
         <!-- Big Profile Card -->
-        <div class="bg-white rounded-[2rem] shadow-xl shadow-slate-200/50 p-6 sm:p-8 flex flex-col lg:flex-row items-center gap-8 mb-8 border border-white relative overflow-hidden">
+        <div class="bg-white rounded-[2rem] shadow-xl shadow-slate-200/50 dark:shadow-none p-6 sm:p-8 flex flex-col lg:flex-row items-center gap-8 mb-8 border border-white dark:border-slate-800 relative overflow-hidden">
             <!-- Profile Avatar & Details -->
             <div class="relative group shrink-0 z-10 mt-2 lg:mt-0">
                 <div class="w-24 h-24 sm:w-32 sm:h-32 bg-slate-200 rounded-3xl overflow-hidden shadow-md shadow-slate-300 flex items-center justify-center text-5xl font-black text-white bg-gradient-to-tr from-slate-400 to-slate-200" id="profileInicial">A</div>
@@ -224,7 +221,7 @@ CERRAR SESIÓN</a>
                      <img src="" class="w-full h-full object-cover" id="profileImg" />
                 </div>
                 <!-- Status Badge -->
-                <div class="absolute -bottom-2 -left-2 sm:-right-2 sm:left-auto bg-[#004cf0] text-white text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full border-[3px] border-white shadow-sm" id="profileState">ACTIVO</div>
+                <div class="absolute -bottom-2 -left-2 sm:-right-2 sm:left-auto bg-[#004cf0] text-white text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full border-[3px] border-white dark:border-[#0f172a] shadow-sm" id="profileState">ACTIVO</div>
             </div>
             
             <div class="flex-1 text-center lg:text-left flex flex-col xl:flex-row justify-between items-center xl:items-center gap-6 relative z-10">
@@ -290,7 +287,7 @@ CERRAR SESIÓN</a>
 
         <!-- Navigation Tabs -->
         <div class="flex items-center gap-3 mb-8 overflow-x-auto pb-2 scrollbar-hide" id="profileTabs">
-            <button id="tab-clases" onclick="switchTab('clases')" class="bg-white text-[#004cf0] shadow-sm shadow-blue-100/50 px-6 py-3 rounded-full font-extrabold text-[11px] uppercase tracking-wider whitespace-nowrap border border-blue-50 transition-all">Asistencia a Clases</button>
+            <button id="tab-clases" onclick="switchTab('clases')" class="bg-white text-[#004cf0] shadow-sm shadow-blue-100/50 dark:shadow-none px-6 py-3 rounded-full font-extrabold text-[11px] uppercase tracking-wider whitespace-nowrap border border-blue-50 dark:border-slate-700 transition-all">Asistencia a Clases</button>
             <button id="tab-asistencia" onclick="switchTab('asistencia')" class="bg-transparent text-slate-500 hover:bg-white hover:shadow-sm px-6 py-3 rounded-full font-bold text-[11px] uppercase tracking-wider whitespace-nowrap transition-colors border border-transparent hover:border-slate-100">Historial de Asistencia</button>
             <button id="tab-pagos" onclick="switchTab('pagos')" class="bg-transparent text-slate-500 hover:bg-white hover:shadow-sm px-6 py-3 rounded-full font-bold text-[11px] uppercase tracking-wider whitespace-nowrap transition-colors border border-transparent hover:border-slate-100">Historial de Pagos</button>
             <button id="tab-consumos" onclick="switchTab('consumos')" class="bg-transparent text-slate-500 hover:bg-white hover:shadow-sm px-6 py-3 rounded-full font-bold text-[11px] uppercase tracking-wider whitespace-nowrap transition-colors border border-transparent hover:border-slate-100">Consumos y Artículos</button>
@@ -326,71 +323,6 @@ CERRAR SESIÓN</a>
                             </tbody>
                         </table>
                     </div>
-                </div>
-
-                <!-- Datos Físicos -->
-                <div class="bg-white rounded-[2rem] p-6 sm:p-8 shadow-sm border border-slate-100">
-                    <h3 class="text-[17px] font-extrabold text-slate-800 mb-6">Métricas y Datos Físicos</h3>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100 flex flex-col items-center text-center">
-                            <span class="material-symbols-outlined text-slate-400 mb-2">monitor_weight</span>
-                            <span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Peso</span>
-                            <span class="font-extrabold text-[#004cf0] text-lg" id="profileWeight">--</span>
-                        </div>
-                        <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100 flex flex-col items-center text-center">
-                            <span class="material-symbols-outlined text-slate-400 mb-2">height</span>
-                            <span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Altura</span>
-                            <span class="font-extrabold text-[#004cf0] text-lg" id="profileHeight">--</span>
-                        </div>
-                        <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100 flex flex-col items-center text-center">
-                            <span class="material-symbols-outlined text-slate-400 mb-2">fitness_center</span>
-                            <span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Estado</span>
-                            <span class="font-extrabold text-[#004cf0] text-sm mt-1" id="profileNivel">--</span>
-                        </div>
-                        <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100 flex flex-col items-center text-center">
-                            <span class="material-symbols-outlined text-slate-400 mb-2">cake</span>
-                            <span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Nacimiento</span>
-                            <span class="font-extrabold text-[#004cf0] text-xs mt-1" id="profileDob">--</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Right Column (Narrower) -->
-            <div class="col-span-1 flex flex-col gap-6 sm:gap-8">
-                <!-- Progreso Mensual -->
-                <div class="bg-[#f2f3ff] rounded-[2rem] p-6 sm:p-8 border border-blue-100 relative overflow-hidden shadow-inner">
-                    <span class="text-[9px] uppercase tracking-widest font-black text-[#004cf0] mb-1 block">Progreso Mensual</span>
-                    <div class="flex items-baseline gap-2 mb-2">
-                        <h4 class="text-4xl font-black text-[#0038b6]" id="progressVal">+0%</h4>
-                        <span class="text-[10px] font-bold text-blue-800">Participación</span>
-                    </div>
-                    <p class="text-[10px] text-blue-600/70 font-bold mb-8">Comparado con el total de clases.</p>
-                    
-                    <!-- SVG Dial -->
-                    <div class="relative w-full aspect-[2/1] overflow-hidden flex justify-center">
-                        <!-- Half circle gauge background -->
-                        <svg viewBox="0 0 100 50" class="w-[85%] overflow-visible">
-                            <!-- Background track -->
-                            <path d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="#d5e3fc" stroke-width="10" stroke-linecap="round"/>
-                            <!-- Fill track -->
-                            <path id="gaugeLine" d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="#004cf0" stroke-width="10" stroke-linecap="round" stroke-dasharray="125" stroke-dashoffset="125" class="transition-all duration-1000 ease-out"/>
-                            <!-- Text overlay inside gauge -->
-                            <rect x="35" y="35" width="30" height="15" fill="#004cf0" rx="4"></rect>
-                            <text x="50" y="46" font-family="Manrope" font-weight="900" font-size="10" fill="#ffffff" text-anchor="middle" id="gaugeText">0%</text>
-                            <!-- Divider base shadow -->
-                            <line x1="20" y1="50" x2="80" y2="50" stroke="#b7c4ff" stroke-width="3" stroke-linecap="round"/>
-                        </svg>
-                        <p class="absolute -bottom-2 text-[8px] font-black uppercase tracking-widest text-blue-400 flex items-center gap-1"><span class="w-1.5 h-1.5 bg-blue-300 rounded-full inline-block"></span> Objetivo Trimestral</p>
-                    </div>
-                    
-                    <!-- Arrow decoration -->
-                    <span class="material-symbols-outlined absolute right-4 bottom-4 text-[#e2e7ff] text-6xl rotate-[-30deg] notranslate" translate="no" style="font-variation-settings: 'FILL' 1, 'wght' 200;">trending_up</span>
-                </div>
-
-                <!-- Notas del Entrenador -->
-                <div class="bg-white rounded-[2rem] p-6 sm:p-7 shadow-sm border-[1.5px] border-[#004cf0] relative overflow-hidden group">
-                    <h3 class="text-[13px] font-extrabold text-slate-800 mb-5 relative z-10">Notas del Entrenador</h3>
                     
                     <div class="flex gap-3 relative z-10">
                         <div class="w-6 h-6 shrink-0 bg-[#eef0ff] rounded-md flex items-center justify-center text-[#004cf0]">
@@ -403,34 +335,11 @@ CERRAR SESIÓN</a>
                             </div>
                         </div>
                     </div>
-                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-[#f2f3ff] rounded-full pointer-events-none -z-0"></div>
+                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-blue-50 rounded-full pointer-events-none -z-0"></div>
                 </div>
             </div>
 
-            <!-- START: Moved Pagos Recientes (from tab) to Asistencia a clases -->
-            <div class="col-span-1 xl:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mt-2 border-t border-slate-100 pt-8">
-                <!-- Left: Recientes -->
-                <div class="col-span-1 md:col-span-2 flex flex-col">
-                    <h3 class="text-xl font-extrabold text-slate-800 mb-6">Pagos Recientes</h3>
-                    <div class="flex flex-col gap-4" id="table-pagos-recientes">
-                        <!-- JS injected -->
                     </div>
-                </div>
-
-                <!-- Right: Renovación -->
-                <div class="col-span-1 flex flex-col justify-start">
-                    <div class="bg-[#1f2937] text-white rounded-[1.5rem] p-7 shadow-2xl shadow-slate-900/10 relative overflow-hidden flex flex-col justify-center">
-                        <h3 class="text-xl font-extrabold mb-1.5 relative z-10 tracking-tight">Próxima Renovación</h3>
-                        <p class="text-[13px] text-slate-300 font-medium mb-6 relative z-10" id="renovacionDesc">Su membresía vence en -- días.</p>
-                        <button id="btnRenovarAhora" class="bg-white text-[#1f2937] hover:bg-slate-100 transition-colors w-full py-3 rounded-xl text-sm font-extrabold shadow-md active:scale-95 relative z-10">
-                            Renovar Ahora
-                        </button>
-                        <div class="absolute -top-12 -right-12 w-40 h-40 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
-                    </div>
-                </div>
-            </div>
-            <!-- END: Moved Pagos -->
-        </div>
 
         <!-- Dashboard Grid (Historial de Asistencia DETALLE) -->
         <div class="hidden flex-col gap-6 sm:gap-8" id="view-asistencia">
@@ -462,6 +371,29 @@ CERRAR SESIÓN</a>
 
         <!-- Dashboard Grid (Pagos Historial DETALLE) -->
         <div class="hidden flex-col gap-6 sm:gap-8" id="view-pagos">
+            <!-- START: Moved Pagos Recientes (from tab) to Asistencia a clases -->
+            <div class="col-span-1 xl:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mt-2 border-t border-slate-100 pt-8">
+                <!-- Left: Recientes -->
+                <div class="col-span-1 md:col-span-2 flex flex-col">
+                    <h3 class="text-xl font-extrabold text-slate-800 mb-6">Pagos Recientes</h3>
+                    <div class="flex flex-col gap-4" id="table-pagos-recientes">
+                        <!-- JS injected -->
+                    </div>
+                </div>
+
+                <!-- Right: Renovación -->
+                <div class="col-span-1 flex flex-col justify-start">
+                    <div class="bg-[#1f2937] text-white rounded-[1.5rem] p-7 shadow-2xl shadow-slate-900/10 relative overflow-hidden flex flex-col justify-center">
+                        <h3 class="text-xl font-extrabold mb-1.5 relative z-10 tracking-tight">Próxima Renovación</h3>
+                        <p class="text-[13px] text-slate-300 font-medium mb-6 relative z-10" id="renovacionDesc">Su membresía vence en -- días.</p>
+                        <button id="btnRenovarAhora" class="bg-white text-[#1f2937] hover:bg-slate-100 transition-colors w-full py-3 rounded-xl text-sm font-extrabold shadow-md active:scale-95 relative z-10">
+                            Renovar Ahora
+                        </button>
+                        <div class="absolute -top-12 -right-12 w-40 h-40 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- END: Moved Pagos -->
             <div class="bg-white rounded-[2rem] p-6 sm:p-8 shadow-sm border border-slate-100 overflow-hidden relative">
                 <div class="flex items-center justify-between mb-8">
                     <h3 class="text-[17px] font-extrabold text-slate-800">Historial Completo de Facturación</h3>
@@ -561,7 +493,7 @@ CERRAR SESIÓN</a>
         const btnPagos = document.getElementById('tab-pagos');
         const btnConsumos = document.getElementById('tab-consumos');
 
-        const activeClasses = "bg-white text-[#004cf0] shadow-sm shadow-blue-100/50 border-blue-50 border transition-all".split(' ');
+        const activeClasses = "bg-white text-[#004cf0] shadow-sm shadow-blue-100/50 dark:shadow-none border-blue-50 dark:border-slate-700 border transition-all".split(' ');
         const inactiveClasses = "bg-transparent text-slate-500 hover:bg-white hover:shadow-sm transition-colors border border-transparent hover:border-slate-100".split(' ');
 
         [btnClases, btnAsistencia, btnPagos, btnConsumos].forEach(btn => {
@@ -597,6 +529,17 @@ CERRAR SESIÓN</a>
 
 
     document.addEventListener('DOMContentLoaded', async () => {
+        const sessionData = JSON.parse(localStorage.getItem('usuario_activo') || '{}');
+        const isEmpleado = sessionData.rol === 'Empleados';
+        const isAdmin = sessionData.rol === 'Admin';
+        const hasEditPerm = sessionData.perms && sessionData.perms.includes('Editar Miembros/Entrenadores');
+        const btnEditProfile = document.getElementById('btnEditProfile');
+        if (btnEditProfile) {
+            if (isEmpleado && !hasEditPerm && !isAdmin) {
+                btnEditProfile.style.display = 'none';
+            }
+        }
+
         const urlParams = new URLSearchParams(window.location.search);
         let nombreMiembro = urlParams.get('nombre');
         
@@ -620,7 +563,7 @@ CERRAR SESIÓN</a>
                 const planValue = userData.plan || userData.planLevel || userData.membership || 'Plan Standard';
                 const stateRaw = String(userData.state || userData.status || 'Active').toLowerCase();
                 const emailValue = userData.email || userData.correo || '';
-                const phoneValue = userData.phone || userData.telefono || userData.celular || userData.cel || '';
+                const phoneValue = userData.phone || userData.telefono || userData.celular || userData.cel || '—';
 
                 document.getElementById('profilePlan').innerText = planValue;
                 document.getElementById('profileState').innerText = stateRaw === 'active' ? 'ACTIVO' : 'INACTIVO';
@@ -751,10 +694,13 @@ CERRAR SESIÓN</a>
                     }
                     
                     // Lógica de expiración dinámica basada en el último pago
-                    let lastPayment = new Date(userData.payments[0].date);
-                    let diffDays = Math.floor((Date.now() - lastPayment.getTime()) / (1000 * 3600 * 24));
-                    let daysLeft = 30 - diffDays;
-                    if (daysLeft < 0) daysLeft = 0;
+                    let daysLeft = 0;
+                    if (userData.payments && userData.payments.length > 0) {
+                        let lastPayment = new Date(userData.payments[0].date);
+                        let diffDays = Math.floor((Date.now() - lastPayment.getTime()) / (1000 * 3600 * 24));
+                        daysLeft = 30 - diffDays;
+                        if (daysLeft < 0) daysLeft = 0;
+                    }
                     document.getElementById('renovacionDesc').innerText = `Su membresía ${userData.plan || 'Standard'} vence en ${daysLeft} días.`;
                     
                 } else {
@@ -831,10 +777,17 @@ CERRAR SESIÓN</a>
                 const nivelValue = userData.estadoFisico || userData.estado || userData.nivel || '--';
                 const dobValue = userData.dob || userData.fechaNacimiento || userData.nacimiento || '--';
 
-                document.getElementById('profileWeight').innerText = (weightValue !== undefined && weightValue !== null && String(weightValue).trim() !== '') ? (weightValue + ' kg') : '--';
-                document.getElementById('profileHeight').innerText = (heightValue !== undefined && heightValue !== null && String(heightValue).trim() !== '') ? (heightValue + ' cm') : '--';
-                document.getElementById('profileNivel').innerText = nivelValue;
-                document.getElementById('profileDob').innerText = dobValue;
+                let elWeight = document.getElementById('profileWeight');
+                if (elWeight) elWeight.innerText = (weightValue !== undefined && weightValue !== null && String(weightValue).trim() !== '') ? (weightValue + ' kg') : '--';
+                
+                let elHeight = document.getElementById('profileHeight');
+                if (elHeight) elHeight.innerText = (heightValue !== undefined && heightValue !== null && String(heightValue).trim() !== '') ? (heightValue + ' cm') : '--';
+                
+                let elNivel = document.getElementById('profileNivel');
+                if (elNivel) elNivel.innerText = nivelValue;
+                
+                let elDob = document.getElementById('profileDob');
+                if (elDob) elDob.innerText = dobValue;
                 
                 try {
                      let barcodeVal = userData.barcode || userData.codigoBarras || userData.member_id || userData.miembro_id || userData.phone || (userData.email ? userData.email.split('@')[0] : 'PH001');
@@ -932,10 +885,36 @@ CERRAR SESIÓN</a>
                 return na === nb || na.includes(nb) || nb.includes(na);
             };
             let historial = [];
+            
+            // Add member's classes to historial
+            if (classes && classes.length > 0) {
+                classes.forEach(c => {
+                    const membersArray = c.miembros || c.inscritos;
+                    if (membersArray) {
+                        const isEnrolled = membersArray.find(m => samePerson(m.nombre || m, nombreMiembro));
+                        if (isEnrolled) {
+                            historial.push({
+                                fecha: c.fecha || '--',
+                                horaString: c.horaInicio || c.hora || '--:--',
+                                nombre: c.nombre || 'Clase',
+                                entrenador: c.entrenador || 'Staff',
+                                sala: c.sala || 'Sala',
+                                entrada: '--:--',
+                                salida: '--:--',
+                                asistencia: c.asistencia || {},
+                                rawDate: (c.fecha || '') + 'T' + (c.horaInicio || c.hora || '00:00')
+                            });
+                        }
+                    }
+                });
+            }
+
             let terminalHistorial = [];
             let allTaps = [];
-            if (userData.checkIns) userData.checkIns.forEach(c => allTaps.push({ time: new Date(c), type: 'in', raw: c }));
-            if (userData.checkOuts) userData.checkOuts.forEach(c => allTaps.push({ time: new Date(c), type: 'out', raw: c }));
+            if (userData) {
+                if (userData.checkIns) userData.checkIns.forEach(c => allTaps.push({ time: new Date(c), type: 'in', raw: c }));
+                if (userData.checkOuts) userData.checkOuts.forEach(c => allTaps.push({ time: new Date(c), type: 'out', raw: c }));
+            }
             
             allTaps.sort((a,b) => a.time - b.time);
             
@@ -1038,7 +1017,7 @@ CERRAR SESIÓN</a>
                     const tr = document.createElement('tr');
                     tr.className = "border-b border-slate-100 last:border-0 hover:bg-slate-50/50 transition-colors";
                     tr.innerHTML = `
-                        <td class="py-4 pl-2 font-bold text-slate-500 text-[11px]">${c.fecha || 'â€”'} ${c.horaString ? `<span class='text-[9px] text-slate-400 font-bold ml-1'>${c.horaString}</span>` : ''}</td>
+                        <td class="py-4 pl-2 font-bold text-slate-500 text-[11px]">${c.fecha || '—'} ${c.horaString ? `<span class='text-[9px] text-slate-400 font-bold ml-1'>${c.horaString}</span>` : ''}</td>
                         <td class="py-4 font-extrabold text-slate-800 text-[12px]">${c.nombre || 'Clase de Entrenamiento'}</td>
                         <td class="py-4 text-[11px] font-semibold text-slate-500">${c.entrenador || 'Staff'}</td>
                         <td class="py-4 text-right pr-2">
@@ -1058,7 +1037,7 @@ CERRAR SESIÓN</a>
                     const trFull = document.createElement('tr');
                     trFull.className = "border-b border-slate-100 last:border-0 hover:bg-slate-50/50 transition-colors";
                     trFull.innerHTML = `
-                        <td class="py-4 pl-2 font-bold text-slate-500 text-[11px]">${c.fecha || 'â€”'}</td>
+                        <td class="py-4 pl-2 font-bold text-slate-500 text-[11px]">${c.fecha || '—'}</td>
                         <td class="py-4 font-extrabold text-slate-800 text-[12px]">${c.nombre || 'Clase de Entrenamiento'}</td>
                         <td class="py-4 text-[11px] font-semibold text-[#004cf0] tracking-wide">${c.entrada || '--:--'}</td>
                         <td class="py-4 text-[11px] font-semibold text-amber-600 tracking-wide">${c.salida || '--:--'}</td>
@@ -1079,10 +1058,15 @@ CERRAR SESIÓN</a>
             
             // Animar gauge SVG (Max length 125 represents 180 degrees)
             setTimeout(() => {
-                 document.getElementById('gaugeText').innerHTML = percent + '%';
-                 document.getElementById('progressVal').innerText = '+' + percent + '%';
+                 let gt = document.getElementById('gaugeText');
+                 if (gt) gt.innerHTML = percent + '%';
+                 
+                 let pv = document.getElementById('progressVal');
+                 if (pv) pv.innerText = '+' + percent + '%';
+                 
                  const offset = 125 - (125 * (percent / 100));
-                 document.getElementById('gaugeLine').style.strokeDashoffset = offset;
+                 let gl = document.getElementById('gaugeLine');
+                 if (gl) gl.style.strokeDashoffset = offset;
             }, 300);
 
             // Personalized Coach Quote
@@ -1096,7 +1080,7 @@ CERRAR SESIÓN</a>
 
         } catch (e) {
             console.error(e);
-            document.getElementById('profileName').innerText = "Error cargando";
+            document.getElementById('profileName').innerText = "Error: " + e.message;
         }
     });
 
@@ -1106,7 +1090,7 @@ CERRAR SESIÓN</a>
         const nombre = (urlParams.get('nombre') || '').trim();
 
         Swal.fire({
-            title: '¿Eliminar Registro?',
+            title: 'Â¿Eliminar Registro?',
             text: "Ambas marcas (entrada y salida) para esta sesión serán borradas.",
             icon: 'warning',
             showCancelButton: true,
@@ -1218,5 +1202,6 @@ CERRAR SESIÓN</a>
     </script>
 </body>
 </html>
+
 
 

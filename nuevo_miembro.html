@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html class="light" lang="en">
 <head>
 <meta charset="utf-8"/>
@@ -168,26 +168,26 @@ CERRAR SESIÓN</a>
                         <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 ml-1">NÚMERO DE TELÉFONO</label>
                         <div class="flex">
                             <select id="country-code-cliente" class="soft-input rounded-l-xl px-2 py-3 text-sm text-slate-800 font-medium border-r border-slate-200 outline-none hover:bg-slate-50 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 bg-transparent cursor-pointer">
-                                <option value="+52">México +52</option>
-                                <option value="+54">Argentina +54</option>
-                                <option value="+591">Bolivia +591</option>
-                                <option value="+55">Brasil +55</option>
-                                <option value="+56">Chile +56</option>
-                                <option value="+57">Colombia +57</option>
-                                <option value="+506">Costa Rica +506</option>
-                                <option value="+53">Cuba +53</option>
-                                <option value="+593">Ecuador +593</option>
-                                <option value="+503">El Salvador +503</option>
-                                <option value="+502">Guatemala +502</option>
-                                <option value="+504">Honduras +504</option>
-                                <option value="+505">Nicaragua +505</option>
-                                <option value="+507">Panamá +507</option>
-                                <option value="+595">Paraguay +595</option>
-                                <option value="+51">Perú +51</option>
-                                <option value="+1">Puerto Rico +1</option>
-                                <option value="+1">República Dominicana +1</option>
-                                <option value="+598">Uruguay +598</option>
-                                <option value="+58">Venezuela +58</option>
+                                <option value="+52">+52</option>
+                                <option value="+54">+54</option>
+                                <option value="+591">+591</option>
+                                <option value="+55">+55</option>
+                                <option value="+56">+56</option>
+                                <option value="+57">+57</option>
+                                <option value="+506">+506</option>
+                                <option value="+53">+53</option>
+                                <option value="+593">+593</option>
+                                <option value="+503">+503</option>
+                                <option value="+502">+502</option>
+                                <option value="+504">+504</option>
+                                <option value="+505">+505</option>
+                                <option value="+507">+507</option>
+                                <option value="+595">+595</option>
+                                <option value="+51">+51</option>
+                                <option value="+1">+1</option>
+                                <option value="+1">+1</option>
+                                <option value="+598">+598</option>
+                                <option value="+58">+58</option>
                                 <option value="">Otro</option>
                             </select>
                             <input type="tel" id="telefono-cliente" class="w-full soft-input rounded-r-xl px-4 py-3 text-sm text-slate-800 font-medium border-l-0 outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600" placeholder="55 1234 5678" />
@@ -213,6 +213,7 @@ CERRAR SESIÓN</a>
                     <h2 class="font-headline text-lg font-bold">PERFIL FÍSICO</h2>
                 </div>
                 
+                
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div>
                         <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 ml-1">ALTURA (CM)</label>
@@ -231,7 +232,21 @@ CERRAR SESIÓN</a>
                             <option value="Avanzado">Avanzado</option>
                         </select>
                     </div>
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 ml-1">Medidas de brazos (CM)</label>
+                        <input type="number" id="brazos-cliente" class="w-full soft-input rounded-xl px-4 py-3 text-sm text-slate-800 font-medium" placeholder="Ej. 35" />
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 ml-1">Medidas de cintura (CM)</label>
+                        <input type="number" id="cintura-cliente" class="w-full soft-input rounded-xl px-4 py-3 text-sm text-slate-800 font-medium" placeholder="Ej. 80" />
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 ml-1">Medidas de piernas (CM)</label>
+                        <input type="number" id="piernas-cliente" class="w-full soft-input rounded-xl px-4 py-3 text-sm text-slate-800 font-medium" placeholder="Ej. 60" />
+                    </div>
                 </div>
+
+
             </div>
         </div>
         
@@ -262,19 +277,22 @@ CERRAR SESIÓN</a>
                     <div class="w-8 h-8 bg-red-50 rounded-lg flex items-center justify-center text-red-600 shrink-0">
                         <span class="material-symbols-outlined text-[18px]" translate="no">workspace_premium</span>
                     </div>
-                    <h2 class="font-headline text-sm font-bold tracking-tight">PLAN DE CONTRATO</h2>
+                    <h2 class="font-headline text-sm font-bold tracking-tight w-full">PLAN DE CONTRATO</h2>
+                    <button type="button" id="btn-edit-plans" onclick="toggleEditPlans()" class="text-[10px] font-bold text-slate-400 uppercase tracking-widest hover:text-blue-600 flex items-center gap-1 transition-colors bg-slate-50 hover:bg-blue-50 px-3 py-1.5 rounded-lg border border-slate-200 hover:border-blue-200 ml-auto shrink-0">
+                        <span class="material-symbols-outlined text-[14px]" translate="no">edit</span> Editar
+                    </button>
                 </div>
                 
-                <label class="block w-full border border-blue-200 bg-blue-50/50 rounded-2xl p-4 mb-3 cursor-pointer hover:border-blue-400 shadow-sm transition-all relative">
-                    <input type="radio" name="plan" class="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-600 bg-white border-slate-300 focus:ring-blue-600" checked />
+                <label id="label-plan1" class="block w-full border border-blue-200 bg-blue-50/50 rounded-2xl p-4 mb-3 cursor-pointer hover:border-blue-400 shadow-sm transition-all relative">
+                    <input type="radio" name="plan" id="radio-plan1" onchange="updatePlanUI()" class="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-600 bg-white border-slate-300 focus:ring-blue-600" checked />
                     <div class="pr-8">
-                        <input type="text" id="config-plan1-name" class="text-[11px] font-black text-blue-800 uppercase tracking-wide mb-1 bg-transparent border-none p-0 focus:ring-0 focus:outline-none w-full" value="TITAN ELITE" onclick="event.stopPropagation();" onchange="savePlanConfig()" />
+                        <input type="text" id="config-plan1-name" class="plan-editable text-[11px] font-black text-blue-800 uppercase tracking-wide mb-1 bg-transparent border-none p-0 focus:ring-0 focus:outline-none w-full transition-all" value="TITAN ELITE" onclick="event.stopPropagation();" readonly />
                         <div class="flex justify-between items-end">
                             <p class="text-[10px] text-slate-500 font-medium leading-tight max-w-[120px]">Acceso total + suite de recuperación</p>
                             <div class="flex items-baseline text-slate-800 font-black text-base relative z-10">
                                 <span>$</span>
-                                <input type="number" id="config-plan1-price" class="w-16 bg-transparent border-none font-black p-0 text-center focus:ring-0 focus:outline-none" value="0" onclick="event.stopPropagation();" onchange="savePlanConfig()" />
-                                <select id="config-plan1-duration" class="ml-1.5 text-[10px] text-slate-500 font-black bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-md py-0.5 px-2 focus:ring-0 cursor-pointer uppercase transition-colors outline-none shadow-sm flex items-center justify-center self-center" style="height: 24px; line-height: 1;" onclick="event.stopPropagation();" onchange="savePlanConfig()">
+                                <input type="number" id="config-plan1-price" class="plan-editable w-16 bg-transparent border-none font-black p-0 text-center focus:ring-0 focus:outline-none transition-all" value="0" onclick="event.stopPropagation();" readonly />
+                                <select id="config-plan1-duration" class="plan-editable ml-1.5 text-[10px] text-slate-500 font-black bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-md py-0.5 px-2 focus:ring-0 cursor-pointer uppercase transition-colors outline-none shadow-sm flex items-center justify-center self-center" style="height: 24px; line-height: 1;" onclick="event.stopPropagation();" disabled>
     <option value="mes">/ MES</option>
     <option value="dia">/ DÍA</option>
 </select>
@@ -284,16 +302,16 @@ CERRAR SESIÓN</a>
                 </label>
                 
                 <!-- Plan 2 -->
-                <label class="block w-full border border-slate-100 bg-slate-50/50 rounded-xl p-4 mb-8 cursor-pointer hover:border-slate-200 transition-all relative group">
-                    <input type="radio" name="plan" class="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-600 bg-white border-slate-300 focus:ring-blue-600" />
+                <label id="label-plan2" class="block w-full border border-slate-100 bg-slate-50/50 rounded-xl p-4 mb-8 cursor-pointer hover:border-slate-200 transition-all relative group">
+                    <input type="radio" name="plan" id="radio-plan2" onchange="updatePlanUI()" class="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-600 bg-white border-slate-300 focus:ring-blue-600" />
                     <div class="pr-8">
-                        <input type="text" id="config-plan2-name" class="text-[11px] font-black text-slate-700 uppercase tracking-wide mb-1 group-hover:text-blue-700 transition-colors bg-transparent border-none p-0 focus:ring-0 focus:outline-none w-full" value="KINETIC CORE" onclick="event.stopPropagation();" onchange="savePlanConfig()" />
+                        <input type="text" id="config-plan2-name" class="plan-editable text-[11px] font-black text-slate-700 uppercase tracking-wide mb-1 group-hover:text-blue-700 transition-all bg-transparent border-none p-0 focus:ring-0 focus:outline-none w-full" value="KINETIC CORE" onclick="event.stopPropagation();" readonly />
                         <div class="flex justify-between items-end">
                             <p class="text-[10px] text-slate-500 font-medium leading-tight max-w-[120px]">Solo acceso al gimnasio</p>
                             <div class="flex items-baseline text-slate-800 font-black text-base relative z-10">
                                 <span>$</span>
-                                <input type="number" id="config-plan2-price" class="w-16 bg-transparent border-none font-black p-0 text-center focus:ring-0 focus:outline-none" value="0" onclick="event.stopPropagation();" onchange="savePlanConfig()" />
-                                <select id="config-plan2-duration" class="ml-1.5 text-[10px] text-slate-500 font-black bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-md py-0.5 px-2 focus:ring-0 cursor-pointer uppercase transition-colors outline-none shadow-sm flex items-center justify-center self-center" style="height: 24px; line-height: 1;" onclick="event.stopPropagation();" onchange="savePlanConfig()">
+                                <input type="number" id="config-plan2-price" class="plan-editable w-16 bg-transparent border-none font-black p-0 text-center focus:ring-0 focus:outline-none transition-all" value="0" onclick="event.stopPropagation();" readonly />
+                                <select id="config-plan2-duration" class="plan-editable ml-1.5 text-[10px] text-slate-500 font-black bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-md py-0.5 px-2 focus:ring-0 cursor-pointer uppercase transition-colors outline-none shadow-sm flex items-center justify-center self-center" style="height: 24px; line-height: 1;" onclick="event.stopPropagation();" disabled>
     <option value="mes">/ MES</option>
     <option value="dia">/ DÍA</option>
 </select>
@@ -302,6 +320,12 @@ CERRAR SESIÓN</a>
                     </div>
                 </label>
                 
+                
+                <div id="save-plans-container" class="hidden justify-center mb-6">
+                    <button type="button" onclick="confirmSavePlans()" class="bg-emerald-500 hover:bg-emerald-600 text-white text-[10px] font-bold uppercase tracking-widest py-2 px-6 rounded-lg shadow-md transition-all flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[14px]" translate="no">save</span> Guardar Cambios
+                    </button>
+                </div>
                 <div class="mt-auto flex flex-col gap-3">
                     <button class="w-full bg-[#0d4cf0] hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl shadow-[0_10px_20px_-10px_rgba(13,76,240,0.5)] transition-all active:scale-95 text-[11px] tracking-wider" onclick="saveMember()">
                         FINALIZAR INGRESO
@@ -400,26 +424,26 @@ CERRAR SESIÓN</a>
                         <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 ml-1">NÚMERO DE TELÉFONO</label>
                         <div class="flex">
                             <select id="country-code-entrenador" class="soft-input rounded-l-xl px-2 py-3 text-sm text-slate-800 font-medium border-r border-slate-200 outline-none hover:bg-slate-50 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 bg-transparent cursor-pointer">
-                                <option value="+52">México +52</option>
-                                <option value="+54">Argentina +54</option>
-                                <option value="+591">Bolivia +591</option>
-                                <option value="+55">Brasil +55</option>
-                                <option value="+56">Chile +56</option>
-                                <option value="+57">Colombia +57</option>
-                                <option value="+506">Costa Rica +506</option>
-                                <option value="+53">Cuba +53</option>
-                                <option value="+593">Ecuador +593</option>
-                                <option value="+503">El Salvador +503</option>
-                                <option value="+502">Guatemala +502</option>
-                                <option value="+504">Honduras +504</option>
-                                <option value="+505">Nicaragua +505</option>
-                                <option value="+507">Panamá +507</option>
-                                <option value="+595">Paraguay +595</option>
-                                <option value="+51">Perú +51</option>
-                                <option value="+1">Puerto Rico +1</option>
-                                <option value="+1">República Dominicana +1</option>
-                                <option value="+598">Uruguay +598</option>
-                                <option value="+58">Venezuela +58</option>
+                                <option value="+52">+52</option>
+                                <option value="+54">+54</option>
+                                <option value="+591">+591</option>
+                                <option value="+55">+55</option>
+                                <option value="+56">+56</option>
+                                <option value="+57">+57</option>
+                                <option value="+506">+506</option>
+                                <option value="+53">+53</option>
+                                <option value="+593">+593</option>
+                                <option value="+503">+503</option>
+                                <option value="+502">+502</option>
+                                <option value="+504">+504</option>
+                                <option value="+505">+505</option>
+                                <option value="+507">+507</option>
+                                <option value="+595">+595</option>
+                                <option value="+51">+51</option>
+                                <option value="+1">+1</option>
+                                <option value="+1">+1</option>
+                                <option value="+598">+598</option>
+                                <option value="+58">+58</option>
                                 <option value="">Otro</option>
                             </select>
                             <input type="tel" id="telefono-entrenador" class="w-full soft-input rounded-r-xl px-5 py-4 text-sm text-slate-800 font-medium border-l-0 outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600" placeholder="55 1234 5678" />
@@ -560,6 +584,82 @@ CERRAR SESIÓN</a>
         }, 300);
     }
 
+    
+
+
+    
+    let isEditingPlans = false;
+    
+    function updatePlanUI() {
+        const p1 = document.getElementById('radio-plan1');
+        const p2 = document.getElementById('radio-plan2');
+        const l1 = document.getElementById('label-plan1');
+        const l2 = document.getElementById('label-plan2');
+        const n1 = document.getElementById('config-plan1-name');
+        const n2 = document.getElementById('config-plan2-name');
+
+        if (p1 && p1.checked) {
+            if (l1) { l1.className = "block w-full border border-blue-200 bg-blue-50/50 rounded-2xl p-4 mb-3 cursor-pointer hover:border-blue-400 shadow-sm transition-all relative"; }
+            if (l2) { l2.className = "block w-full border border-slate-100 bg-slate-50/50 rounded-xl p-4 mb-8 cursor-pointer hover:border-slate-200 transition-all relative group"; }
+            if (n1) { n1.classList.add('text-blue-800'); n1.classList.remove('text-slate-700'); }
+            if (n2) { n2.classList.remove('text-blue-800'); n2.classList.add('text-slate-700'); }
+        } else if (p2 && p2.checked) {
+            if (l2) { l2.className = "block w-full border border-blue-200 bg-blue-50/50 rounded-2xl p-4 mb-8 cursor-pointer hover:border-blue-400 shadow-sm transition-all relative"; }
+            if (l1) { l1.className = "block w-full border border-slate-100 bg-slate-50/50 rounded-xl p-4 mb-3 cursor-pointer hover:border-slate-200 transition-all relative group"; }
+            if (n2) { n2.classList.add('text-blue-800'); n2.classList.remove('text-slate-700'); }
+            if (n1) { n1.classList.remove('text-blue-800'); n1.classList.add('text-slate-700'); }
+        }
+    }
+
+    function toggleEditPlans() {
+        isEditingPlans = !isEditingPlans;
+        const edits = document.querySelectorAll('.plan-editable');
+        const container = document.getElementById('save-plans-container');
+        const btn = document.getElementById('btn-edit-plans');
+        
+        edits.forEach(el => {
+            if (isEditingPlans) {
+                if (el.tagName === 'SELECT') { el.disabled = false; }
+                else { el.removeAttribute('readonly'); }
+                el.classList.add('border-b', 'border-slate-300', 'bg-slate-100', 'px-1');
+                el.classList.remove('bg-transparent');
+            } else {
+                if (el.tagName === 'SELECT') { el.disabled = true; }
+                else { el.setAttribute('readonly', 'true'); }
+                el.classList.remove('border-b', 'border-slate-300', 'bg-slate-100', 'px-1');
+                el.classList.add('bg-transparent');
+            }
+        });
+        
+        if (isEditingPlans) {
+            container.classList.remove('hidden');
+            container.classList.add('flex');
+            btn.classList.add('bg-blue-100', 'text-blue-700', 'border-blue-300');
+        } else {
+            container.classList.add('hidden');
+            container.classList.remove('flex');
+            btn.classList.remove('bg-blue-100', 'text-blue-700', 'border-blue-300');
+            // reset logic: load values back if cancelled
+            updatePlanUI();
+        const savedPlanes = JSON.parse(localStorage.getItem('configPlanes') || 'null');
+            if (savedPlanes) {
+                if(document.getElementById('config-plan1-name')) document.getElementById('config-plan1-name').value = savedPlanes.p1n || "TITAN ELITE";
+                if(document.getElementById('config-plan1-price')) document.getElementById('config-plan1-price').value = savedPlanes.p1p || "0";
+                if(document.getElementById('config-plan2-name')) document.getElementById('config-plan2-name').value = savedPlanes.p2n || "KINETIC CORE";
+                if(document.getElementById('config-plan2-price')) document.getElementById('config-plan2-price').value = savedPlanes.p2p || "0";
+                if(document.getElementById('config-plan1-duration') && savedPlanes.p1d) document.getElementById('config-plan1-duration').value = savedPlanes.p1d;
+                if(document.getElementById('config-plan2-duration') && savedPlanes.p2d) document.getElementById('config-plan2-duration').value = savedPlanes.p2d;
+            }
+        }
+    }
+    
+    function confirmSavePlans() {
+        savePlanConfig();
+        toggleEditPlans(); // close edit mode
+        if (typeof showToast !== 'undefined') showToast('✅ Planes actualizados correctamente');
+        else alert('✅ Planes actualizados correctamente');
+    }
+
     function savePlanConfig() {
         const p1n = document.getElementById('config-plan1-name') ? document.getElementById('config-plan1-name').value : 'TITAN ELITE';
         const p1p = document.getElementById('config-plan1-price') ? document.getElementById('config-plan1-price').value : '0';
@@ -697,6 +797,9 @@ CERRAR SESIÓN</a>
         const nacimiento = document.getElementById('nacimiento-cliente').value.trim();
         const altura = document.getElementById('altura-cliente').value.trim();
         const peso = document.getElementById('peso-cliente').value.trim();
+        const brazos = document.getElementById('brazos-cliente') ? document.getElementById('brazos-cliente').value.trim() : '';
+        const cintura = document.getElementById('cintura-cliente') ? document.getElementById('cintura-cliente').value.trim() : '';
+        const piernas = document.getElementById('piernas-cliente') ? document.getElementById('piernas-cliente').value.trim() : '';
         let barcode = document.getElementById('barcode-cliente') ? document.getElementById('barcode-cliente').value.trim() : '';
         const estadoFisico = document.getElementById('estado-cliente').value;
         const radios = document.getElementsByName('plan');
@@ -739,6 +842,12 @@ CERRAR SESIÓN</a>
                 dob: nacimiento || "",
                 height: altura || "",
                 weight: peso || "",
+                arms: brazos || "",
+                waist: cintura || "",
+                legs: piernas || "",
+                arms: brazos || "",
+                waist: cintura || "",
+                legs: piernas || "",
                 estadoFisico: estadoFisico !== 'Seleccionar' ? estadoFisico : "",
                 plan: planLevel,
                 planPrice: planPrice,
@@ -966,6 +1075,7 @@ CERRAR SESIÓN</a>
 
         const splitPhone = (fullPhone, telId, codeId) => {
             if (!fullPhone) return;
+            fullPhone = fullPhone.replace(/[^\d+\s]/g, '').trim();
             const telInput = document.getElementById(telId);
             const codeSelector = document.getElementById(codeId);
             if (!telInput || !codeSelector) return;
